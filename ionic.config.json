@@ -1,0 +1,8 @@
+{
+  "name": "NBA Platform",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "0c6eea08"
+}
