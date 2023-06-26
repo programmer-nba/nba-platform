@@ -1,0 +1,17 @@
+ion-input{
+    color: #222222 !important; 
+    text-align: left !important;
+   
+    background-color: white;
+    border: solid 1px #adadad;
+    border-radius: 0.3rem;
+    margin: 0.5rem 0rem 1rem 0rem;
+    width:100%;
+    --placeholder-color: #ddd;
+    --placeholder-opacity: 0.8;
+
+    --padding-bottom: 10px;
+    --padding-end: 10px;
+    --padding-start: 10px !important;;
+    --padding-top: 10px;
+}

@@ -3,18 +3,18 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        <ion-tab-button tab="tab1" href="/tabs/tab1">
-          <ion-icon aria-hidden="true" :icon="triangle" />
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon aria-hidden="true" :icon="homeOutline" />
           <ion-label>Tab 1</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab2" href="/tabs/tab2">
-          <ion-icon aria-hidden="true" :icon="ellipse" />
+        <ion-tab-button tab="history" href="/tabs/history">
+          <ion-icon aria-hidden="true" :icon="ribbonOutline" />
           <ion-label>Tab 2</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab3" href="/tabs/tab3">
-          <ion-icon aria-hidden="true" :icon="square" />
+        <ion-tab-button tab="user" href="/tabs/user">
+          <ion-icon aria-hidden="true" :icon="personOutline" />
           <ion-label>Tab 3</ion-label>
         </ion-tab-button>
       </ion-tab-bar>
@@ -24,5 +24,5 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { ellipse, square, triangle } from 'ionicons/icons';
+import { homeOutline, personOutline, ribbonOutline } from 'ionicons/icons';
 </script>
