@@ -26,8 +26,8 @@
                     <ion-label>ชื่อผู้ใช้</ion-label>
                     <ion-input v-model="user.tel" placeholder="เบอร์โทรศัพท์" :clear-input="true" ></ion-input>
                     <ion-label>รหัสผ่าน</ion-label>
-                    <ion-input v-model="user.password" type="password"  placeholder="รหัสผ่าน" :clear-input="true"></ion-input>
-                    <p><small style="color:rgb(196, 196, 196)">ดูรหัสผ่าน</small></p>
+                    <ion-input v-model="user.password" :type="see_password"  placeholder="รหัสผ่าน" :clear-input="true"></ion-input>
+                    <p><small style="color:rgb(196, 196, 196)" @click="seePassword">ดูรหัสผ่าน</small></p>
                 </ion-col>
             </ion-row>
             <ion-row>
@@ -73,7 +73,8 @@ import { IonIcon, IonText,IonCol, IonGrid, IonInput, IonRow,IonImg,IonButton,Ion
               password:'',
               ip_address:'',
 
-            }
+            },
+            see_password:'password',
         }
     },
     async created(){
@@ -95,7 +96,16 @@ import { IonIcon, IonText,IonCol, IonGrid, IonInput, IonRow,IonImg,IonButton,Ion
                 }
              
             })
-        }
+        },
+        seePassword(){
+         if(this.see_password==='password'){
+            this.see_password = 'text';
+         }else{
+          this.see_password = 'password'
+         }
+
+         }
+        
     }
 
   });

@@ -10,7 +10,7 @@ export class UserService{
     user:User | undefined
     token:string | null = localStorage.getItem('token') 
 
-    constructor(context:any){
+    constructor(context?:any){
         this.context= context
     }
 
