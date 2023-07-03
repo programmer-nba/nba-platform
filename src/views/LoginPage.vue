@@ -1,6 +1,6 @@
 <template>
 
-
+<ion-page>
     <ion-content
     :fullscreen="true"
     class="primary"
@@ -32,10 +32,12 @@
             </ion-row>
             <ion-row>
                 <ion-col>
+                  <p v-if="loading===true" style="color:white;margin-bottom: 1rem;">กำลังเข้าสู่ระบบ</p>
                     <ion-button fill="solid" @click="Login">
                         <ion-icon slot="start" :icon="personOutline"></ion-icon>
                         เข้าสู่ระบบ
                     </ion-button>
+                    <p>{{ res }}</p>
                 </ion-col>
         </ion-row>
     </ion-grid>
@@ -43,8 +45,9 @@
     
 </div>
     
-    
 </ion-content>
+</ion-page>
+
 </template>
 
 <script lang="ts">
@@ -74,24 +77,26 @@ import { IonIcon, IonText,IonCol, IonGrid, IonInput, IonRow,IonImg,IonButton,Ion
               ip_address:'',
 
             },
-            see_password:'password',
+            see_password:'password' as 'password' | 'text',
+            res:null,
+            loading:false
         }
     },
-    async created(){
-      const ip = await axios.get('https://api.ipify.org/?format=json');
-      this.user.ip_address = ip.data.ip;
-
-    },
-    methods:{
+     methods:{
         async Login(){
+          this.res=null;
+          this.loading = true;
+          const ip = await axios.get('https://api.ipify.org/?format=json');
+          this.user.ip_address = ip.data.ip;
             //login
-            console.log(this.user);
+ 
             await this.userservice.Login(this.user).then((result:any)=>{
-             
-                
+              this.res = result;
+                this.loading = false;
                 if(result.message ==='Login successful'){
                    console.log('result',result.data);
                    localStorage.setItem('token',result.data.token);
+
                    this.$router.push('/tabs/home')
                 }
              

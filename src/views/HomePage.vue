@@ -27,12 +27,12 @@
                 <ion-grid>
                   <ion-row>
                     <ion-col>
-                      <span class="label">All sell</span>
+                      <span class="label">All sale</span>
                     </ion-col>
                     <ion-col>
                       <div class="all-sell-point">
 
-                        <span class="label">10,000/50,000</span>
+                        <span class="label">{{Number(user?.allsale).toFixed(0)}}/50,000</span>
                       </div>
                     </ion-col>
                     <ion-progress-bar color="light"/>
@@ -77,15 +77,31 @@
             </ion-row>
             <ion-row>
               <ion-col>
-                <ion-img class="service" alt="shoping" src="/images/artwork.a2b8cd61.png"/>
+                <ion-img class="service" alt="artwork" src="/images/icon_menu/artwork.png"/>
               </ion-col>
               <ion-col>
-                <ion-img class="service" alt="shoping" src="/images/counter.407258c6.png"/>
+           
+           
+
+                  <ion-img class="service" alt="services" src="/images/icon_menu/counter.png" @click="$router.push('/tabs/services')"/>
+            
+            
+              
               </ion-col>
               <ion-col>
-                <ion-img class="service" alt="shoping" src="/images/mobile_topup.16e3038c.png"/>
-              </ion-col>
+                  <ion-img class="service" alt="topup" src="/images/icon_menu/mobile_topup.png" @click="$router.push('/tabs/topups')"/>
+                </ion-col>
+                
+            
             </ion-row>
+            <ion-row>
+              <ion-col>
+                  <ion-img class="service" alt="transfer" src="/images/icon_menu/transfer.png" @click="$router.push('/tabs/nbaservices')"/>
+                </ion-col>
+                <ion-col></ion-col>
+                <ion-col></ion-col>
+            </ion-row>
+             
           </ion-grid>
         </div>
     </ion-content>
@@ -93,8 +109,13 @@
 </template>
 
 <script  lang="ts">
-import { UserService } from "@/services/user"
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar ,IonProgressBar, IonImg} from '@ionic/vue';
+import { UserService } from "@/services/user";
+import  CounterServicePage  from "@/views/CounterServicePage.vue";
+import { 
+  IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,
+  IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar ,IonProgressBar, IonImg,IonNav
+
+} from '@ionic/vue';
 
 import { defineComponent } from 'vue';
 
@@ -103,7 +124,7 @@ export default defineComponent({
       IonPage, IonHeader, IonToolbar, IonTitle,
        IonContent ,IonCol, IonGrid, IonRow, 
        IonInput, IonAvatar, IonSearchbar,
-       IonProgressBar,IonImg
+       IonProgressBar,IonImg,IonNav
       },
     setup() {
       const userservice = new UserService(null);
@@ -113,7 +134,8 @@ export default defineComponent({
     },
     data(){
       return {
-        user:null
+        user:null,
+        servicePage:CounterServicePage
 
       }
     },
@@ -180,6 +202,6 @@ background: linear-gradient(222deg, rgba(255,1,162,1) 0%, rgba(190,5,143,1) 37%,
 
  }
 .service{
-  padding: 0.5rem;
+  padding: 0.2rem;
 }
 </style>

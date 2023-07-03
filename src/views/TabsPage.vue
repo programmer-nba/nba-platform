@@ -3,9 +3,15 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
+        
         <ion-tab-button tab="home" href="/tabs/home">
           <ion-icon aria-hidden="true" :icon="homeOutline" />
           <ion-label>Home</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button tab="services" href="/tabs/services">
+          <ion-icon aria-hidden="true" :icon="bagHandleOutline" />
+          <ion-label>Services</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="history" href="/tabs/history">
@@ -24,5 +30,5 @@
 
 <script setup lang="ts">
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { homeOutline, personOutline, ribbonOutline } from 'ionicons/icons';
+import { homeOutline, personOutline, ribbonOutline,bagHandleOutline } from 'ionicons/icons';
 </script>

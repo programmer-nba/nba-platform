@@ -26,6 +26,42 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/HomePage.vue')
       },
       {
+        path:'services',
+        name:'Services',
+        component: ()=> import('@/views/CounterServicePage.vue'),
+        children:[
+          {
+            path:'',
+            name:'ServicesHome',
+            component: ()=> import('@/views/counterservices/HomeView.vue'),
+          }
+        ]
+      },
+      {
+        path:'topups',
+        name:'Topups',
+        component: () => import('@/views/TopupView.vue'),
+        children:[
+          {
+            path:'',
+            name:'TopupHome',
+            component: () => import('@/views/topup/HomeTopupView.vue')
+          }
+        ]
+      },
+      {
+        path:'nbaservices',
+        name:'Nbaservices',
+        component: () => import('@/views/NBAservicePage.vue'),
+        children:[
+          {
+            path:'',
+            name:'NbaservicesHome',
+            component: () => import('@/views/nbaservices/HomeNbaserviceView.vue')
+        }
+        ]
+      },
+      {
         path: 'history',
         component: () => import('@/views/HistoryPage.vue')
       },

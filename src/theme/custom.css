@@ -1,3 +1,9 @@
+/* layout */
+
+.container {
+    padding: 1rem;
+    
+}
 ion-input{
     color: #222222 !important; 
     text-align: left !important;
