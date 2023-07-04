@@ -171,7 +171,5 @@ export class CounterService {
         })
         return data;
     }
-
-
     
 }

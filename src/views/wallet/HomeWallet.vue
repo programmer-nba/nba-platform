@@ -7,7 +7,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col v-for="(item,index) in services" :key="index" size="4">
-                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"  @click="$router.push('wallet')"/>
+                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"/>
                         {{ item.productid }}
                     </ion-col>
                 </ion-row>

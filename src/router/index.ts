@@ -106,7 +106,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path:'',
             name:'WalletServiceHome',
-            component: () => import('@/views/prosermservices/DetailProserm.vue')
+            component: () => import('@/views/wallet/HomeWallet.vue')
           },
         ]
       },
