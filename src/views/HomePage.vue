@@ -98,8 +98,24 @@
               <ion-col>
                   <ion-img class="service" alt="transfer" src="/images/icon_menu/transfer.png" @click="$router.push('/tabs/nbaservices')"/>
                 </ion-col>
-                <ion-col></ion-col>
-                <ion-col></ion-col>
+                <ion-col>
+                  <ion-img class="service" alt="transfer" src="/images/icon_menu/cardtopup.png" @click="$router.push('/tabs/cardtopup')"/> 
+                </ion-col>
+                <ion-col>
+                  <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png" @click="$router.push('/tabs/proserm')"/> 
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                  <ion-img class="service" alt="transfer" src="/images/icon_menu/keyservice.png" @click="$router.push('/tabs/keyservice')"/>
+                </ion-col>
+                <ion-col>
+                  <ion-img class="service" alt="transfer" src="/images/icon_menu/wallet.png" @click="$router.push('/tabs/wallet')"/>
+                </ion-col>
+                <ion-col>
+                  <ion-img class="service" alt="transfer" src="/images/icon_menu/cash.png" @click="$router.push('/tabs/cash')"/>
+                </ion-col>
             </ion-row>
              
           </ion-grid>

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue';
 import { UserService } from '@/services/user';
+import { Component } from 'ionicons/dist/types/stencil-public-runtime';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -47,6 +48,78 @@ const routes: Array<RouteRecordRaw> = [
             name:'TopupHome',
             component: () => import('@/views/topup/HomeTopupView.vue')
           }
+        ]
+      },
+      {
+        path:'cardtopup',
+        name:'Cardtopup',
+        component: () => import('@/views/CardTopupPage.vue'),
+        children:[
+          {
+            path:'',
+            name:'CardTopupHome',
+            component: () => import('@/views/cardtopup/HomeCardTopup.vue')
+          }
+        ]
+      },
+      {
+        path:'proserm',
+        name:'Proserm',
+        component: () => import('@/views/ProsermPage.vue'),
+        children:[
+          {
+            path:'',
+            name:'ProsermHome',
+            component: () => import('@/views/prosermservices/HomeProserm.vue')
+          },
+        ]
+      },
+      {
+        path:'detailproserm',
+        name:'Detailproserm',
+        component: () => import('@/views/prosermservices/HomeProserm.vue'),
+        children:[
+          {
+            path:'',
+            name:'ProsermDetail',
+            component: () => import('@/views/prosermservices/DetailProserm.vue')
+          },
+        ]
+      },
+      {
+        path:'keyservice',
+        name:'Keyservice',
+        component: () => import('@/views/KeyservicePage.vue'),
+        children:[
+          {
+            path:'',
+            name:'KeyserviceHome',
+            component: () => import('@/views/keyservice/HomeKeyservice.vue')
+          }
+        ]
+      },
+      {
+        path:'wallet',
+        name:'Wallet',
+        component: () => import('@/views/WalletPage.vue'),
+        children:[
+          {
+            path:'',
+            name:'WalletServiceHome',
+            component: () => import('@/views/prosermservices/DetailProserm.vue')
+          },
+        ]
+      },
+      {
+        path:'cash',
+        name:'Cash',
+        component: () => import('@/views/CashPage.vue'),
+        children:[
+          {
+            path:'',
+            name:'CashServiceHome',
+            component: () => import('@/views/cash/HomeCash.vue')
+          },
         ]
       },
       {

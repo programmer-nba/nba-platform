@@ -7,7 +7,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col v-for="(item,index) in services" :key="index" size="4">
-                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"/>
+                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"  @click="$router.push('/tabs/detailproserm')"/>
                         {{ item.productid }}
                     </ion-col>
                 </ion-row>
@@ -28,7 +28,7 @@ import {
     IonImg
  } from '@ionic/vue';
  import { CounterService } from "../../services/counterservices";
- import { BarcodeService } from "@/model/counterservice.interface"
+ import { ProSermService } from "../../model/proserm.interface";
 
 import { defineComponent } from 'vue';
 
@@ -40,12 +40,12 @@ export default defineComponent({
     components: { IonPage, IonContent,IonGrid,IonRow,IonCol,IonImg },
     data(){
         return {
-            services:[] as BarcodeService[],
+            services:[] as ProSermService[],
             loading:false
         }
     },
     async mounted(){
-        await this.counterService.getBarcodeServices().then((result:any)=>{
+        await this.counterService.getProSermServices().then((result:any)=>{
             console.log(result);
             this.services = result.data;
         })

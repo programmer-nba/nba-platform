@@ -28,7 +28,7 @@ import {
     IonImg
  } from '@ionic/vue';
  import { CounterService } from "../../services/counterservices";
- import { BarcodeService } from "@/model/counterservice.interface"
+ import { CashService } from "../../model/cash.interface";
 
 import { defineComponent } from 'vue';
 
@@ -40,12 +40,12 @@ export default defineComponent({
     components: { IonPage, IonContent,IonGrid,IonRow,IonCol,IonImg },
     data(){
         return {
-            services:[] as BarcodeService[],
+            services:[] as CashService[],
             loading:false
         }
     },
     async mounted(){
-        await this.counterService.getBarcodeServices().then((result:any)=>{
+        await this.counterService.getCashServices().then((result:any)=>{
             console.log(result);
             this.services = result.data;
         })

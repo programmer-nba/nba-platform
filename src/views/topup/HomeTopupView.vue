@@ -7,8 +7,9 @@
                 <ion-row v-if="loading === true">
                     <ion-col v-for="(item,index) in topup" :key="index" size="4">
                         <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"/>
+                        {{ item.productid }}
                     </ion-col>
-                    
+
                 </ion-row>
             </div>
         </ion-content>
