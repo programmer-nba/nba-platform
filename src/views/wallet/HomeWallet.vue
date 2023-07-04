@@ -28,7 +28,7 @@ import {
     IonImg
  } from '@ionic/vue';
  import { CounterService } from "../../services/counterservices";
- import { WalletService } from "../../model/proserm.interface";
+ import { WalletService } from "../../model/wallet.interface";
 
 import { defineComponent } from 'vue';
 
