@@ -63,7 +63,7 @@
 
 <script lang="ts">
 
-import { textSharp, timeOutline  } from 'ionicons/icons';
+import {  timeOutline  } from 'ionicons/icons';
 import { UserService } from "@/services/user";
 import  CounterServicePage  from "@/views/CounterServicePage.vue";
 import ExploreContainer from '@/components/ExploreContainer.vue';
@@ -116,7 +116,7 @@ export default defineComponent({
 ion-toolbar{
   --background: rgb(255,1,162);
   --color: white;
-  --background: linear-gradient(222deg, rgba(255,1,162,1) 0%, rgba(190,5,143,1) 37%, rgba(117,9,121,1) 100%);
+  --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
   }
   .avatar-user{
     margin: auto;
@@ -162,7 +162,7 @@ ion-toolbar{
   }
   .button-out{
     margin-right: 3%;
-    --background: linear-gradient(222deg, rgba(255,1,162,1) 0%, rgba(190,5,143,1) 37%, rgba(190,5,143,1) 100%);
+    --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
   }
   ion-icon {
   font-size: 15px;

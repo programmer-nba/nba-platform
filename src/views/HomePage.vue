@@ -125,6 +125,7 @@
 </template>
 
 <script  lang="ts">
+import { Storage } from '@ionic/storage';
 import { UserService } from "@/services/user";
 import  CounterServicePage  from "@/views/CounterServicePage.vue";
 import { 
@@ -143,10 +144,15 @@ export default defineComponent({
        IonProgressBar,IonImg,IonNav
       },
     setup() {
+      const store = new Storage();
       const userservice = new UserService(null);
       return {
-        userservice
+        userservice,
+        store
       }
+    },
+    async created() {
+      await this.store.create();
     },
     data(){
       return {
@@ -157,10 +163,11 @@ export default defineComponent({
     },
     async mounted(){
       //get me 
-      await this.userservice.GetMe().then((result:any | null)=>{
+      await this.userservice.GetMe().then(async(result:any | null)=>{
         console.log(result);
         if(result.status=== true){
           this.user = result.data;
+          await this.store.set('user', result.data);
         }
 
       })
@@ -202,7 +209,7 @@ export default defineComponent({
     width: 100%;
     padding: 1rem;
     background: rgb(255,1,162);
-background: linear-gradient(222deg, rgba(255,1,162,1) 0%, rgba(190,5,143,1) 37%, rgba(117,9,121,1) 100%);
+    background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
     border-bottom-left-radius: 3rem;
     border-bottom-right-radius: 3rem;
   }

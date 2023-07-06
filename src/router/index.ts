@@ -136,14 +136,16 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'history',
+        name:'History',
         component: () => import('@/views/HistoryPage.vue')
       },
+
       {
         path: 'user',
         component: () => import('@/views/UserPage.vue')
       }
     ]
-  }
+  },
 ]
 
 const router = createRouter({

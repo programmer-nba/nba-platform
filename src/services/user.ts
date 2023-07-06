@@ -64,5 +64,52 @@ export class UserService{
         return responseData;
     };
 
+    //Monney History
+    public async GetHistory(){
+
+        let responseData = null;
+
+        const request = {
+            method:'get',
+            url: `${this.baseUrl}/money/history`,
+            headers:{
+                token : this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData=response.data;
+        })
+        .catch(error=>{
+            responseData = error
+        })
+
+        return responseData;
+    };
+
+    //Request History
+    public async GetRequest(){
+
+        let responseData = null;
+
+        const request = {
+            method:'get',
+            url: `${this.baseUrl}/withdraw`,
+            headers:{
+                token : this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData=response.data;
+        })
+        .catch(error=>{
+            responseData = error
+        })
+
+        return responseData;
+    };
+
+
 }
 
