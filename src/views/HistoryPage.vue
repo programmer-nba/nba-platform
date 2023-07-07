@@ -1,21 +1,17 @@
 <template>
   <ion-page>
     <ion-header collapse="condense">
-        <ion-app-bar>
           <ion-toolbar>
           <ion-row>
             <ion-title>คอมมิชชั่นสะสม</ion-title>
           </ion-row>
           </ion-toolbar>
-        </ion-app-bar>
       </ion-header>
     <ion-content :fullscreen="true">
       <div class="commission">
           <p style="font-size: 13px; color: rgba(117,9,121,1);" >คอมมิชชั่นสะสม
           <div class="commission-number" ><ion-text style="font-size: 13px;">฿</ion-text> {{ allsale }} {{ time }}</div>
-          <ion-button size="small" class="button-out">ถอนรายได้</ion-button>
-          <ion-button size="small"  fill="clear">
-          </ion-button>
+          <ion-button size="small" class="button-out">ถอนเงินรายได้</ion-button>
         </p>
         </div>
             <div style="padding-left: 3%; padding-right: 3%; padding-top: 3%;">
@@ -48,7 +44,7 @@
 import { 
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,IonButton,IonText,
   IonLabel,IonSegment,IonSegmentButton,IonIcon,IonInput,IonItem,IonDatetimeButton,
-  IonModal,IonDatetime,IonCard,IonTabButton,IonRouterOutlet,IonTabs,IonTabBar
+  IonModal,IonDatetime,IonCard,IonTabButton,IonRouterOutlet,IonTabs,IonTabBar,IonRow
   } from '@ionic/vue';
 import RequesWithraw from '@/views/withdraw/RequestWithdraw.vue';
 import MoneyHistory from '@/views/history/MoneyHistory.vue';
@@ -83,6 +79,7 @@ export default defineComponent({
     IonTabBar,
     MoneyHistory,
     RequesWithraw,
+    IonRow
 },
       setup() {
         const datetime = ref();
@@ -148,11 +145,8 @@ ion-toolbar{
     padding: 2%;
   }
   .button-out{
-    margin-right: 3%;
+    justify-content: center;
     --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
-  }
-  ion-segment-button::part(indicator-background) {
-    background: rgba(117,9,121,1);
   }
 
   /* Material Design styles */
@@ -169,12 +163,9 @@ ion-toolbar{
   }
 
   /* iOS styles */
-  ion-segment-button.ios::part(native) {
-    color: rgba(117,9,121,1);
-  }
 
   .segment-button-checked.ios::part(native) {
-    color: #fff;
+    color: rgba(117,9,121,1);
   }
 
   ion-segment-button.ios::part(indicator-background) {

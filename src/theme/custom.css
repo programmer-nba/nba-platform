@@ -1,5 +1,9 @@
 /* layout */
-
+@import url("https://fonts.googleapis.com/css?family=Kanit&display=swap");
+*,
+.font {
+  font-family: "Kanit";
+}
 .container {
     padding: 1rem;
     

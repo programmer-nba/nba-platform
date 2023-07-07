@@ -5,21 +5,21 @@
             v-model="date"
             type="month" 
             @change="chooseDate()"
-            >
-        </ion-input>
-        <ion-popover trigger="date" size="cover">
+            variant="outlined" 
+            density="comfortable"
+            />
+        <!-- <ion-popover trigger="date" size="cover">
         <ion-datetime
             presentation="month-year"
             :show-default-buttons="true"
             v-model="date" 
         ></ion-datetime>
-        </ion-popover>
+        </ion-popover> -->
     </ion-item>
 
-    <ion-list v-if="date_time !== 0"  id="open-custom-dialog">
-        <ion-item button :detail="false" v-for="(item, index) in history" @click="openDailog(item._id,item.amount)">
+    <ion-list v-if="date_item.length !== 0"  id="open-custom-dialog">
+        <ion-item button :detail="false" v-for="item in date_item" @click="openDailog(item._id,item.detail,item.amount,item.vat,item.total,item.createdAt,item.type)">
             <ion-label>
-                <h5>{{ index }}</h5>
                 <h3>{{ item.name }}</h3>
                 <p>{{ item.timestamp}}</p>
             </ion-label>
@@ -28,23 +28,32 @@
                
         </ion-item>
         <ion-modal  id="example-modal" ref="modal" trigger="open-custom-dialog" >
-                    <div class="wrapper">
+                <div class="wrapper">
                         <ion-toolbar class="toolbar">
                            <h4>รายละเอียด</h4>
-                           <ion-button slot="end" fill="clear"> 
-                                <ion-icon  size="small" :icon="close"></ion-icon>
+                           <ion-button slot="end" fill="clear" @click="dismiss()">
+                            <ion-icon  :icon="close"></ion-icon>
                             </ion-button>
                         </ion-toolbar>
-
-                        <ion-item :button="true" :detail="false">
-                            <ion-label>{{ amount_test }}</ion-label>
-                        </ion-item>
+                        <div class="detail">
+                            <ion-item>
+                                {{ detail }}
+                            </ion-item>
+                            <ion-item v-if="type ==='เข้า'">
+                                <p style="font-size: 14px;">
+                                    <ion-text style="font-weight: bold;">ยอดเต็มที่ได้รับ :</ion-text> {{ numberDigitFormat(amount) }}<br/>
+                                    <ion-text style="font-weight: bold;">หัก ณ ที่จ่าย :</ion-text> {{ numberDigitFormat(vat) }}<br/>
+                                    <ion-text style="font-weight: bold;">ยอดสุทธิที่ได้รับ :</ion-text> {{ numberDigitFormat(total) }}
+                                </p>
+                            </ion-item>
+                            <p displayFormat="MMMM YY"><small><em><strong>วันเวลา :</strong>{{ datetimeFormat(createdAt) }}</em></small></p>
+                        </div>
                     </div>
                 </ion-modal>
     </ion-list>
     
         <div v-else class="text-center">
-            <p><em>--ไม่มีรายการแจ้งเติมเงิน--</em></p>
+            <p ><em>--ไม่มีรายการแจ้งเติมเงิน--</em></p>
         </div>
 </template>
 
@@ -67,13 +76,15 @@ import {
     IonList,
     IonItem,
     IonToolbar,
-    IonIcon
+    IonIcon,
+    IonText,
+
  } from '@ionic/vue';
  import dayjs from 'dayjs'
  import { UserService } from "@/services/user";
  import { Historyservice } from "@/model/history.interface";
 import { defineComponent , ref } from 'vue';
-import {  listOutline, timerOutline, close } from 'ionicons/icons';
+import {  listOutline, close, search, } from 'ionicons/icons';
 
 export default defineComponent({
     setup(){
@@ -81,38 +92,59 @@ export default defineComponent({
         return {
             userservice,
             listOutline,
-            close
+            close,
         }
     },
+    
     components: { IonPage, IonContent,IonGrid,IonRow,IonCol,IonImg,IonDatetime,
         IonDatetimeButton,IonModal,IonButton,IonInput,IonTextarea,IonCard,IonList,
-        IonItem,IonLabel,IonToolbar,IonIcon
+        IonItem,IonLabel,IonToolbar,IonIcon,IonText
     },
     data(){
         return {
             loading:false,
             history:[] as Historyservice[],
             amount: null,
-            date_time:[],
             dialog: false,
             id_dialog : null,
             id:null,
-            amount_test: null,
-            date: dayjs(Date.now()).format('YYYY-MM')
+            detail: null,
+            vat: null,
+            date_item: [],
+            total: null,
+            createdAt: null,
+            type: null,
+            date: dayjs(Date.now()).format('YYYY-MM'),
         }
     },
     methods : {
         chooseDate(){
-            this.date_time = this.history.filter((el)=>dayjs(el.createdAt).format('YYYY-MM') === dayjs(this.date).format('YYYY-MM'));
+            this.date_item = this.history.filter((el)=>dayjs(el.createdAt).format('YYYY-MM') === dayjs(this.date).format('YYYY-MM'));
         },
-        openDailog(_id,amount){
+        openDailog(_id,detail,amount,vat,total,createdAt,type){
             this.id = _id;
-            this.amount_test = amount;
+            this.detail = detail;
+            this.amount = amount;
+            this.vat = vat;
+            this.total = total;
+            this.createdAt = createdAt;
+            this.type = type;
         },
-
+        dismiss() {
+            this.$refs.modal.$el.dismiss();
+        },
+         datetimeFormat(date) {
+            return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
+        },
+        numberDigitFormat(num) {
+            return num.toLocaleString("en-US", {
+                maximumFractionDigits: 2,
+                minimumFractionDigits: 2,
+            });
+        }
     },
     async mounted(){
-        //get me 
+        //Get History 
       await this.userservice.GetHistory().then((result:any | null)=>{
         console.log(result);
           this.history = result.data.reverse();
@@ -129,12 +161,13 @@ export default defineComponent({
     .text-red {
         color: red;
     }.text-center{
+        margin-top: 15%;
         text-align: center;
-        justify-content: center;
+        font-size: 18px;
     }
     ion-modal#example-modal {
     --width: fit-content;
-    --min-width: 90%;
+    --width: 85%;
     --height: fit-content;
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
@@ -145,17 +178,20 @@ export default defineComponent({
   }
 
   ion-modal#example-modal ion-icon {
-    margin-right: 6px;
 
-    width: 48px;
+    width: 25px;
     height: 48px;
 
     padding: 4px 0;
 
-    color: #aaaaaa;
+    color: white;
   }
   .toolbar{
+    padding-left: 10px;
     color: white;
     --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
+  }
+  .detail{
+    padding: 20px;
   }
 </style>
