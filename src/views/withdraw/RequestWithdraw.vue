@@ -18,7 +18,7 @@
                 <p slot="end"><ion-icon v-if="item.status === 'ยกเลิก'" :icon="closeCircle"  style="color: red; font-size: 25px;"></ion-icon></p>
                 <p slot="end"><ion-icon v-if="item.status === 'รอดำเนินการ'" :icon="informationCircle"  style="color: #3880ff; font-size: 25px;"></ion-icon></p>
         </ion-item>
-        <ion-modal  ref="modal" trigger="open-modal" >
+        <ion-modal  ref="modal" trigger="open-modal">
                 <div>
                     <ion-toolbar class="toolbar">
                         <h4>รายละเอียด</h4>

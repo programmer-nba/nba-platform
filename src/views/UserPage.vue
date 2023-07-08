@@ -1,13 +1,11 @@
 <template>
   <ion-page>
       <ion-header collapse="condense">
-        <ion-app-bar>
           <ion-toolbar>
           <ion-row>
             <ion-title>โปรไฟล์ฉัน</ion-title>
           </ion-row>
           </ion-toolbar>
-        </ion-app-bar>
       </ion-header>
       <ion-content :fullscreen="true">
       <ion-col>
@@ -46,18 +44,30 @@
           <ion-item href="/tabs/user">
             <ion-label>ข้อมูลทั่วไป</ion-label>
           </ion-item>
-          <ion-item href="/tabs/user">
+          <ion-item href="/pin">
             <ion-label>เข้าสู่ระบบและความปลอดภัย</ion-label>
           </ion-item>
-          <ion-item href="/tabs/user">
+          <ion-item href="/tabs/user" button>
             <ion-label>เปลี่ยนรหัสผ่าน</ion-label>
           </ion-item>
-          <ion-item href="/tabs/user" detail="false">
+          <ion-item href="/tabs/user" :detail="false">
             <ion-label style="color: red;">ออกจากระบบ</ion-label>
           </ion-item>
         </ion-col>
       <ExploreContainer name="Tab 3 page" />
     </ion-content>
+    <ion-modal
+    :is-open="CheckOpen()"
+    >
+    <ion-toolbar>
+      <div>
+      <ion-buttons slot="start">
+        <ion-buttons @click="setOpen(false)">Back</ion-buttons>
+      </ion-buttons>
+    </div>
+    </ion-toolbar>
+    <PinPage />
+    </ion-modal>
   </ion-page>
 </template>
 
@@ -67,15 +77,15 @@ import {  timeOutline  } from 'ionicons/icons';
 import { UserService } from "@/services/user";
 import  CounterServicePage  from "@/views/CounterServicePage.vue";
 import ExploreContainer from '@/components/ExploreContainer.vue';
+import PinPage from '@/components/Pin.vue'
 import { 
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,
   IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar ,
   IonProgressBar, IonImg,IonNav,IonText,IonIcon,IonButton,
-  IonItem,IonItemGroup,IonLabel
+  IonItem,IonItemGroup,IonLabel,IonNavLink,IonModal,IonButtons
 
 } from '@ionic/vue';
-
-import { defineComponent } from 'vue';
+import { defineComponent} from 'vue';
 
 export default defineComponent({
     components: { 
@@ -83,10 +93,12 @@ export default defineComponent({
        IonContent ,IonCol, IonGrid, IonRow, 
        IonInput, IonAvatar, IonSearchbar,
        IonProgressBar,IonImg,IonNav,IonText,IonIcon,IonButton,
-      IonItem,IonItemGroup,IonLabel
+      IonItem,IonItemGroup,IonLabel,IonNavLink,PinPage,IonModal,
+      IonButtons
       },
     setup() {
       const userservice = new UserService(null);
+      
       return {
         userservice,
         timeOutline,
@@ -94,9 +106,30 @@ export default defineComponent({
     },
     data(){
       return {
+        isOpenRef: true,
         user:null,
         allsale:'',
         servicePage:CounterServicePage
+      }
+    },
+    methods: {
+      CheckOpen(){
+        if (this.isOpenRef == true) {
+          return true;
+        } else 
+        if (this.isOpenRef == false) {
+          this.isOpenRef = true
+          return
+        }
+      },
+      setOpen(isOpenRef: boolean){
+        this.isOpenRef = isOpenRef;
+        if (this.isOpenRef == false){
+          this.$router.push({
+              path: 'home',
+            })
+            console.log(this.isOpenRef)
+        } 
       }
     },
     async mounted(){

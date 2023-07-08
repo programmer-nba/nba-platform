@@ -151,6 +151,7 @@ export default defineComponent({
         store
       }
     },
+    
     async created() {
       await this.store.create();
     },

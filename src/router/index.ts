@@ -142,8 +142,9 @@ const routes: Array<RouteRecordRaw> = [
 
       {
         path: 'user',
+        name: 'User',
         component: () => import('@/views/UserPage.vue')
-      }
+      },
     ]
   },
 ]

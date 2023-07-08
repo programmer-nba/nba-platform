@@ -52,7 +52,6 @@ import ExploreContainer from '@/components/ExploreContainer.vue';
 import { UserService } from "@/services/user";
 import { defineComponent, ref   } from 'vue';
 import {  listOutline, timerOutline } from 'ionicons/icons';
-import { OverlayEventDetail } from '@ionic/core/components';
 
 export default defineComponent({
     components: {

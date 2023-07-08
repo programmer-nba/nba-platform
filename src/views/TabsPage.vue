@@ -19,16 +19,44 @@
           <ion-label>History</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="user" href="/tabs/user">
+        <ion-tab-button tab="user"  href="/tabs/user">
           <ion-icon aria-hidden="true" :icon="personOutline" />
           <ion-label>User</ion-label>
         </ion-tab-button>
+        
       </ion-tab-bar>
     </ion-tabs>
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { homeOutline, personOutline, ribbonOutline,bagHandleOutline } from 'ionicons/icons';
+<script lang="ts">
+import { IonTabBar, IonTabButton, IonTabs, IonLabel,IonItem,
+  IonIcon, IonPage, IonRouterOutlet, IonSegmentButton, IonSegment } from '@ionic/vue';
+import { homeOutline, personOutline, ribbonOutline,bagHandleOutline,home } from 'ionicons/icons';
+import { defineComponent , ref} from 'vue';
+import User from '@/views/UserPage.vue'
+
+export default defineComponent({
+    components: { 
+      IonPage, IonTabButton, IonTabs, IonRouterOutlet,
+      IonIcon,IonLabel,IonTabBar,IonItem,IonSegmentButton,IonSegment
+      },
+      setup() {
+        const setOpen = ref()
+      return {
+        homeOutline,
+        personOutline,
+        ribbonOutline,
+        bagHandleOutline,
+        User,
+        setOpen,
+        home
+      }
+    },
+    data(){
+      return {
+        isOpenRef: true,
+      }
+    },
+    })
 </script>
