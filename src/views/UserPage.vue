@@ -18,12 +18,30 @@
           </p>
         </ion-col>
         <ion-col>
+          <ion-card class="card-wallet">
+                <div style="display: flex; justify-content: center;">
+                  <h5 style="color: black; font-size: 17px;">จำนวนเงินคงเหลือ</h5>
+                </div>
+                  <div style="display: flex; justify-content: center;">
+                  <ion-icon class="icon-wallet" :icon="wallet" slot="start"></ion-icon>
+                  <ion-label class="number-wallet"><h1><strong>{{ walletMonney }}</strong></h1></ion-label>
+                  <ion-button href="/tabs/wallet/" class="btn-wallet"><ion-icon :icon="add" style="font-size: 17px;"></ion-icon></ion-button>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                  <ion-button class="history-wallet" fill="clear">
+                    <ion-icon :icon="timerOutline" style="font-size: 18px;"></ion-icon>
+                    <p style="font-size: 15px;">ประวัติเงินเข้า-ออก</p>
+                  </ion-button>
+                </div>
+          </ion-card>
+      </ion-col>
+        <ion-col>
       <div class="commission">
           <p style="font-size: 14px; color: rgba(117,9,121,1);" >คอมมิชชั่นสะสม
           <div class="commission-number"  value="0.00"><ion-text style="font-size: 13px;">฿</ion-text> {{ allsale }}</div>
           <ion-button size="small" class="button-out">ถอนรายได้</ion-button>
           <ion-button size="small"  fill="clear">
-            <ion-icon :icon="timeOutline"></ion-icon>
+            <ion-icon :icon="timerOutline"></ion-icon>
             ประวัติ
           </ion-button>
         </p>
@@ -61,7 +79,7 @@
 
 <script lang="ts">
 
-import {  flag, timeOutline  } from 'ionicons/icons';
+import {   timerOutline, wallet, add  } from 'ionicons/icons';
 import { UserService } from "@/services/user";
 import  CounterServicePage  from "@/views/CounterServicePage.vue";
 import ExploreContainer from '@/components/ExploreContainer.vue';
@@ -69,7 +87,7 @@ import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,
   IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar ,
   IonProgressBar, IonImg,IonNav,IonText,IonIcon,IonButton,
-  IonItem,IonItemGroup,IonLabel,IonNavLink,IonModal,IonButtons
+  IonItem,IonItemGroup,IonLabel,IonNavLink,IonModal,IonButtons,IonCard
 
 } from '@ionic/vue';
 import { defineComponent} from 'vue';
@@ -81,14 +99,16 @@ export default defineComponent({
        IonInput, IonAvatar, IonSearchbar,
        IonProgressBar,IonImg,IonNav,IonText,IonIcon,IonButton,
       IonItem,IonItemGroup,IonLabel,IonNavLink,IonModal,
-      IonButtons
+      IonButtons,IonCard
       },
     setup() {
       const userservice = new UserService(null);
       
       return {
         userservice,
-        timeOutline,
+        timerOutline,
+        wallet,
+        add
       }
     },
     data(){
@@ -97,7 +117,8 @@ export default defineComponent({
         isOpenRef: true,
         user:null,
         allsale:'',
-        servicePage:CounterServicePage
+        servicePage:CounterServicePage,
+        walletMonney: '',
       }
     },
     methods: {
@@ -118,6 +139,7 @@ export default defineComponent({
         if(result.status === true){
           this.user = result.data;
           this.allsale =  result.data.allsale.toFixed(2);
+          this.walletMonney = result.data.wallet.toFixed(2);
       }
       })
     }
@@ -175,6 +197,36 @@ ion-toolbar{
   .button-out{
     margin-right: 3%;
     --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
+  }
+  .card-wallet {
+    justify-content: center;
+    text-align: center;
+    width: 283px;
+    margin: auto;
+    border-radius: 20px;
+  }
+  .btn-wallet{
+    height: 35px !important;
+    width: 60px;
+    --border-radius: 7px;
+    --border-style: solid;
+    --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
+  }
+  .history-wallet{
+    height: 30px !important;
+    width: auto!important;
+    color: black;
+  }
+  .number-wallet{
+    margin-top: 5px;
+    margin-left: 8px;
+    margin-right: 8px;
+    color: black;
+    font-weight: bold;
+  }
+  .icon-wallet{
+    font-size:  38px !important;
+    color: black;
   }
   ion-icon {
   font-size: 15px;

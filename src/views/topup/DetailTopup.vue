@@ -3,7 +3,7 @@
         <!-- Aler data -->
         <ion-alert :is-open="isOpen" header="แจ้งเตือน !" sub-header="ข้อมูลไม่ครบถ้วน" message="กรุณากรอกข้อมูลให้ครบถ้วน"
             :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
-            <!-- Aler Wallet -->
+        <!-- Aler Wallet -->
         <ion-alert :is-open="isOpenWallet" header="แจ้งเตือน !" sub-header="เงินในประเป๋าไม่เพียงพอ" message="กรุณาตวรจสอบเงินในกระเป๋า"
             :buttons="alertButtons" @didDismiss="OpenAlertWallet(false)"></ion-alert>
         <ion-content :fullscreen="true" class="ion-padding">
@@ -16,51 +16,51 @@
                     <ion-col size="12">
                         <h5>เลือกจำนวนเงิน (บาท)</h5>
                     </ion-col>
-                    <ion-radio-group v-model="sent.price">
-                        <ion-row>
-                            <ion-col v-for="(number, id) in item.price.split(',')" :key="id" size="4"
-                                style="text-align: center;">
-                                <ion-button class="button" fill="outline">
-                                    <ion-radio slot="start" :value="number">{{ number }}</ion-radio>
-                                </ion-button>
-                            </ion-col>
-                        </ion-row>
-                    </ion-radio-group>
+                    <ion-row>
+                        <ion-col  size="4" v-for="(number, id) in item.price.split(',')" :key="id">
+                            <ion-button  fill="outline" @click="AddPrice(number)" :value="id"> {{ number }}</ion-button>
+                        </ion-col>
+                    </ion-row>
                     <ion-col size="12">
-                        <ion-input label="จำนวนเงินที่เติม" v-model="sent.price" :value="sent.price" :readonly="true">
+                        <ion-input label="จำนวนเงินที่เติม" v-model="number_price" :value="number_price" :readonly="true">
                         </ion-input>
                     </ion-col>
                     <ion-col size="12">
-                        <ion-input v-model="sent.mobile" placeholder="กรอกเบอร์โทรศัพท์" :maxlength="10"
-                            type="number"></ion-input>
+                        <ion-input v-model="sent.mobile"   placeholder="กรอกเบอร์โทรศัพท์" :clear-input="true" :maxlength="10"></ion-input>
                         <ion-button class="button-confrim" expand="block" @click="Send()">เติมเงิน</ion-button>
                         <ion-modal :is-open="isOpenConfrim" id="example-modal" ref="modal">
                             <ion-toolbar class="toolbar">
                                 <ion-title>ยืนยัน</ion-title>
                             </ion-toolbar>
                             <ion-row v-if="check_confirm === 'check'">
-                                <ion-col size="12">
-                                    <p><em>ยืนยันการเติมเงิน <strong>{{ check.price }}</strong> บาท</em></p>
-                                    <p><em>เบอร์โทรศัพท์ <strong>{{ check.mobile }}</strong></em></p>
-                                </ion-col>
-                                <ion-col>
-                                    <ion-button @click="Check()">ยืนยัน</ion-button>
-                                </ion-col>
-                                <ion-col>
-                                    <ion-button fill="outline" @click="Close(false)">ยกเลิก</ion-button>
-                                </ion-col>
+                                <div class="card-check">
+                                        <p>ยืนยันการเติมเงิน <strong>{{ check.price }}</strong> บาท</p>
+                                        <p>เบอร์โทรศัพท์ <strong>{{ check.mobile }}</strong></p>
+                                    <ion-col>
+                                        <ion-button class="btn-check" @click="Confirm()">ยืนยัน</ion-button>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-button  class="btn-check" fill="outline" @click="Close(false)">ยกเลิก</ion-button>
+                                    </ion-col>
+                                </div>
                             </ion-row>
                             <ion-row v-if="check_confirm === 'confirm'">
                                 <ion-col size="12" style="text-align: center;">
-                                    <span style="font-size: 18px;vertical-align: middle !important;">
+                                    <div>
                                         <ion-icon :icon="checkmarkCircleOutline" color="success"></ion-icon>
+                                    </div>
+                                    <span style="font-size: 20px;">
+                                        เติมเงินสำเร็จ!
                                     </span>
-                                    <span style="height:80px !important;">
-                                        เติมเงินสำเร็จ
-                                    </span>
+                                    <ion-item style="margin-top: 20px;" lines="full">
+                                        <ion-label>
+                                        <h2>ยอดเงินคงเหลือ (บาท)</h2>
+                                        <p style="font-size: 19px; color: gray;">฿ {{ wellet }}</p>
+                                        </ion-label>
+                                    </ion-item>
                                 </ion-col>
-                                <ion-col> 
-                                    <ion-button @click="Confirm()">ตกลง</ion-button>
+                                <ion-col size="12"> 
+                                    <ion-button @click="Close(false)">ตกลง</ion-button>
                                 </ion-col>
                             </ion-row>
                         </ion-modal>
@@ -90,7 +90,8 @@ import {
     IonModal,
     IonToolbar,
     IonTitle,
-    IonIcon
+    IonIcon,
+    IonButtons
 } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { CounterService } from "../../services/counterservices";
@@ -121,13 +122,13 @@ export default defineComponent({
             isOpenConfrim,
             isOpenWallet,
             OpenAlertWallet,
-            checkmarkCircleOutline
+            checkmarkCircleOutline,
         }
     },
     components: {
         IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonText, IonInput,
         IonButton, IonRadioGroup, IonItem, IonRadio, IonLabel, IonAlert, IonModal, IonToolbar,
-        IonTitle,IonIcon
+        IonTitle,IonIcon,IonButtons
     },
     data() {
         return {
@@ -136,7 +137,7 @@ export default defineComponent({
             test: null,
             sent: {
                 mobile: '',
-                price: '',
+                price: this.number,
                 productid: this.$route.params.id
             },
             check: {
@@ -149,13 +150,30 @@ export default defineComponent({
                 price: '',
                 transid: '',
             },
+            wellet: '',
             check_confirm: 'check',
+            number_price: '',
         }
     },
     async created() {
+        console.log('wellet',this.wellet)
+        console.log('price',this.number_price)
         console.log(this.$route.query.data)
         if (this.$route.query.data === 'confirmed') {
-            this.isOpenConfrim = true;
+            await this.userservice.checkMobileServices(this.check).then((result: any) => {
+                console.log(result)
+                this.loading = false;
+                if (result.message === 'successful') {
+                    console.log('result', result.data);
+                    this.confirm.mobile = this.check.mobile;
+                    this.confirm.price = this.check.price;
+                    this.confirm.transid = result.data.transid;
+                    this.isOpenConfrim = true;
+                } else if (result.message === 'failed') {
+                    console.log('result', result.data);
+                    this.isOpenWallet = true;
+                }
+            });
         }
         await this.$router.isReady()
     },
@@ -169,13 +187,13 @@ export default defineComponent({
     },
     methods: {
         async Send() {
-            if (this.sent.mobile != '' && this.sent.price != '' && this.sent.productid != '') {
+            if (this.sent.mobile != '' && this.number_price != '' && this.sent.productid != '') {
                 this.$router.push({
                     path: `/pin`,
                     query: {
                         id: this.sent.productid,
                         mobile: this.sent.mobile,
-                        price: this.sent.price,
+                        price: this.number_price,
                         query: 'confirm'
                     }
                 });
@@ -183,30 +201,13 @@ export default defineComponent({
                 this.isOpen = true;
             }
         },
-        async Check() {
-            await this.userservice.checkMobileServices(this.check).then((result: any) => {
-                console.log(result)
-                console.log(this.check_confirm)
-                this.loading = false;
-                if (result.message === 'successful') {
-                    console.log('result', result.data);
-                    this.confirm.mobile = this.check.mobile;
-                    this.confirm.price = this.check.price;
-                    this.confirm.transid = result.data.transid;
-                    this.check_confirm = 'confirm'
-                } else if (result.message === 'failed') {
-                    this.isOpenWallet = true;
-                }
-            });
-        },
         async Confirm() {
             await this.userservice.ConfirmMobileServices(this.confirm).then((result: any) => {
                 console.log(result)
                 if (result.message === 'successful') {
                     console.log('result', result.data);
-                    this.$router.push({
-                        path: `/detailtopup/${this.$route.query.id}`,
-                    });
+                    this.wellet = result.data.data.remainding_wallet.toFixed(2);
+                    this.check_confirm = 'confirm';
                 } else if (result.message === 'failed') {
                     console.log('result', result.data);
                 }
@@ -221,6 +222,10 @@ export default defineComponent({
                     path: `/detailtopup/${this.$route.query.id}`,
                 });
         },
+        AddPrice(number: string){ 
+            this.number_price = number;
+            console.log(this.number_price)
+        }
     },
     async mounted() {
         await this.counterservices.getMobileServices().then((result: any) => {
@@ -245,7 +250,7 @@ ion-img {
 
 ion-modal#example-modal {
     --width: fit-content;
-    --min-width: 250px;
+    --min-width: 300px;
     --height: fit-content;
     --border-radius: 6px;
     --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
@@ -258,17 +263,14 @@ ion-modal#example-modal h1 {
 ion-modal#example-modal ion-icon {
     margin-right: 6px;
 
-    width: 48px;
-    height: 48px;
+    width: 120px;
+    height: 120px;
 
     padding: 4px 0;
 
     color: #aaaaaa;
 }
 
-ion-modal#example-modal .wrapper {
-    margin-bottom: 10px;
-}
 .button {
     width: 100%;
 }
@@ -283,5 +285,12 @@ ion-modal#example-modal .wrapper {
 .toolbar {
     --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
     color: white;
+}
+.card-check{
+    margin: auto;
+}
+.btn-check{
+    width: 120px;
+    height: 40px;
 }
 </style>
