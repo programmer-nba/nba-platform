@@ -7,7 +7,9 @@
             <ion-grid>
                 <ion-row>
                     <ion-col v-for="(item,index) in services" :key="index" size="4">
-                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"  @click="$router.push(`/detailservices/${item.productid}`)"/>
+                        <!-- <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"/>
+                        {{ item.productid }} -->
+                        <h1>test</h1>
                     </ion-col>
                 </ion-row>
              
@@ -40,7 +42,7 @@ export default defineComponent({
     data(){
         return {
             services:[] as BarcodeService[],
-            loading:false
+            loading:false,
         }
     },
     async mounted(){

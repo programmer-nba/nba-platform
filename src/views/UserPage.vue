@@ -44,10 +44,10 @@
           <ion-item href="/tabs/user">
             <ion-label>ข้อมูลทั่วไป</ion-label>
           </ion-item>
-          <ion-item href="/pin">
+          <ion-item href="/tabs/user">
             <ion-label>เข้าสู่ระบบและความปลอดภัย</ion-label>
           </ion-item>
-          <ion-item href="/tabs/user" button>
+          <ion-item @click="chenHref()" button>
             <ion-label>เปลี่ยนรหัสผ่าน</ion-label>
           </ion-item>
           <ion-item href="/tabs/user" :detail="false">
@@ -56,28 +56,15 @@
         </ion-col>
       <ExploreContainer name="Tab 3 page" />
     </ion-content>
-    <ion-modal
-    :is-open="CheckOpen()"
-    >
-    <ion-toolbar>
-      <div>
-      <ion-buttons slot="start">
-        <ion-buttons @click="setOpen(false)">Back</ion-buttons>
-      </ion-buttons>
-    </div>
-    </ion-toolbar>
-    <PinPage />
-    </ion-modal>
   </ion-page>
 </template>
 
 <script lang="ts">
 
-import {  timeOutline  } from 'ionicons/icons';
+import {  flag, timeOutline  } from 'ionicons/icons';
 import { UserService } from "@/services/user";
 import  CounterServicePage  from "@/views/CounterServicePage.vue";
 import ExploreContainer from '@/components/ExploreContainer.vue';
-import PinPage from '@/components/Pin.vue'
 import { 
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,
   IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar ,
@@ -93,7 +80,7 @@ export default defineComponent({
        IonContent ,IonCol, IonGrid, IonRow, 
        IonInput, IonAvatar, IonSearchbar,
        IonProgressBar,IonImg,IonNav,IonText,IonIcon,IonButton,
-      IonItem,IonItemGroup,IonLabel,IonNavLink,PinPage,IonModal,
+      IonItem,IonItemGroup,IonLabel,IonNavLink,IonModal,
       IonButtons
       },
     setup() {
@@ -106,6 +93,7 @@ export default defineComponent({
     },
     data(){
       return {
+        loading: false,
         isOpenRef: true,
         user:null,
         allsale:'',
@@ -113,33 +101,24 @@ export default defineComponent({
       }
     },
     methods: {
-      CheckOpen(){
-        if (this.isOpenRef == true) {
-          return true;
-        } else 
-        if (this.isOpenRef == false) {
-          this.isOpenRef = true
-          return
-        }
+      chenHref(){
+        this.$router.push({
+          path: '/pin',
+          query: {
+            query: 'password',
+          }
+        });
       },
-      setOpen(isOpenRef: boolean){
-        this.isOpenRef = isOpenRef;
-        if (this.isOpenRef == false){
-          this.$router.push({
-              path: 'home',
-            })
-            console.log(this.isOpenRef)
-        } 
-      }
     },
     async mounted(){
       //get me 
       await this.userservice.GetMe().then((result:any | null)=>{
         console.log(result);
-        if(result.status=== true){
+        console.log(this.isOpenRef);
+        if(result.status === true){
           this.user = result.data;
           this.allsale =  result.data.allsale.toFixed(2);
-        }
+      }
       })
     }
     })

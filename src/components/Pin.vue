@@ -1,4 +1,5 @@
 <template>
+<ion-page>
 <ion-content padding>
   <ion-alert
     :is-open="isOpen"
@@ -8,6 +9,13 @@
     @didDismiss="setOpen(false)"
   ></ion-alert>
   
+  <ion-toolbar class="">
+    <ion-buttons slot="start">
+      <ion-icon :icon="chevronBackOutline"></ion-icon>
+        <ion-buttons @click="$router.go(-1)">Back</ion-buttons>
+      </ion-buttons>
+          <ion-title>PIN</ion-title>
+  </ion-toolbar>
   <div style="text-align: center; font-size: large; padding-top: 5%;">
     <p style="margin-bottom: 5%;">ใส่หรัสผ่าน</p>
      <ion-icon :icon="pin.length>0 ? radioButtonOnOutline : radioButtonOffOutline " ></ion-icon>
@@ -71,22 +79,22 @@
 
         </ion-col>
         <ion-col>
-          <ion-button size="large" fill="clear"  @click="myFunction()">OK</ion-button>
+          <ion-button size="large" fill="clear"  @click="CheckOk()">OK</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
 </ion-content>
+</ion-page>
 </template>
 
 <script lang="ts">
 import {  chevronBackOutline, radioButtonOffOutline, radioButtonOnOutline} from 'ionicons/icons';
-import { UserService } from "@/services/user";
 import { 
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,
   IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar 
   ,IonProgressBar, IonImg,IonNav,IonButton,IonBackButton,
-  IonIcon,IonButtons,modalController,IonAlert
+  IonIcon,IonButtons,IonAlert
 } from '@ionic/vue';
 import { defineComponent,ref } from 'vue';
 
@@ -97,14 +105,10 @@ export default defineComponent({
     const setOpen = (state: boolean) => {
         isOpen.value = state;
       };
-    const closeModal = async () => {
-      await modalController.dismiss();
-    };
       return {
         radioButtonOffOutline, 
         radioButtonOnOutline,
         chevronBackOutline,
-        closeModal,
         alertButtons,
         setOpen,
         isOpen
@@ -120,13 +124,15 @@ export default defineComponent({
       },
     data(){
         return {
-        change:  new UserService(null),
         pagetitle: 'ใส่หรัสผ่าน',
         pin: '',
         pass_pin:  '12345',
         message: '',
         loading:false
       }
+      },
+      created (){
+        console.log(this.$route)
       },
       methods: {
         handleInput(pin = '') {
@@ -141,21 +147,38 @@ export default defineComponent({
 
           this.pin += pin;
         },
-        myFunction() {
+        CheckOk() {
           if (this.pin != this.pass_pin) {
             this.message = 'รหัสผ่านไม่ถูกต้อง'
             this.setOpen(true);
             this.pin = '';
           } else if (this.pin === this.pass_pin) {
-            this.$router.push({
-              path: 'user',
-              name: 'User',
-            })
+            this.pin = '';
+            if (this.$route.query.query === 'password') {
+              this.$router.push({
+                path: 'history',
+                name: 'History',
+              })
+              }else if (this.$route.query.query === 'user') {
+                this.$router.push({
+                path: 'user',
+                name: 'User',
+              })
+            }else if (this.$route.query.query === 'confirm') {
+              this.$router.push({
+                path: `/detailtopup/${this.$route.query.id}`,
+                query: {
+                  id: this.$route.query.id,
+                  mobile: this.$route.query.mobile,
+                  price: this.$route.query.price,
+                  data: 'confirmed'
+                }
+              });
+            }
+            console.log(this.$route.query.query)
             this.loading = true;
-            this.closeModal()
             this.message = 'รหัสถูกต้อง'
           }
-          console.log(this.message);
         }
       }
 })

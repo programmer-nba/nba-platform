@@ -8,13 +8,6 @@
             variant="outlined" 
             density="comfortable"
             />
-        <!-- <ion-popover trigger="date" size="cover">
-        <ion-datetime
-            presentation="month-year"
-            :show-default-buttons="true"
-            v-model="date" 
-        ></ion-datetime>
-        </ion-popover> -->
     </ion-item>
 
     <ion-list v-if="date_item.length !== 0"  id="open-custom-dialog">

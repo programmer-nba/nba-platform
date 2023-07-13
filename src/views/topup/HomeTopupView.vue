@@ -3,10 +3,9 @@
 
         <ion-content :fullscreen="true">
             <div class="container" style="margin-bottom: 3rem;">
-                
                 <ion-row v-if="loading === true">
                     <ion-col v-for="(item,index) in topup" :key="index" size="4">
-                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"/>
+                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"  @click="$router.push(`/detailtopup/${item.productid}`)"/>
                         {{ item.productid }}
                     </ion-col>
 

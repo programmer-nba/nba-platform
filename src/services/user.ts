@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {User} from '@/model/user.interface'
 import { AuthData } from '@/model/auth.interface'
+import { Topup } from '@/model/topup.interface'
 
 
 export class UserService{
@@ -8,6 +9,7 @@ export class UserService{
     baseUrl:string = import.meta.env.VITE_APP_API;
     context:any
     user:User | undefined
+    topup:Topup | undefined
     token:string | null = localStorage.getItem('token') 
 
     constructor(context?:any){
@@ -110,6 +112,46 @@ export class UserService{
         return responseData;
     };
 
+    //Check mobile services
+     async checkMobileServices(Topup:Topup){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            data : Topup,
+            url:`${this.baseUrl}/counter_service/mobile_topup/check`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message}
+        })
 
+        return data;
+    }
+
+    //Confirm mobile services
+    async ConfirmMobileServices(Topup:Topup){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            data : Topup,
+            url:`${this.baseUrl}/counter_service/mobile_topup/confirm`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message}
+        })
+
+        return data;
+    }
 }
 

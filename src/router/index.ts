@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue';
 import { UserService } from '@/services/user';
-import { Component } from 'ionicons/dist/types/stencil-public-runtime';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     path:'/login',
     name: 'Login',
     component: ()=> import('@/views/LoginPage.vue')
+  },
+  {
+    path: '/pin',
+    name: 'Pin',
+    component: ()=> import('@/components/Pin.vue')
   },
   {
     path: '/tabs/',
@@ -35,7 +39,12 @@ const routes: Array<RouteRecordRaw> = [
             path:'',
             name:'ServicesHome',
             component: ()=> import('@/views/counterservices/HomeView.vue'),
-          }
+          },
+          {
+            path: '/detailservices/:id',
+            name: 'DetailServices',
+            component: ()=> import('@/views/counterservices/DetailServices.vue')
+          },
         ]
       },
       {
@@ -47,7 +56,13 @@ const routes: Array<RouteRecordRaw> = [
             path:'',
             name:'TopupHome',
             component: () => import('@/views/topup/HomeTopupView.vue')
-          }
+          },
+          {
+            path: '/detailtopup/:id',
+            name: 'DetailTopup',
+            component: ()=> import('@/views/topup/DetailTopup.vue'),
+            props: true,
+          },
         ]
       },
       {

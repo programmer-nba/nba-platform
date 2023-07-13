@@ -19,7 +19,7 @@
           <ion-label>History</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="user"  href="/tabs/user">
+        <ion-tab-button tab="user"  @click="chenHref()">
           <ion-icon aria-hidden="true" :icon="personOutline" />
           <ion-label>User</ion-label>
         </ion-tab-button>
@@ -34,7 +34,6 @@ import { IonTabBar, IonTabButton, IonTabs, IonLabel,IonItem,
   IonIcon, IonPage, IonRouterOutlet, IonSegmentButton, IonSegment } from '@ionic/vue';
 import { homeOutline, personOutline, ribbonOutline,bagHandleOutline,home } from 'ionicons/icons';
 import { defineComponent , ref} from 'vue';
-import User from '@/views/UserPage.vue'
 
 export default defineComponent({
     components: { 
@@ -48,15 +47,22 @@ export default defineComponent({
         personOutline,
         ribbonOutline,
         bagHandleOutline,
-        User,
-        setOpen,
-        home
       }
     },
     data(){
       return {
-        isOpenRef: true,
+        data: 'user',
       }
     },
+    methods: {
+      chenHref(){
+        this.$router.push({
+          path: '/pin',
+          query: {
+            query: 'user'
+          }
+        });
+      },
+    }
     })
 </script>

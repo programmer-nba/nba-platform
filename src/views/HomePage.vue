@@ -157,7 +157,7 @@ export default defineComponent({
     },
     data(){
       return {
-        user:null,
+        user: null,
         servicePage:CounterServicePage
 
       }
