@@ -11,7 +11,6 @@
                         {{ item.productid }}
                     </ion-col>
                 </ion-row>
-                test
             </ion-grid>
         </div>
     </ion-content>

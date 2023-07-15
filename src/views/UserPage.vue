@@ -30,7 +30,7 @@
                 <div style="display: flex; justify-content: center;">
                   <ion-button class="history-wallet" fill="clear">
                     <ion-icon :icon="timerOutline" style="font-size: 18px;"></ion-icon>
-                    <p style="font-size: 15px;">ประวัติเงินเข้า-ออก</p>
+                    <p style="font-size: 13px;">ประวัติเงินเข้า-ออก</p>
                   </ion-button>
                 </div>
           </ion-card>
@@ -57,19 +57,19 @@
       </ion-col>
         <ion-col>
           <ion-item>
-            <ion-label style="color: grey; font-size: 15px;">ตั้งค่า</ion-label>
+            <ion-label style="color: grey; font-size: 15px;"><p>ตั้งค่า</p></ion-label>
+          </ion-item>
+          <ion-item href="/user/genaral">
+            <ion-label><h3>ข้อมูลทั่วไป</h3></ion-label>
           </ion-item>
           <ion-item href="/tabs/user">
-            <ion-label>ข้อมูลทั่วไป</ion-label>
-          </ion-item>
-          <ion-item href="/tabs/user">
-            <ion-label>เข้าสู่ระบบและความปลอดภัย</ion-label>
+            <ion-label><h3>เข้าสู่ระบบและความปลอดภัย</h3></ion-label>
           </ion-item>
           <ion-item @click="chenHref()" button>
-            <ion-label>เปลี่ยนรหัสผ่าน</ion-label>
+            <ion-label><h3>เปลี่ยนรหัสผ่าน</h3></ion-label>
           </ion-item>
           <ion-item href="/tabs/user" :detail="false">
-            <ion-label style="color: red;">ออกจากระบบ</ion-label>
+            <ion-label style="color: red;"><h3>ออกจากระบบ</h3></ion-label>
           </ion-item>
         </ion-col>
       <ExploreContainer name="Tab 3 page" />

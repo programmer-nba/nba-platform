@@ -55,12 +55,12 @@ const routes: Array<RouteRecordRaw> = [
           {
             path:'',
             name:'TopupHome',
-            component: () => import('@/views/topup/HomeTopupView.vue')
+            component: () => import('@/views/mobiletopup/HomeTopupView.vue')
           },
           {
             path: '/detailtopup/:id',
             name: 'DetailTopup',
-            component: ()=> import('@/views/topup/DetailTopup.vue'),
+            component: ()=> import('@/views/mobiletopup/DetailTopup.vue'),
             props: true,
           },
         ]
@@ -74,7 +74,13 @@ const routes: Array<RouteRecordRaw> = [
             path:'',
             name:'CardTopupHome',
             component: () => import('@/views/cardtopup/HomeCardTopup.vue')
-          }
+          },
+          {
+            path: '/detailcardtopup/:id',
+            name: 'DetailCardTopup',
+            component: ()=> import('@/views/cardtopup/DetailCardTopup.vue'),
+            props: true,
+          },
         ]
       },
       {
@@ -158,8 +164,13 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: 'user',
         name: 'User',
-        component: () => import('@/views/UserPage.vue')
+        component: () => import('@/views/UserPage.vue'),
       },
+      {
+        path: '/user/genaral',
+        name: 'GenaralVies',
+        component: () => import('@/views/profile/GenaralView.vue')
+      }
     ]
   },
 ]

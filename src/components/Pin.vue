@@ -71,7 +71,7 @@
 
         </ion-col>
       </ion-row>
-      <ion-row style="padding-top: 10%;">
+      <ion-row style="padding-top: auto;">
         <ion-col>
           <ion-button size="large" fill="clear"  @click="handleInput('clear')">Clear</ion-button>
         </ion-col>
@@ -164,9 +164,19 @@ export default defineComponent({
                 path: 'user',
                 name: 'User',
               })
-            }else if (this.$route.query.query === 'confirm') {
+            }else if (this.$route.query.query === 'confirmtopup') {
               this.$router.push({
                 path: `/detailtopup/${this.$route.query.id}`,
+                query: {
+                  id: this.$route.query.id,
+                  mobile: this.$route.query.mobile,
+                  price: this.$route.query.price,
+                  data: 'confirmed'
+                }
+              });
+            }else if (this.$route.query.query === 'confirmcardtopup') {
+              this.$router.push({
+                path: `/detailcardtopup/${this.$route.query.id}`,
                 query: {
                   id: this.$route.query.id,
                   mobile: this.$route.query.mobile,

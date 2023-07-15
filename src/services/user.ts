@@ -2,6 +2,7 @@ import axios from 'axios'
 import {User} from '@/model/user.interface'
 import { AuthData } from '@/model/auth.interface'
 import { Topup } from '@/model/topup.interface'
+import { CardTopupService } from '@/model/cardtopup.interface'
 
 
 export class UserService{
@@ -10,6 +11,7 @@ export class UserService{
     context:any
     user:User | undefined
     topup:Topup | undefined
+    cardtopp:CardTopupService | undefined
     token:string | null = localStorage.getItem('token') 
 
     constructor(context?:any){
@@ -127,7 +129,7 @@ export class UserService{
             data = {message: 'successful',data:response.data}
         })
         .catch(error => {
-            data = {message: 'failed',error:error.message}
+            data = {message: 'failed',error:error.message , test:error.response.data}
         })
 
         return data;
@@ -149,6 +151,48 @@ export class UserService{
         })
         .catch(error => {
             data = {message: 'failed',error:error.message}
+        })
+
+        return data;
+    }
+
+     //Check mobile services
+     async checkCardTopupServices(CardTopupService:CardTopupService){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            data : CardTopupService,
+            url:`${this.baseUrl}/counter_service/card_topup/check`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message , test:error.response.data}
+        })
+
+        return data;
+    }
+
+     //Check mobile services
+     async ConfirmCardTopupServices(CardTopupService:CardTopupService){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            data : CardTopupService,
+            url:`${this.baseUrl}/counter_service/card_topup/confirm`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message , test:error.response.data}
         })
 
         return data;

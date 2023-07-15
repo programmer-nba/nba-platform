@@ -1,14 +1,25 @@
 <template>
     <ion-page>
         <!-- Aler data -->
-        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" sub-header="ข้อมูลไม่ครบถ้วน" message="กรุณากรอกข้อมูลให้ครบถ้วน"
+        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" message="กรุณากรอกข้อมูลให้ครบถ้วน"
             :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
         <!-- Aler Wallet -->
-        <ion-alert :is-open="isOpenWallet" header="แจ้งเตือน !" sub-header="เงินในประเป๋าไม่เพียงพอ" message="กรุณาตวรจสอบเงินในกระเป๋า"
+        <ion-alert :is-open="isOpenWallet" header="แจ้งเตือน !" :sub-header="!message ? error : message" :message="!message ? error_message : 'กรุณาตรวจสอบเงินในกระเป๋า'"
             :buttons="alertButtons" @didDismiss="OpenAlertWallet(false)"></ion-alert>
+        <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button  @click="$router.push('/tabs/cardtopup')">
+            <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+            </ion-button>
+            </ion-buttons>
+            <ion-row>
+                <div style="height: 45px;">
+                <ion-title>เติมเงิน</ion-title>
+                </div>
+            </ion-row>
+        </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
-            <ion-grid class="content">
-                <ion-row v-for="item in topup">
+                <ion-row v-for="item in cardtopup">
                     <ion-col style="text-align: center;">
                         <ion-img :src="`/images/counter_service/${item.productid}.png`"></ion-img>
                         <ion-text style=" font-size: 30px;">{{ item.productname }}</ion-text>
@@ -16,17 +27,19 @@
                     <ion-col size="12">
                         <h5>เลือกจำนวนเงิน (บาท)</h5>
                     </ion-col>
-                    <ion-row>
-                        <ion-col  size="4" v-for="(number, id) in item.price.split(',')" :key="id">
-                            <ion-button  fill="outline" @click="AddPrice(number)" :value="id"> {{ number }}</ion-button>
-                        </ion-col>
-                    </ion-row>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col  size="4" size-md="2" size-lg="2" v-for="(number, id) in item.price.split(',')" :key="id"> 
+                                <ion-button class="btn-price" fill="outline" @click="AddPrice(number)" :value="id"> {{ number }}</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
                     <ion-col size="12">
                         <ion-input label="จำนวนเงินที่เติม" v-model="number_price" :value="number_price" :readonly="true">
                         </ion-input>
+                        <ion-input v-model="sent.mobile"  type="number"  placeholder="กรอกเบอร์โทรศัพท์"  onkeypress="if(this.value.length==10) return false;" :clear-input="true" ></ion-input>
                     </ion-col>
-                    <ion-col size="12">
-                        <ion-input v-model="sent.mobile"   placeholder="กรอกเบอร์โทรศัพท์" :clear-input="true" :maxlength="10"></ion-input>
+                    <ion-col >
                         <ion-button class="button-confrim" expand="block" @click="Send()">เติมเงิน</ion-button>
                         <ion-modal :is-open="isOpenConfrim" id="example-modal" ref="modal">
                             <ion-toolbar class="toolbar">
@@ -66,7 +79,6 @@
                         </ion-modal>
                     </ion-col>
                 </ion-row>
-            </ion-grid>
         </ion-content>
     </ion-page>
 </template>
@@ -95,9 +107,9 @@ import {
 } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { CounterService } from "../../services/counterservices";
-import { Topup } from '../../model/topup.interface';
+import { CardTopupService } from '../../model/cardtopup.interface';
 import { UserService } from "@/services/user";
-import { checkmarkCircleOutline } from 'ionicons/icons';
+import { checkmarkCircleOutline,chevronBackOutline } from 'ionicons/icons';
 
 export default defineComponent({
     setup() {
@@ -123,6 +135,7 @@ export default defineComponent({
             isOpenWallet,
             OpenAlertWallet,
             checkmarkCircleOutline,
+            chevronBackOutline,
         }
     },
     components: {
@@ -132,7 +145,7 @@ export default defineComponent({
     },
     data() {
         return {
-            topup: [] as Topup[],
+            cardtopup: [] as CardTopupService[],
             loading: false,
             test: null,
             sent: {
@@ -153,14 +166,16 @@ export default defineComponent({
             wellet: '',
             check_confirm: 'check',
             number_price: '',
+            price: '',
+            error: '',
+            message: '',
+            error_message: '',
+            sentmessage: '',
         }
     },
     async created() {
-        console.log('wellet',this.wellet)
-        console.log('price',this.number_price)
-        console.log(this.$route.query.data)
         if (this.$route.query.data === 'confirmed') {
-            await this.userservice.checkMobileServices(this.check).then((result: any) => {
+            await this.userservice.checkCardTopupServices(this.check).then((result: any) => {
                 console.log(result)
                 this.loading = false;
                 if (result.message === 'successful') {
@@ -170,39 +185,49 @@ export default defineComponent({
                     this.confirm.transid = result.data.transid;
                     this.isOpenConfrim = true;
                 } else if (result.message === 'failed') {
+                    this.error = result.error
+                    this.error_message = result.message
+                    this.message = result.test.message
                     console.log('result', result.data);
                     this.isOpenWallet = true;
                 }
             });
         }
-        await this.$router.isReady()
     },
     watch: {
         '$route.query.data': {
             handler: function (newQuery) {
                 location.reload();
             },
-            deep: true
-        }
+        },
     },
     methods: {
         async Send() {
-            if (this.sent.mobile != '' && this.number_price != '' && this.sent.productid != '') {
+            if (this.sent.mobile.length >= 10 && this.number_price != '' && this.sent.productid != '') {
+                console.log(this.sent.mobile)
                 this.$router.push({
                     path: `/pin`,
                     query: {
                         id: this.sent.productid,
                         mobile: this.sent.mobile,
                         price: this.number_price,
-                        query: 'confirm'
+                        query: 'confirmcardtopup'
                     }
                 });
-            } else {
+            } else if (this.sent.mobile.length <= 9 && this.number_price === '') {
+                this.sentmessage = 'กรอกราคาและเบอร์โทรศัพท์ ไม่ครบ'
+                this.isOpen = true;
+            } else if (this.sent.mobile.length <= 9) {
+                this.sentmessage = 'กรอกเบอร์โทรศัพท์ไม่ครบ'
+                console.log(this.sent.mobile.length)
+                this.isOpen = true;
+            } else if (this.number_price === '') {
+                this.sentmessage = 'โปรดเลือกราคาที่ต้องการเติม'
                 this.isOpen = true;
             }
         },
         async Confirm() {
-            await this.userservice.ConfirmMobileServices(this.confirm).then((result: any) => {
+            await this.userservice.ConfirmCardTopupServices(this.confirm).then((result: any) => {
                 console.log(result)
                 if (result.message === 'successful') {
                     console.log('result', result.data);
@@ -219,7 +244,7 @@ export default defineComponent({
         async Close(isOpenConfrim: boolean) {
             this.isOpenConfrim = isOpenConfrim;
             this.$router.push({
-                    path: `/detailtopup/${this.$route.query.id}`,
+                    path: `/detailcardtopup/${this.$route.query.id}`,
                 });
         },
         AddPrice(number: string){ 
@@ -228,12 +253,11 @@ export default defineComponent({
         }
     },
     async mounted() {
-        await this.counterservices.getMobileServices().then((result: any) => {
-            console.log(result);
+        await this.counterservices.getCardTopupServices().then((result: any) => {
             this.loading = false;
             if (result.status === true) {
-                this.topup = result.data.filter((el: any) => el.productid == this.$route.params.id)
-                console.log(this.topup)
+                this.cardtopup = result.data.filter((el: any) => el.productid == this.$route.params.id);
+                console.log(this.cardtopup)
                 this.loading = true;
             }
         })
@@ -242,6 +266,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
+ion-toolbar{
+  --background: rgb(255,1,162);
+  --color: white;
+  --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%)  !important;
+  }
 ion-img {
     --text-align: center;
     width: 70%;
@@ -288,6 +317,9 @@ ion-modal#example-modal ion-icon {
 }
 .card-check{
     margin: auto;
+}
+.btn-price{
+    width: 90px;
 }
 .btn-check{
     width: 120px;

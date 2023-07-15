@@ -1,20 +1,20 @@
 <template>
-    <ion-page>
+    <ion-page> 
 
-    
     <ion-content :fullscreen="true">
         <div class="container" style="margin-bottom: 3rem;">
             <ion-grid>
                 <ion-row>
-                    <ion-col v-for="(item,index) in services" :key="index" size="4">
-                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"/>
-                        {{ item.productid }}
+                    <ion-col v-for="(item,index) in services" :key="index" size="4" style="text-align: center;">
+                        <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"  @click="$router.push(`/detailcardtopup/${item.productid}`)"/>
+                        {{ item.productname}}
                     </ion-col>
                 </ion-row>
              
             </ion-grid>
         </div>
     </ion-content>
+
 </ion-page>
 </template>
 
@@ -41,7 +41,6 @@ export default defineComponent({
     data(){
         return {
             services:[] as CardTopupService[],
-            loading:false
         }
     },
     async mounted(){
