@@ -25,7 +25,7 @@
                   <div style="display: flex; justify-content: center;">
                   <ion-icon class="icon-wallet" :icon="wallet" slot="start"></ion-icon>
                   <ion-label class="number-wallet"><h1><strong>{{ walletMonney }}</strong></h1></ion-label>
-                  <ion-button href="/tabs/wallet/" class="btn-wallet"><ion-icon :icon="add" style="font-size: 17px;"></ion-icon></ion-button>
+                  <ion-button href="/wallet/topupwallet" class="btn-wallet"><ion-icon :icon="add" style="font-size: 17px;"></ion-icon></ion-button>
                 </div>
                 <div style="display: flex; justify-content: center;">
                   <ion-button class="history-wallet" fill="clear">

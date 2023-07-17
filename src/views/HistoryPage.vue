@@ -167,9 +167,6 @@ ion-toolbar{
     color: rgba(117,9,121,1);
   }
 
-  ion-segment-button.ios::part(indicator-background) {
-    border-radius: 20px;
-  }
   .block {
     width: 100%;
     height: 300px;

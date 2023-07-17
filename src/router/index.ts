@@ -160,7 +160,6 @@ const routes: Array<RouteRecordRaw> = [
         name:'History',
         component: () => import('@/views/HistoryPage.vue')
       },
-
       {
         path: 'user',
         name: 'User',
@@ -170,6 +169,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/user/genaral',
         name: 'GenaralVies',
         component: () => import('@/views/profile/GenaralView.vue')
+      },
+      {
+        path: '/wallet/topupwallet',
+        name: 'TopupWallet',
+        component: () => import('@/views/topup/TopupWallet.vue')
       }
     ]
   },

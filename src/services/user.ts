@@ -5,6 +5,7 @@ import { Topup } from '@/model/topup.interface'
 import { CardTopupService } from '@/model/cardtopup.interface'
 
 
+
 export class UserService{
 
     baseUrl:string = import.meta.env.VITE_APP_API;
@@ -187,6 +188,27 @@ export class UserService{
             },
             data : CardTopupService,
             url:`${this.baseUrl}/counter_service/card_topup/confirm`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message , test:error.response.data}
+        })
+
+        return data;
+    }
+
+      //Post Topup services
+      async PostTopupServices(Formdata = new FormData){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            url:`${this.baseUrl}/wallet`,
+            data : Formdata,
         }
         await axios(request).then(response=>{
             data = {message: 'successful',data:response.data}
