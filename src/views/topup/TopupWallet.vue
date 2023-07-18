@@ -46,9 +46,9 @@
               </ion-item>
               <ion-item lines="none" v-if="image_preview === null">
                 <ion-icon class="icon-attach" :icon="attachOutline"></ion-icon>
-                <ion-input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"
-                  placeholder="Enter text"></ion-input> 
+                <ion-input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"></ion-input>
               </ion-item>
+              
               <!-- Alert Confrime -->
               <ion-modal :is-open="isOpenAlert" id="example-modal" ref="modal">
                 <div style="text-align: center;">
@@ -74,7 +74,7 @@
                 </ion-col>
                 <ion-col>
                   <ion-button @click="confirm()" class="btn-confirm">
-                    ยืนยัน {{ handlerMessage }}
+                    ยืนยัน
                   </ion-button>
                 </ion-col>
               </ion-row>
@@ -146,7 +146,6 @@ export default defineComponent({
       amount: '',
       sentmessage: '',
       error: '',
-      handlerMessage: '',
       test: true,
     }
   },
@@ -163,12 +162,6 @@ export default defineComponent({
         this.isOpenImgae = true;
         this.sentmessage = 'รูปภาพที่แนบจะต้องเป็นไฟล์นามสกุล .jpg .png เท่านั้น';
         this.error = 'กรุณากรอกข้อมูลให้ถูกต้อง';
-        this.$swal({
-          icon: "warning",
-          title: "แจ้งเตือน",
-          text: "รูปภาพที่แนบจะต้องเป็นไฟล์นามสกุล .jpg .png เท่านั้น",
-          confirmButtonText: "เข้าใจแล้ว",
-        });
         this.clearImage();
         return false;
       }
@@ -211,9 +204,10 @@ export default defineComponent({
 </script>
  
 <style scoped>
-.custom-file-input{
+.custom-file-input {
   --padding-top: 10px !important;
 }
+
 .toolbar {
   --background: rgb(255, 1, 162);
   --color: white;

@@ -28,7 +28,7 @@
                   <ion-button href="/wallet/topupwallet" class="btn-wallet"><ion-icon :icon="add" style="font-size: 17px;"></ion-icon></ion-button>
                 </div>
                 <div style="display: flex; justify-content: center;">
-                  <ion-button class="history-wallet" fill="clear">
+                  <ion-button class="history-wallet" fill="clear" href="/wallet/historywallet">
                     <ion-icon :icon="timerOutline" style="font-size: 18px;"></ion-icon>
                     <p style="font-size: 13px;">ประวัติเงินเข้า-ออก</p>
                   </ion-button>
@@ -72,7 +72,6 @@
             <ion-label style="color: red;"><h3>ออกจากระบบ</h3></ion-label>
           </ion-item>
         </ion-col>
-      <ExploreContainer name="Tab 3 page" />
     </ion-content>
   </ion-page>
 </template>
@@ -82,7 +81,6 @@
 import {   timerOutline, wallet, add  } from 'ionicons/icons';
 import { UserService } from "@/services/user";
 import  CounterServicePage  from "@/views/CounterServicePage.vue";
-import ExploreContainer from '@/components/ExploreContainer.vue';
 import { 
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent ,
   IonCol, IonGrid, IonRow , IonInput, IonAvatar, IonSearchbar ,
@@ -120,6 +118,13 @@ export default defineComponent({
         servicePage:CounterServicePage,
         walletMonney: '',
       }
+    },
+    watch: {
+        '$route.query.data': {
+            handler: function (newQuery) {
+                location.reload();
+            },
+        },
     },
     methods: {
       chenHref(){

@@ -71,7 +71,7 @@
                           </div>
                   </ion-toolbar>
 
-                    <ion-img :src="user?.iden.image"></ion-img>
+                    <ion-img :src="getImage(user?.iden.image)"></ion-img>
                     <ion-toolbar>
                     <ion-buttons slot="end">
                       <ion-button @click="dismiss()">ปิด</ion-button>
@@ -109,7 +109,7 @@
                           </div>
                   </ion-toolbar>
 
-                    <ion-img :src="user?.bank.image"></ion-img>
+                    <ion-img :src="getImage(user?.bank.image)"></ion-img>
                     <ion-toolbar>
                     <ion-buttons slot="end">
                       <ion-button @click="dismissBank()">ปิด</ion-button>
@@ -182,6 +182,9 @@ export default defineComponent({
         dismiss() {
           this.$refs.modal.$el.dismiss();
         },
+        getImage(item){
+        return "https://drive.google.com/uc?export=view&id=" + item;
+      }
       },
           //get me 
         async mounted(){
@@ -191,7 +194,7 @@ export default defineComponent({
             this.user = result.data;
         }
         })
-      }
+      },
     });
     
 </script>

@@ -1,8 +1,6 @@
 import axios from 'axios'
 import {User} from '@/model/user.interface'
 import { AuthData } from '@/model/auth.interface'
-import { Topup } from '@/model/topup.interface'
-import { CardTopupService } from '@/model/cardtopup.interface'
 
 
 
@@ -11,8 +9,6 @@ export class UserService{
     baseUrl:string = import.meta.env.VITE_APP_API;
     context:any
     user:User | undefined
-    topup:Topup | undefined
-    cardtopp:CardTopupService | undefined
     token:string | null = localStorage.getItem('token') 
 
     constructor(context?:any){
@@ -116,7 +112,7 @@ export class UserService{
     };
 
     //Check mobile services
-     async checkMobileServices(Topup:Topup){
+     async checkMobileServices( Topup : String ){
         let data = null;
         const request = {
             method:'post',
@@ -137,7 +133,7 @@ export class UserService{
     }
 
     //Confirm mobile services
-    async ConfirmMobileServices(Topup:Topup){
+    async ConfirmMobileServices( Topup : String ){
         let data = null;
         const request = {
             method:'post',
@@ -158,7 +154,7 @@ export class UserService{
     }
 
      //Check mobile services
-     async checkCardTopupServices(CardTopupService:CardTopupService){
+     async checkCardTopupServices( CardTopupService : String ){
         let data = null;
         const request = {
             method:'post',
@@ -178,8 +174,8 @@ export class UserService{
         return data;
     }
 
-     //Check mobile services
-     async ConfirmCardTopupServices(CardTopupService:CardTopupService){
+     //Confirm mobile services
+     async ConfirmCardTopupServices( CardTopupService : String ){
         let data = null;
         const request = {
             method:'post',
@@ -219,5 +215,115 @@ export class UserService{
 
         return data;
     }
+
+     //Post NBA Services
+     async PostNBAServices( NBA = new FormData){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            url:`${this.baseUrl}/counter_service/nba_service/create-preorder`,
+            data : NBA,
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message , test:error.response.data}
+        })
+
+        return data;
+    }
+
+    //Request History Wallet
+    public async GetHistoryWallet(){
+
+        let responseData = null;
+
+        const request = {
+            method:'get',
+            url: `${this.baseUrl}/wallet/history/in-out`,
+            headers:{
+                token : this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData=response.data;
+        })
+        .catch(error=>{
+            responseData = error
+        })
+
+        return responseData;
+    };
+
+    //Request Report Wallet
+    public async GetReprtWallet(){
+
+        let responseData = null;
+
+        const request = {
+            method:'get',
+            url: `${this.baseUrl}/wallet`,
+            headers:{
+                token : this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData=response.data;
+        })
+        .catch(error=>{
+            responseData = error
+        })
+
+        return responseData;
+    };
+
+     //Check mobile services
+     async CheckWalletServices( Wallet : String ){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            data : Wallet,
+            url:`${this.baseUrl}/counter_service/wallet/check`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message , test:error.response.data}
+        })
+
+        return data;
+    }
+
+    //Confirme mobile services
+    async ConfirmekWalletServices( Wallet : String ){
+        let data = null;
+        const request = {
+            method:'post',
+            headers:{
+                token : this.token
+            },
+            data : Wallet,
+            url:`${this.baseUrl}/counter_service/wallet/confirm`
+        }
+        await axios(request).then(response=>{
+            data = {message: 'successful',data:response.data}
+        })
+        .catch(error => {
+            data = {message: 'failed',error:error.message , test:error.response.data}
+        })
+
+        return data;
+    }
+
 }
 

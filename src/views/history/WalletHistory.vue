@@ -10,17 +10,17 @@
             />
     </ion-item>
 
-    <ion-list v-if="date_item.length !== 0"  id="open-custom-dialog-wallet">
-        <ion-item button :detail="false" v-for="item in date_item" @click="openDailog(item._id,item.detail,item.amount,item.vat,item.total,item.createdAt,item.type)">
+    <ion-list v-if="date_item.length !== 0"  id="open-custom-dialog">
+        <ion-item button :detail="false" v-for="item in date_item" @click="openDailog(item._id,item.detail)">
             <ion-label>
                 <h3>{{ item.name }}</h3>
-                <p>{{ item.timestamp}}</p>
+                <p>{{ datetimeFormat(item.timestamp)}}</p>
             </ion-label>
                 <p slot="end" :class="(item.type === 'เข้า' ? 'text-green' : 'text-red')"> 
-                {{ (item.type === 'เข้า' ? '+' : '-') }} {{ item.total }}</p>
+                {{ (item.type === 'เข้า' ? '+' : '-') }} {{ item.amount }}</p>
                
         </ion-item>
-        <ion-modal  id="example-modal" ref="modal" trigger="open-custom-dialog-wallet" >
+        <ion-modal  id="example-modal" ref="modal" trigger="open-custom-dialog" >
                 <div class="wrapper">
                         <ion-toolbar class="toolbar">
                            <h4>รายละเอียด</h4>
@@ -29,17 +29,7 @@
                             </ion-button>
                         </ion-toolbar>
                         <div class="detail">
-                            <ion-item>
-                                {{ detail }}
-                            </ion-item>
-                            <ion-item v-if="type ==='เข้า'">
-                                <p style="font-size: 14px;">
-                                    <ion-text style="font-weight: bold;">ยอดเต็มที่ได้รับ :</ion-text> {{ numberDigitFormat(amount) }}<br/>
-                                    <ion-text style="font-weight: bold;">หัก ณ ที่จ่าย :</ion-text> {{ numberDigitFormat(vat) }}<br/>
-                                    <ion-text style="font-weight: bold;">ยอดสุทธิที่ได้รับ :</ion-text> {{ numberDigitFormat(total) }}
-                                </p>
-                            </ion-item>
-                            <p displayFormat="MMMM YY"><small><em><strong>วันเวลา :</strong>{{ datetimeFormat(createdAt) }}</em></small></p>
+                            {{ detail }}
                         </div>
                     </div>
                 </ion-modal>
@@ -75,9 +65,8 @@ import {
  } from '@ionic/vue';
  import dayjs from 'dayjs'
  import { UserService } from "@/services/user";
- import { Historyservice } from "@/model/history.interface";
-import { defineComponent , ref } from 'vue';
-import {  listOutline, close, search, } from 'ionicons/icons';
+import { defineComponent  } from 'vue';
+import {  listOutline, close } from 'ionicons/icons';
 
 export default defineComponent({
     setup(){
@@ -96,32 +85,23 @@ export default defineComponent({
     data(){
         return {
             loading:false,
-            history:[] as Historyservice[],
+            history:[] ,
             amount: null,
             dialog: false,
             id_dialog : null,
             id:null,
             detail: null,
-            vat: null,
             date_item: [],
-            total: null,
-            createdAt: null,
-            type: null,
             date: dayjs(Date.now()).format('YYYY-MM'),
         }
     },
     methods : {
         chooseDate(){
-            this.date_item = this.history.filter((el)=>dayjs(el.createdAt).format('YYYY-MM') === dayjs(this.date).format('YYYY-MM'));
+            this.date_item = this.history.filter((el)=>dayjs(el.timestamp).format('YYYY-MM') === dayjs(this.date).format('YYYY-MM'));
         },
-        openDailog(_id,detail,amount,vat,total,createdAt,type){
+        openDailog(_id,detail){
             this.id = _id;
             this.detail = detail;
-            this.amount = amount;
-            this.vat = vat;
-            this.total = total;
-            this.createdAt = createdAt;
-            this.type = type;
         },
         dismiss() {
             this.$refs.modal.$el.dismiss();
@@ -138,7 +118,7 @@ export default defineComponent({
     },
     async mounted(){
         //Get History 
-      await this.userservice.GetHistory().then((result:any | null)=>{
+      await this.userservice.GetHistoryWallet().then((result:any | null)=>{
         console.log(result);
           this.history = result.data.reverse();
           this.chooseDate();

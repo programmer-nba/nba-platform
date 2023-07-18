@@ -35,7 +35,6 @@
                   <RequesWithraw/>
                 </h3>
             </div>
-      <ExploreContainer name="Tab 2 page" />
     </ion-content>
   </ion-page>
 </template>
@@ -48,7 +47,6 @@ import {
   } from '@ionic/vue';
 import RequesWithraw from '@/views/withdraw/RequestWithdraw.vue';
 import MoneyHistory from '@/views/history/MoneyHistory.vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
 import { UserService } from "@/services/user";
 import { defineComponent, ref   } from 'vue';
 import {  listOutline, timerOutline } from 'ionicons/icons';
@@ -102,7 +100,6 @@ export default defineComponent({
           history:null,
           user:null,
           allsale:null,
-          servicePage:ExploreContainer
         }
       },
       async mounted(){

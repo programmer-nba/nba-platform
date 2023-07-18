@@ -9,14 +9,14 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/login'
   },
   {
-    path:'/login',
+    path: '/login',
     name: 'Login',
-    component: ()=> import('@/views/LoginPage.vue')
+    component: () => import('@/views/LoginPage.vue')
   },
   {
     path: '/pin',
     name: 'Pin',
-    component: ()=> import('@/components/Pin.vue')
+    component: () => import('@/components/Pin.vue')
   },
   {
     path: '/tabs/',
@@ -31,133 +31,143 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/HomePage.vue')
       },
       {
-        path:'services',
-        name:'Services',
-        component: ()=> import('@/views/CounterServicePage.vue'),
-        children:[
+        path: 'services',
+        name: 'Services',
+        component: () => import('@/views/CounterServicePage.vue'),
+        children: [
           {
-            path:'',
-            name:'ServicesHome',
-            component: ()=> import('@/views/counterservices/HomeView.vue'),
+            path: '',
+            name: 'ServicesHome',
+            component: () => import('@/views/counterservices/HomeView.vue'),
           },
           {
             path: '/detailservices/:id',
             name: 'DetailServices',
-            component: ()=> import('@/views/counterservices/DetailServices.vue')
+            component: () => import('@/views/counterservices/DetailServices.vue')
           },
         ]
       },
       {
-        path:'topups',
-        name:'Topups',
+        path: 'topups',
+        name: 'Topups',
         component: () => import('@/views/TopupView.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'TopupHome',
+            path: '',
+            name: 'TopupHome',
             component: () => import('@/views/mobiletopup/HomeTopupView.vue')
           },
           {
             path: '/detailtopup/:id',
             name: 'DetailTopup',
-            component: ()=> import('@/views/mobiletopup/DetailTopup.vue'),
+            component: () => import('@/views/mobiletopup/DetailTopup.vue'),
             props: true,
           },
         ]
       },
       {
-        path:'cardtopup',
-        name:'Cardtopup',
+        path: 'cardtopup',
+        name: 'Cardtopup',
         component: () => import('@/views/CardTopupPage.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'CardTopupHome',
+            path: '',
+            name: 'CardTopupHome',
             component: () => import('@/views/cardtopup/HomeCardTopup.vue')
           },
           {
             path: '/detailcardtopup/:id',
             name: 'DetailCardTopup',
-            component: ()=> import('@/views/cardtopup/DetailCardTopup.vue'),
+            component: () => import('@/views/cardtopup/DetailCardTopup.vue'),
             props: true,
           },
         ]
       },
       {
-        path:'proserm',
-        name:'Proserm',
+        path: 'proserm',
+        name: 'Proserm',
         component: () => import('@/views/ProsermPage.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'ProsermHome',
+            path: '',
+            name: 'ProsermHome',
             component: () => import('@/views/prosermservices/HomeProserm.vue')
           },
         ]
       },
       {
-        path:'detailproserm',
-        name:'Detailproserm',
+        path: 'detailproserm',
+        name: 'Detailproserm',
         component: () => import('@/views/prosermservices/HomeProserm.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'ProsermDetail',
+            path: '',
+            name: 'ProsermDetail',
             component: () => import('@/views/prosermservices/DetailProserm.vue')
           },
         ]
       },
       {
-        path:'keyservice',
-        name:'Keyservice',
+        path: 'keyservice',
+        name: 'Keyservice',
         component: () => import('@/views/KeyservicePage.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'KeyserviceHome',
+            path: '',
+            name: 'KeyserviceHome',
             component: () => import('@/views/keyservice/HomeKeyservice.vue')
           }
         ]
       },
       {
-        path:'wallet',
-        name:'Wallet',
+        path: 'wallet',
+        name: 'Wallet',
         component: () => import('@/views/WalletPage.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'WalletServiceHome',
+            path: '',
+            name: 'WalletServiceHome',
             component: () => import('@/views/wallet/HomeWallet.vue')
+          },
+          {
+            path: '/detailwallet/:id',
+            name: 'DetailWalletHome',
+            component: () => import('@/views/wallet/DetailWallet.vue')
           },
         ]
       },
       {
-        path:'cash',
-        name:'Cash',
+        path: 'cash',
+        name: 'Cash',
         component: () => import('@/views/CashPage.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'CashServiceHome',
+            path: '',
+            name: 'CashServiceHome',
             component: () => import('@/views/cash/HomeCash.vue')
           },
         ]
       },
       {
-        path:'nbaservices',
-        name:'Nbaservices',
+        path: 'nbaservices',
+        name: 'Nbaservices',
         component: () => import('@/views/NBAservicePage.vue'),
-        children:[
+        children: [
           {
-            path:'',
-            name:'NbaservicesHome',
-            component: () => import('@/views/nbaservices/HomeNbaserviceView.vue')
-        }
+            path: '',
+            name: 'NbaservicesHome',
+            component: () => import('@/views/nbaservices/HomeNBAserviceView.vue')
+          },
+          {
+            path: '/nbaservices/:id',
+            name: 'DetailNBAservices',
+            component: () => import('@/views/nbaservices/DetailNBAservices.vue')
+          }
         ]
       },
       {
         path: 'history',
-        name:'History',
+        name: 'History',
         component: () => import('@/views/HistoryPage.vue')
       },
       {
@@ -174,6 +184,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/wallet/topupwallet',
         name: 'TopupWallet',
         component: () => import('@/views/topup/TopupWallet.vue')
+      },
+      {
+        path: '/wallet/historywallet',
+        name: 'HistoryWallet',
+        component: () => import('@/views/topup/HistoryWallet.vue')
       }
     ]
   },
@@ -184,31 +199,31 @@ const router = createRouter({
   routes
 })
 
-router.beforeResolve(async (to,from,next)=>{
+router.beforeResolve(async (to, from, next) => {
 
   const auth = await Authorize();
 
-  if(to.name !== 'Login' && !auth){
-    next({name: 'Login'})
-  }else if(auth){
+  if (to.name !== 'Login' && !auth) {
+    next({ name: 'Login' })
+  } else if (auth) {
     next();
-  }else{
-    next({name:'Login'})
+  } else {
+    next({ name: 'Login' })
   }
 })
 
 export default router
 
-const Authorize = async () =>{
+const Authorize = async () => {
   console.log('authrize process');
-  let authorize=false;
+  let authorize = false;
   const userservice = new UserService();
-  await userservice.GetMe().then((user:any)=>{
-    if(user){
-      authorize=true;
-   
-    }else{
-      authorize=false
+  await userservice.GetMe().then((user: any) => {
+    if (user) {
+      authorize = true;
+
+    } else {
+      authorize = false
     }
   })
   return authorize;

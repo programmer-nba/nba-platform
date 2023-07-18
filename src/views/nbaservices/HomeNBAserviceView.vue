@@ -7,7 +7,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col v-for="(item,index) in services" :key="index" size="6">
-                        <ion-img class="service" alt="shoping" :src="`https://promotions.co.th/wp-content/uploads/2019/03/06.jpg`"/>
+                        <ion-img class="service" alt="shoping" :src="`https://promotions.co.th/wp-content/uploads/2019/03/06.jpg`" @click="$router.push(`/nbaservices/${item._id}`)"/>
                         <div style="padding:1rem; text-align: center;">
 
                             <ion-text>{{ item.productname }}</ion-text>
