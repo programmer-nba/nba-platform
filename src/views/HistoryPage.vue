@@ -11,7 +11,7 @@
       <div class="commission">
           <p style="font-size: 13px; color: rgba(117,9,121,1);" >คอมมิชชั่นสะสม
           <div class="commission-number" ><ion-text style="font-size: 13px;">฿</ion-text> {{ allsale }} {{ time }}</div>
-          <ion-button size="small" class="button-out">ถอนเงินรายได้</ion-button>
+          <ion-button size="small" class="button-out" href="/withdrawcommission">ถอนเงินรายได้</ion-button>
         </p>
         </div>
             <div style="padding-left: 3%; padding-right: 3%; padding-top: 3%;">

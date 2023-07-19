@@ -112,7 +112,7 @@
               <p>ตรวจสอบข้อมูลถูกต้องและครบถ้วน ยันยืนการฝากจ่าย {{ productname }} ยอดชำระ {{ price.toLocaleString() }} บาท?</p>
           </ion-col>
           <ion-col>
-            <ion-button class="btn" fill="clear" @click="confirmcheck = false">
+            <ion-button class="btn" fill="outline" @click="confirmcheck = false">
               ยกเลิก
             </ion-button>
           </ion-col>

@@ -150,8 +150,8 @@ export default defineComponent({
         this.pin = '';
         if (this.$route.query.query === 'password') {
           this.$router.push({
-            path: 'history',
-            name: 'History',
+            path: '/user/changpassword',
+            name: 'ChangPassword',
           })
         } else if (this.$route.query.query === 'user') {
           this.$router.push({

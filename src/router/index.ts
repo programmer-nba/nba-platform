@@ -177,8 +177,23 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/user/genaral',
-        name: 'GenaralVies',
+        name: 'GenaralViews',
         component: () => import('@/views/profile/GenaralView.vue')
+      },
+      {
+        path: '/user/withdraw/history',
+        name: 'HistoryCimmisionViews',
+        component: () => import('@/views/profile/HistoryCommisions.vue')
+      },
+      {
+        path: '/user/security',
+        name: 'SecuritylViews',
+        component: () => import('@/views/profile/SecurityView.vue')
+      },
+      {
+        path: '/user/changpassword',
+        name: 'ChangPassword',
+        component: () => import('@/views/profile/ChangPassword.vue')
       },
       {
         path: '/wallet/topupwallet',
@@ -189,6 +204,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/wallet/historywallet',
         name: 'HistoryWallet',
         component: () => import('@/views/topup/HistoryWallet.vue')
+      },
+      {
+        path: '/withdrawcommission',
+        name: 'WithdrawCommission',
+        component: () => import('@/views/WithdrawCommission.vue')
       }
     ]
   },
