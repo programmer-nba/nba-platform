@@ -6,8 +6,14 @@
 }
 .container {
     padding: 1rem;
-    
 }
+ion-content {
+    --background: url('/images/background.jpg') 0 0/100% 100% no-repeat;
+    --color: #fff;
+    justify-content: center;
+    align-items: center;
+  }
+  
 ion-input{
     color: #222222 !important; 
     text-align: left !important;

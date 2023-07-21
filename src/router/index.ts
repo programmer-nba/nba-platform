@@ -31,6 +31,23 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/HomePage.vue')
       },
       {
+        path: 'artwork',
+        name: 'ArtWork',
+        component: () => import('@/views/ArtWorkPage.vue'),
+        children: [
+          {
+            path: '',
+            name: 'ArtWorkHome',
+            component: () => import('@/views/artwork/HomeArtWork.vue'),
+          },
+          {
+            path: '/artwork/:id',
+            name: 'Detailartwork',
+            component: () => import('@/views/artwork/DetialArtWork.vue')
+          },
+        ]
+      },
+      {
         path: 'services',
         name: 'Services',
         component: () => import('@/views/CounterServicePage.vue'),

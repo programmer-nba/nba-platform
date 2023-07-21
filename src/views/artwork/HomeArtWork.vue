@@ -6,10 +6,10 @@
             <div class="container" style="margin-bottom: 3rem;">
                 <ion-grid>
                     <ion-row>
-                        <ion-col v-for="(item, index) in services" :key="index" size="4" style="text-align: center;">
-                            <ion-img class="service" alt="shoping" :src="`/images/counter_service/${item.productid}.png`"
-                                @click="$router.push(`/detailwallet/${item.productid}`)" />
-                            {{ item.productname }}
+                        <ion-col v-for="(item, index) in services" :key="index" size="4">
+                            <ion-img class="service" alt="shoping" :src="getImage(item.img_url)"
+                                @click="$router.push(`/artwork/${item._id}`)" />
+                            {{ item.name }}
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -26,23 +26,27 @@ import {
     IonRow,
     IonCol,
     IonImg,
-    loadingController
+    loadingController,
+    IonButton
 } from '@ionic/vue';
-import { CounterService } from "../../services/counterservices";
-import { WalletService } from "../../model/wallet.interface";
-
+import { UserService } from "../../services/user";
 import { defineComponent } from 'vue';
 
 export default defineComponent({
     setup() {
-        const counterService = new CounterService(null);
-        return { counterService }
+        const userservice = new UserService(null);
+        return { userservice }
     },
-    components: { IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg },
+    components: { IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonButton },
     data() {
         return {
-            services: [] as WalletService[],
-            loading: false
+            services: [],
+            loading: false,
+        }
+    },
+    methods: {
+        getImage(item) {
+            return "https://drive.google.com/uc?export=view&id=" + item;
         }
     },
     async mounted() {
@@ -51,12 +55,13 @@ export default defineComponent({
             message: 'กำลังโหลดข้อมูล....'
         }).then(a => {
             a.present().then(() => {
-                this.counterService.getWalletServices().then((result: any) => {
+                this.userservice.GetArtWork().then((result: any | null) => {
                     console.log(result);
                     if (result.status === true) {
                         this.loading = false
                         this.services = result.data;
-                    } if (!this.loading) {
+                    }
+                    if (!this.loading) {
                         a.dismiss().then(() => console.log());
                     }
                 })

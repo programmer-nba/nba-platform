@@ -40,10 +40,10 @@
       </ion-col>
       <ion-col>
         <div class="commission">
-          <p style="font-size: 14px; color: rgba(117,9,121,1);">คอมมิชชั่นสะสม
+          <p style="font-size: 14px; ">คอมมิชชั่นสะสม
           <div class="commission-number" value="0.00"><ion-text style="font-size: 13px;">฿</ion-text> {{ allsale }}</div>
           <ion-button size="small" class="button-out" href="/withdrawcommission">ถอนรายได้</ion-button>
-          <ion-button size="small" fill="clear" href="/user/withdraw/history">
+          <ion-button size="small" fill="clear" href="/user/withdraw/history" style="color: white;">
             <ion-icon :icon="timerOutline"></ion-icon>
             ประวัติ
           </ion-button>
@@ -60,8 +60,8 @@
       </ion-col>
       <ion-col>
         <ion-item>
-          <ion-label style="color: grey; font-size: 15px;">
-            <p>ตั้งค่า</p>
+          <ion-label style="color: rgb(211, 211, 211); font-size: 15px;">
+           <ion-text> ตั้งค่า</ion-text>
           </ion-label>
         </ion-item>
         <ion-item href="/user/genaral">
@@ -115,7 +115,7 @@ import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonCol, IonGrid, IonRow, IonInput, IonAvatar, IonSearchbar,
   IonProgressBar, IonImg, IonNav, IonText, IonIcon, IonButton,
-  IonItem, IonItemGroup, IonLabel, IonNavLink, IonModal, IonButtons, IonCard
+  IonItem, IonItemGroup, IonLabel, IonNavLink, IonModal, IonButtons, IonCard,loadingController
 
 } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
@@ -179,27 +179,37 @@ export default defineComponent({
     async ConfirmeLogout() {
       await this.userservice.Logout(null).then((result: any) => {
         console.log(result)
-        if (result.message === 'Login successful') {
+        if (result.message === 'Logout successful') {
           this.isOpen = false
           console.log('result', result.data);
           window.location.href = this.baseUrl;
-        } else if (result.message === 'Login failed') {
+        } else if (result.message === 'Logout failed') {
           console.log('result', result.data);
         }
       });
     },
   },
   async mounted() {
+    this.loading = true;
+        loadingController.create({
+            message: 'กำลังโหลดข้อมูล....'
+        }).then(a => {
+            a.present().then(() => {
     //get me 
-    await this.userservice.GetMe().then((result: any | null) => {
+     this.userservice.GetMe().then((result: any | null) => {
       console.log(result);
       console.log(this.isOpenRef);
       if (result.status === true) {
         this.user = result.data;
+        this.loading = false
         this.allsale = result.data.allsale.toFixed(2);
         this.walletMonney = result.data.wallet.toFixed(2);
-      }
+      }if (!this.loading) {
+                        a.dismiss().then(() => console.log());
+                    }
     })
+  });
+        });
   }
 })
 </script>
@@ -224,7 +234,6 @@ ion-toolbar {
 }
 
 h4 {
-  color: rgba(117, 9, 121, 1);
   font-weight: bold;
   text-align: center;
 }
@@ -232,7 +241,6 @@ h4 {
 .commission-number {
   font-size: 17px;
   font-weight: bold;
-  color: rgba(117, 9, 121, 1);
   padding: 2%;
 }
 
@@ -240,7 +248,7 @@ h4 {
   margin-left: 5%;
   margin-right: 5%;
   padding: 0%;
-  border: 1px solid rgba(117, 9, 121, 1) !important;
+  border: 1px solid rgb(255, 255, 255) !important;
   border-radius: 5px;
   text-align: center;
 }
@@ -267,6 +275,10 @@ h4 {
 .button-out {
   margin-right: 3%;
   --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
+}
+ion-item::part(native) {
+  background: #00000000;
+  color: #fff;
 }
 
 .card-wallet {

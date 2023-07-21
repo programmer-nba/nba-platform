@@ -33,27 +33,27 @@
 
             <ion-modal :is-open="isOpen" id="example-modal" ref="modal">
                 <div style="text-align: center;" v-if="check === 'check'">
-                <ion-icon :icon="alertCircleOutline"></ion-icon>
-                <h1><strong>ยืนยัน</strong></h1>
-                <p>ยืนยันส่งคำถอนค่าคอมมิชั่นจำนวน {{ amount }} บาท ?</p>
-                <ion-row>
-                    <ion-col>
-                        <ion-button fill="outline" @click="Close(false)">ยกเลิก</ion-button>
-                    </ion-col>
-                    <ion-col>
-                        <ion-button @click="Confirm()">ยืนยัน</ion-button>
-                    </ion-col>
-                </ion-row>
+                    <ion-icon :icon="alertCircleOutline"></ion-icon>
+                    <h1><strong>ยืนยัน</strong></h1>
+                    <p>ยืนยันส่งคำถอนค่าคอมมิชั่นจำนวน {{ amount }} บาท ?</p>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button fill="outline" @click="Close(false)">ยกเลิก</ion-button>
+                        </ion-col>
+                        <ion-col>
+                            <ion-button @click="Confirm()">ยืนยัน</ion-button>
+                        </ion-col>
+                    </ion-row>
                 </div>
                 <div style="text-align: center;" v-if="check === 'ok'">
-                <ion-icon color="success" :icon="checkmarkCircleOutline"></ion-icon>
-                <h1><strong>สำเร็จ</strong></h1>
-                <p>{{ message }}</p>
-                <ion-row>
-                    <ion-col>
-                        <ion-button @click="OK(false)">ยืนยัน</ion-button>
-                    </ion-col>
-                </ion-row>
+                    <ion-icon color="success" :icon="checkmarkCircleOutline"></ion-icon>
+                    <h1><strong>สำเร็จ</strong></h1>
+                    <p>{{ message }}</p>
+                    <ion-row>
+                        <ion-col>
+                            <ion-button @click="OK(false)">ยืนยัน</ion-button>
+                        </ion-col>
+                    </ion-row>
                 </div>
             </ion-modal>
         </ion-content>
@@ -122,13 +122,18 @@ export default defineComponent({
         async Confirm() {
             await this.userservice.PostkCommissions(this.amount).then((result: any) => {
                 console.log(result)
-                console.log(this.amount)
                 if (result.message === 'successful') {
                     console.log('result', result.data);
                     this.message = result.data.message;
                     this.check = 'ok';
                 } else if (result.message === 'failed') {
-                    console.log('result', result.data);
+                    this.message = result.test.message;
+                    if (this.message === 'ยอดเงินในกระเป๋าของคุณไม่เพียงพอ') {
+                        this.sentmessage = 'ยอดเงินในกระเป๋าของคุณไม่เพียงพอ'
+                        this.error = 'กรุณตรวจสอบคอมมิชั่นของคุณ'
+                        this.isOpenAlert = true;
+                        this.isOpen = false;
+                    }
                 }
             }).catch((err) => {
                 console.log(err);
@@ -148,7 +153,6 @@ export default defineComponent({
             console.log(result);
             if (result.status === true) {
                 this.user = result.data;
-                console.log(this.user)
                 this.allsale = result.data.allsale.toFixed(2);
             }
         })

@@ -149,7 +149,6 @@ export default defineComponent({
         }
     },
     async mounted(){
-        //get me 
       await this.userservice.GetRequest().then((result:any | null)=>{
         console.log(result);
           this.history = result.data.reverse();

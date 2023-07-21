@@ -3,7 +3,6 @@
     <ion-tabs>
       <ion-router-outlet></ion-router-outlet>
       <ion-tab-bar slot="bottom">
-        
         <ion-tab-button tab="home" href="/tabs/home">
           <ion-icon aria-hidden="true" :icon="homeOutline" />
           <ion-label>Home</ion-label>
@@ -30,14 +29,14 @@
 </template>
 
 <script lang="ts">
-import { IonTabBar, IonTabButton, IonTabs, IonLabel,IonItem,
+import { IonTabBar, IonTabButton, IonTabs, IonLabel,IonItem, IonContent,
   IonIcon, IonPage, IonRouterOutlet, IonSegmentButton, IonSegment } from '@ionic/vue';
 import { homeOutline, personOutline, ribbonOutline,bagHandleOutline,home } from 'ionicons/icons';
 import { defineComponent , ref} from 'vue';
 
 export default defineComponent({
     components: { 
-      IonPage, IonTabButton, IonTabs, IonRouterOutlet,
+      IonPage, IonTabButton, IonTabs, IonRouterOutlet, IonContent,
       IonIcon,IonLabel,IonTabBar,IonItem,IonSegmentButton,IonSegment
       },
       setup() {
@@ -66,3 +65,6 @@ export default defineComponent({
     }
     })
 </script>
+
+<style scoped>
+</style>

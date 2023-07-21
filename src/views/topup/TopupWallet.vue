@@ -98,7 +98,8 @@ import {
   IonCol, IonGrid, IonRow, IonInput, IonAvatar, IonSearchbar
   , IonProgressBar, IonImg, IonNav, IonButton, IonBackButton,
   IonIcon, IonButtons, IonAlert, IonItem, IonLabel, IonChip,
-  IonModal, IonList, IonSegment, IonSegmentButton, IonCard
+  IonModal, IonList, IonSegment, IonSegmentButton, IonCard,
+  loadingController
 } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 
@@ -147,6 +148,7 @@ export default defineComponent({
       sentmessage: '',
       error: '',
       test: true,
+      loading: false,
     }
   },
   methods: {
@@ -179,9 +181,15 @@ export default defineComponent({
         const formData = new FormData();
         formData.append('amount', this.amount);
         formData.append('image', this.image);
-        await this.userservice.PostTopupServices(formData).then((result: any) => {
+        this.loading = true;
+            loadingController.create({
+                message: 'โปรดรอสักรู่....'
+            }).then(a => {
+                a.present().then(() => {
+         this.userservice.PostTopupServices(formData).then((result: any) => {
           console.log(result)
           if (result.message === 'successful') {
+            this.loading = false;
             console.log('result', result.data);
             console.log('amount', this.amount);
             console.log('image', this.image);
@@ -189,9 +197,14 @@ export default defineComponent({
           } else if (result.message === 'failed') {
             console.log('result', result.data);
           }
+          if (!this.loading) {
+                            a.dismiss().then(() => console.log('abort presenting'));
+                        }
         }).catch((err) => {
           console.log(err);
         })
+      });
+            });
       }
     },
     async Close(isOpenAlert: boolean) {

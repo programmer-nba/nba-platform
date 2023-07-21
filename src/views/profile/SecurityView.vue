@@ -57,7 +57,7 @@ import {
     IonCol, IonGrid, IonRow, IonInput, IonAvatar, IonSearchbar
     , IonProgressBar, IonImg, IonNav, IonButton, IonBackButton,
     IonIcon, IonButtons, IonAlert, IonItem, IonLabel, IonChip,
-    IonModal, IonList, IonToast
+    IonModal, IonList, IonToast, loadingController
 } from '@ionic/vue';
 import { UserService } from "@/services/user";
 import { defineComponent, ref } from 'vue';
@@ -102,6 +102,7 @@ export default defineComponent({
             mumber: [],
             id: '',
             message: 'ออกจากอุปกรณ์บนเครื่อง อื่นๆ สำเร็จ',
+            loading: false
         }
     },
     methods: {
@@ -140,20 +141,32 @@ export default defineComponent({
         },
     },
     async mounted() {
+        this.loading = true;
+        loadingController.create({
+            message: 'กำลังโหลดข้อมูล....'
+        }).then(a => {
+            a.present().then(() => {
         //Get me 
-        await this.userservice.GetMe().then((result: any | null) => {
+         this.userservice.GetMe().then((result: any | null) => {
             console.log(result);
             if (result.status === true) {
+                this.loading = false
                 this.user = result.data;
-            }
+            }  if (!this.loading) {
+                        a.dismiss().then(() => console.log());
+                    }
         })
         //Get Mumber 
-        await this.userservice.GetMumber().then((result: any | null) => {
+         this.userservice.GetMumber().then((result: any | null) => {
             console.log(result);
             if (result.status === true) {
                 this.mumber = result.data;
-            }
+            }  if (!this.loading) {
+                        a.dismiss().then(() => console.log());
+                    }
         })
+    });
+        });
     },
 
 });

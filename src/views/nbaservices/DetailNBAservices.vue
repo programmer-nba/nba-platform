@@ -30,9 +30,9 @@
               <ion-col size="9">
                 <p>{{ item.alert_text }}</p>
               </ion-col>
-                <ion-button fill="clear" class="icon-down" @click="ColseAlert()">
-                  <ion-icon :icon="closeOutline"></ion-icon>
-                </ion-button>
+              <ion-button fill="clear" class="icon-down" @click="ColseAlert()">
+                <ion-icon :icon="closeOutline"></ion-icon>
+              </ion-button>
             </ion-row>
           </div>
         </ion-col>
@@ -45,9 +45,9 @@
               <ion-col size="9">
                 <p>{{ item.warning_text }}</p>
               </ion-col>
-                <ion-button fill="clear" class="icon-bule-down" @click="ColseAlertBule()">
-                  <ion-icon :icon="closeOutline"></ion-icon>
-                </ion-button>
+              <ion-button fill="clear" class="icon-bule-down" @click="ColseAlertBule()">
+                <ion-icon :icon="closeOutline"></ion-icon>
+              </ion-button>
             </ion-row>
           </div>
         </ion-col>
@@ -73,8 +73,8 @@
         </ion-col>
 
         <ion-col size="12" style="text-align: center;" v-if="image_preview != null">
-          <ion-item >
-          <ion-chip style="margin-left: auto; margin-right: auto;">รูปที่แนบ</ion-chip>
+          <ion-item>
+            <ion-chip style="margin-left: auto; margin-right: auto;">รูปที่แนบ</ion-chip>
           </ion-item>
           <ion-img class="img" @click="viewImage" :src="image_preview"></ion-img>
 
@@ -106,10 +106,11 @@
         </ion-toolbar>
         <ion-row style="text-align: center;">
           <div class="icon-confrime">
-          <ion-icon :icon="warningOutline" slot="start"></ion-icon>
+            <ion-icon :icon="warningOutline" slot="start"></ion-icon>
           </div>
           <ion-col size="12">
-              <p>ตรวจสอบข้อมูลถูกต้องและครบถ้วน ยันยืนการฝากจ่าย {{ productname }} ยอดชำระ {{ price.toLocaleString() }} บาท?</p>
+            <p>ตรวจสอบข้อมูลถูกต้องและครบถ้วน ยันยืนการฝากจ่าย {{ productname }} ยอดชำระ {{ price.toLocaleString() }} บาท?
+            </p>
           </ion-col>
           <ion-col>
             <ion-button class="btn" fill="outline" @click="confirmcheck = false">
@@ -130,7 +131,7 @@
 <script lang="ts">
 import {
   IonPage, IonToolbar, IonButtons, IonButton, IonIcon, IonRow, IonTitle, IonContent,
-  IonImg, IonCol, IonChip, IonInput, IonAlert, IonModal, IonItem, IonLabel
+  IonImg, IonCol, IonChip, IonInput, IonAlert, IonModal, IonItem, IonLabel, loadingController
 }
   from '@ionic/vue';
 import { UserService } from "@/services/user";
@@ -236,35 +237,56 @@ export default defineComponent({
       formData.append('price', this.price);
       formData.append('mobile', this.mobile);
       formData.append('ref_image', this.image);
-      await this.userservice.PostNBAServices(formData).then((result: any) => {
-        console.log(result)
-        if (result.message === 'successful') {
-          console.log('result', result.data);
-          window.location.reload();
-        } else if (result.message === 'failed') {
-          this.isOpenImgae = true;
-          this.sentmessage = result.test.message;
-          this.error = 'ตรวจสอบเงินในกระเป๋าของคุณ';
-          console.log('result', result.data);
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
+      this.loading = true;
+      loadingController.create({
+        message: 'โปรดรอสักรู่....'
+      }).then(a => {
+        a.present().then(() => {
+          this.userservice.PostNBAServices(formData).then((result: any) => {
+            console.log(result)
+            if (result.message === 'successful') {
+              this.loading = false
+              console.log('result', result.data);
+              window.location.reload();
+            } else if (result.message === 'failed') {
+              this.isOpenImgae = true;
+              this.sentmessage = result.test.message;
+              this.error = 'ตรวจสอบเงินในกระเป๋าของคุณ';
+              console.log('result', result.data);
+            }
+            if (!this.loading) {
+              a.dismiss().then(() => console.log('abort presenting'));
+            }
+          }).catch((err) => {
+            console.log(err);
+          })
+        });
+      });
     },
     viewImage() {
       this.isViewImgae = true;
     }
   },
   async mounted() {
-    await this.counterservices.getNBAServices().then((result: any) => {
-      console.log(result);
-      if (result.status === true) {
-        this.services = result.data.filter((el: any) => el._id == this.$route.params.id);
-        this.productid = this.services[0].productid;
-        this.productname = this.services[0].productname;
-        console.log(this.services)
-      }
-    })
+    this.loading = true;
+    loadingController.create({
+      message: 'กำลังโหลดข้อมูล....'
+    }).then(a => {
+      a.present().then(() => {
+        this.counterservices.getNBAServices().then((result: any) => {
+          console.log(result);
+          if (result.status === true) {
+            this.services = result.data.filter((el: any) => el._id == this.$route.params.id);
+            this.productid = this.services[0].productid;
+            this.productname = this.services[0].productname;
+            this.loading = false
+            console.log(this.services)
+          } if (!this.loading) {
+            a.dismiss().then(() => console.log());
+          }
+        })
+      });
+    });
   }
 })
 </script>
@@ -368,10 +390,12 @@ ion-modal#example-modal ion-img {
   flex-direction: column;
   background: linear-gradient(rgba(27, 27, 27, 0.85), transparent);
 }
+
 .btn {
   width: 100%;
 }
-.icon-confrime{
+
+.icon-confrime {
   color: black;
   font-size: 30px;
   margin-left: auto;
