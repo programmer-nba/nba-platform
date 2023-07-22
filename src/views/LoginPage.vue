@@ -76,7 +76,8 @@ export default defineComponent({
       },
       see_password: 'password' as 'password' | 'text',
       res: null,
-      loading: false
+      loading: false,
+      pin: '',
     }
   },
   methods: {
@@ -93,7 +94,6 @@ export default defineComponent({
         if (result.message === 'Login successful') {
           console.log('result', result.data);
           localStorage.setItem('token', result.data.token);
-
           window.location.href = '/tabs/home'
         }
 

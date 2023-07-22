@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/components/Pin.vue')
   },
   {
+    path: '/createpin',
+    name: 'CreatePin',
+    component: () => import('@/components/CreatePin.vue')
+  },
+  {
     path: '/tabs/',
     component: TabsPage,
     children: [

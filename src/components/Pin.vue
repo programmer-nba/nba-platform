@@ -63,11 +63,12 @@
               <ion-button size="large" color="parimaty" fill="outline" @click="handleInput('0')">0</ion-button>
             </ion-col>
             <ion-col>
-              <ion-button size="large" fill="clear" @click="handleInput('delete')"><ion-icon style="font-size: 62px;" :icon="backspace"></ion-icon></ion-button>
+              <ion-button size="large" fill="clear" @click="handleInput('delete')"><ion-icon style="font-size: 62px;"
+                  :icon="backspace"></ion-icon></ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
-        
+
       </div>
 
     </ion-content>
@@ -82,10 +83,12 @@ import {
   , IonProgressBar, IonImg, IonNav, IonButton, IonBackButton,
   IonIcon, IonButtons, IonAlert
 } from '@ionic/vue';
+import { UserService } from "@/services/user";
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   setup() {
+    const userservice = new UserService(null);
     const alertButtons = ['OK'];
     const isOpen = ref(false);
     const setOpen = (state: boolean) => {
@@ -98,7 +101,8 @@ export default defineComponent({
       alertButtons,
       setOpen,
       isOpen,
-      backspace
+      backspace,
+      userservice
     }
   },
   components: {
@@ -113,9 +117,10 @@ export default defineComponent({
     return {
       pagetitle: 'ใส่หรัสผ่าน',
       pin: '',
-      pass_pin: '12345',
+      pass_pin: '',
       message: '',
       loading: false,
+      user: [],
     }
   },
   created() {
@@ -134,15 +139,12 @@ export default defineComponent({
       }
       if (this.pin.length === 4) {
         this.pin += pin
-        if (this.pin != this.pass_pin) {
-          this.message = 'รหัสผ่านไม่ถูกต้อง'
-          this.setOpen(true);
-          this.pin = '' ;
-          this.pin.length == 0;
-          console.log(this.pin)
-          return
-        } else if (this.pin === this.pass_pin) {
-          this.pin = '';
+        this.userservice.CheckPin(this.pin).then((result: any) => {
+          console.log(result)
+          if (result.message === 'successful') {
+            this.loading = false
+            console.log('result', result.data);
+            this.pin = '';
           if (this.$route.query.query === 'password') {
             this.$router.push({
               path: '/user/changpassword',
@@ -189,11 +191,33 @@ export default defineComponent({
           this.loading = true;
           this.message = 'รหัสถูกต้อง'
           return
-        }
+          } else if (result.message === 'failed') {
+            this.message = 'รหัสผ่านไม่ถูกต้อง'
+            console.log('result', result.data);
+            this.setOpen(true);
+            this.pin = '';
+            this.pin.length == 0;
+            console.log(this.pin)
+          }
+        }).catch((err) => {
+          console.log(err);
+          this.loading = false;
+        })
       }
       this.pin += pin;
     },
-  }
+  },
+  async mounted() {
+    //get me 
+    this.userservice.GetMe().then(async (result: any | null) => {
+      console.log(result);
+      if (result.status === true) {
+        this.user = result.data;
+        this.pass_pin = result.data.member_pin
+        this.loading = false
+      }
+    });
+  },
 })
 </script>
 
@@ -234,4 +258,5 @@ ion-col {
   position: absolute;
   bottom: 0;
   width: 90%;
-}</style>
+}
+</style>

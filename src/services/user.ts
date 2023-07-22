@@ -68,6 +68,55 @@ export class UserService {
         return responseData;
 
     };
+    
+      //CreatePin
+      public async CreatePin(Pin: string) {
+
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: ({
+                "member_pin": Pin
+            }),
+            url: `${this.baseUrl}/member/create_pin`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    };
+
+    //CreatePin
+    public async CheckPin(Pin: string) {
+
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: ({
+                "member_pin": Pin
+            }),
+            url: `${this.baseUrl}/member/verify_member_pin`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error);
+            })
+
+        return data;
+    };
 
     //check me
     public async GetMe() {
@@ -238,11 +287,9 @@ export class UserService {
             method: 'post',
             headers: {
                 token: this.token
-                // token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQ3OWFiOTc4YzJjN2QxMzNlZjgxZDYiLCJhdXRoIjoibWVtYmVyIiwibmFtZSI6IktyaWFuZ2tyYWkgSmFpbWEiLCJ0ZWwiOiIwODYwOTI3MzUyIiwiaWF0IjoxNjg5ODQxNjEwfQ.QO7Lr0VnTFr128QI94S-XL3eDjqj6IV9tj9ZqEgloUE'
             },
             data: Data,
             url: `${this.baseUrl}/artwork/create-preorder`
-            // url: `http://192.168.1.201:9010/v2/nba-platform/artwork/create-preorder`
         }
         await axios(request).then(response => {
             data = { message: 'successful', data: response.data }

@@ -198,7 +198,7 @@ export default defineComponent({
       servicePage: CounterServicePage,
       loading: false,
       progress: 0,
-      progresss: 25000,
+      pin: '',
     }
   },
   async mounted() {
@@ -213,8 +213,12 @@ export default defineComponent({
           if (result.status === true) {
             this.user = result.data;
             this.progress = result.data.allsale
+            this.pin = result.data.member_pin
             this.loading = false
             await this.store.set('user', result.data);
+            if (this.pin === '') {
+              this.$router.push('/createpin')
+            }
           }
           if (!this.loading) {
             a.dismiss().then(() => console.log());
