@@ -141,6 +141,98 @@ export class UserService {
         return responseData;
     };
 
+     //Get Notify
+     public async GetNotify() {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/notify`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+     //Put Notify
+     public async PutNotify(ID: string) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'Put',
+            url: `${this.baseUrl}/notify/${ID}`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+     //Delete Notify
+     public async DeleteNotify(ID: string) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'delete',
+            url: `${this.baseUrl}/notify/${ID}`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+     //Delete Notify
+     public async DeleteAllNotify() {
+
+        let responseData = null;
+
+        const request = {
+            method: 'delete',
+            url: `${this.baseUrl}/notify`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
     //Get Mumber
     public async GetMumber() {
 

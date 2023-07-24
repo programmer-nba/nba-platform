@@ -6,8 +6,8 @@
             <div class="container" style="margin-bottom: 3rem;">
                 <ion-grid>
                     <ion-row>
-                        <ion-col v-for="(item, index) in services" :key="index" size="4">
-                            <ion-img class="service" alt="shoping" :src="getImage(item.img_url)"
+                        <ion-col v-for="(item, index) in services" :key="index" size="4" style="text-align: center;">
+                            <ion-img class="service" alt="shoping" :src="`/images/icon_artwork/${item._id}.png`"
                                 @click="$router.push(`/artwork/${item._id}`)" />
                             {{ item.name }}
                         </ion-col>

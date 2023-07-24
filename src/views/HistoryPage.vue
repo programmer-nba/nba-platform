@@ -164,11 +164,11 @@ ion-toolbar {
 
 /* Material Design styles */
 ion-segment-button.md::part(native) {
-  color: #000;
+  color: #ffffff;
 }
 
 .segment-button-checked.md::part(native) {
-  color: rgba(117, 9, 121, 1);
+  color: rgb(0, 0, 0);
 }
 
 ion-segment-button.md::part(indicator-background) {

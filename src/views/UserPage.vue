@@ -74,9 +74,14 @@
             <h3>เข้าสู่ระบบและความปลอดภัย</h3>
           </ion-label>
         </ion-item>
-        <ion-item @click="chenHref()" button>
+        <ion-item @click="chenHref('password')" button>
           <ion-label>
             <h3>เปลี่ยนรหัสผ่าน</h3>
+          </ion-label>
+        </ion-item>
+        <ion-item @click="chenHref('pin')" button>
+          <ion-label>
+            <h3>เปลี่ยนรหัสผ่าน PIN</h3>
           </ion-label>
         </ion-item>
         <ion-item @click="logout()" :detail="false">
@@ -108,7 +113,7 @@
 
 <script lang="ts">
 
-import { timerOutline, wallet, add } from 'ionicons/icons';
+import { timerOutline, wallet, add, notificationsOutline } from 'ionicons/icons';
 import { UserService } from "@/services/user";
 import CounterServicePage from "@/views/CounterServicePage.vue";
 import {
@@ -118,7 +123,7 @@ import {
   IonItem, IonItemGroup, IonLabel, IonNavLink, IonModal, IonButtons, IonCard,loadingController
 
 } from '@ionic/vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, } from 'vue';
 
 export default defineComponent({
   components: {
@@ -145,6 +150,7 @@ export default defineComponent({
       isOpen,
       setOpen,
       baseUrl,
+      notificationsOutline
     }
   },
   data() {
@@ -165,13 +171,23 @@ export default defineComponent({
     },
   },
   methods: {
-    chenHref() {
+    chenHref(Check : String) {
+      if (Check === 'password') {
       this.$router.push({
         path: '/pin',
         query: {
           query: 'password',
         }
       });
+    } 
+    if (Check === 'pin') {
+      this.$router.push({
+        path: '/pin',
+        query: {
+          query: 'createpin',
+        }
+      });
+    }
     },
     logout() {
       this.isOpen = true

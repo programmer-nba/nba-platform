@@ -50,13 +50,13 @@
 <script lang="ts">
 import axios from "axios";
 import { UserService } from "@/services/user";
-import { IonIcon, IonText, IonCol, IonGrid, IonInput, IonRow, IonImg, IonButton, IonLabel, IonContent } from '@ionic/vue';
+import { IonIcon, IonText, IonCol, IonGrid, IonInput, IonRow, IonImg, IonButton, IonLabel, IonContent, IonPage } from '@ionic/vue';
 import { personOutline } from 'ionicons/icons';
 import { warning } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  components: { IonIcon, IonText, IonCol, IonGrid, IonInput, IonRow, IonImg, IonLabel, IonButton, IonContent },
+  components: { IonIcon, IonText, IonCol, IonGrid, IonInput, IonRow, IonImg, IonLabel, IonButton, IonContent, IonPage },
   setup() {
 
     const userservice = new UserService(null)

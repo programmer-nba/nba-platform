@@ -185,6 +185,11 @@ export default defineComponent({
                 data: 'confirmed'
               }
             });
+          } else if (this.$route.query.query === 'createpin') {
+            this.$router.push({
+              path: `/createpin`,
+              name: 'CreatePin',
+            });
           }
           this.pin.length == 0;
           console.log(this.$route.query.query)
