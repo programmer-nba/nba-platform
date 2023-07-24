@@ -120,7 +120,7 @@ import { checkmarkCircleOutline, chevronBackOutline } from 'ionicons/icons';
 export default defineComponent({
     setup() {
         const userservice = new UserService(null);
-        const counterservices = new CounterService(null);
+        const counterservice = new CounterService(null);
         const alertButtons = ['OK'];
         const isOpenConfrim = ref(false);
         const isOpenWallet = ref(false);
@@ -132,7 +132,7 @@ export default defineComponent({
             isOpen.value = state;
         };
         return {
-            counterservices,
+            counterservice,
             alertButtons,
             OpenAlert,
             isOpen,
@@ -274,12 +274,11 @@ export default defineComponent({
             message: 'กำลังโหลดข้อมูล....'
         }).then(a => {
             a.present().then(() => {
-                this.counterservices.getCardTopupServices().then((result: any) => {
-                    this.loading = false;
-                    if (result.status === true) {
-                        this.cardtopup = result.data.filter((el: any) => el.productid == this.$route.params.id);
-                        console.log(this.cardtopup)
-                        this.loading = false;
+                this.counterservice.getCardTopupServices().then((result: any) => {
+                    console.log(result);
+                    if (result.data.status === true) {
+                        this.loading = false
+                        this.cardtopup = result.data.data.filter((el: any) => el.productid == this.$route.params.id);
                     } if (!this.loading) {
                         a.dismiss().then(() => console.log());
                     }

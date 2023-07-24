@@ -275,8 +275,8 @@ export default defineComponent({
       a.present().then(() => {
         this.counterservices.getNBAServices().then((result: any) => {
           console.log(result);
-          if (result.status === true) {
-            this.services = result.data.filter((el: any) => el._id == this.$route.params.id);
+          if (result.data.status === true) {
+            this.services = result.data.data.filter((el: any) => el._id == this.$route.params.id);
             this.productid = this.services[0].productid;
             this.productname = this.services[0].productname;
             this.loading = false

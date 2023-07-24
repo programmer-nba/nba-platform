@@ -41,7 +41,8 @@ import {
     IonToolbar,
     IonButtons,
     IonIcon,
-    IonTitle
+    IonTitle,
+    loadingController
  } from '@ionic/vue';
  import { CounterService } from "../../services/counterservices";
  import { BarcodeService } from "@/model/counterservice.interface"
@@ -67,12 +68,30 @@ export default defineComponent({
         }
     },
     async mounted(){
-        await this.counterService.getBarcodeServices().then((result:any)=>{
-            if (result.status === true){
-                this.services = result.data.filter((el: any) => el.productid == this.$route.params.id);
-                console.log(this.services)
-            }
-        })
+        // await this.counterService.getBarcodeServices().then((result:any)=>{
+        //     if (result.data.status === true){
+        //         this.services_test = result.data.filter((el: any) => el.productid == this.$route.params.id);
+        //         this.services = result.data.data
+        //         console.log(this.services)
+        //     }
+        // })
+         this.loading = true;
+        loadingController.create({
+            message: 'กำลังโหลดข้อมูล....'
+        }).then(a => {
+            a.present().then(() => {
+                this.counterService.getBarcodeServices().then((result: any) => {
+                    console.log(result);
+                    if (result.data.status === true) {
+                        this.loading = false
+                        this.services = result.data.data.filter((el: any) => el.productid == this.$route.params.id);
+                    }
+                    if (!this.loading) {
+                        a.dismiss().then(() => console.log());
+                    }
+                })
+            });
+        });
     }
 })
 </script>

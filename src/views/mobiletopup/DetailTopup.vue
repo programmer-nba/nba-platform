@@ -274,18 +274,17 @@ export default defineComponent({
             message: 'กำลังโหลดข้อมูล....'
         }).then(a => {
             a.present().then(() => {
-         this.counterservices.getMobileServices().then((result: any) => {
-            if (result.status === true) {
-                this.topup = result.data.filter((el: any) => el.productid == this.$route.params.id);
-                this.loading = false;
-                // this.price = this.topup[0].price.split(',')[0]
-                console.log(this.topup)
-                // console.log('price',this.price)
-            }if (!this.loading) {
-                    a.dismiss().then(() => console.log());
-                }
-        });
-    });
+                this.counterservices.getMobileServices().then((result: any) => {
+                    console.log(result);
+                    if (result.data.status === true) {
+                        this.loading = false;
+                        this.topup = result.data.data.filter((el: any) => el.productid == this.$route.params.id);
+                    }
+                    if (!this.loading) {
+                        a.dismiss().then(() => console.log());
+                    }
+                })
+            });
         });
     }
 })

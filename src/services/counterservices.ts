@@ -3,7 +3,9 @@ import axios from 'axios'
 export class CounterService {
 
     context:any;
-    private token = import.meta.env.VITE_APP_SHOP_API_KEY;
+    baseUrl: string = import.meta.env.VITE_APP_API;
+    token: string | null = localStorage.getItem('token')
+    private token_test = import.meta.env.VITE_APP_SHOP_API_KEY;
     private shop_url = import.meta.env.VITE_APP_SHOP_API
     constructor(context:any){
         this.context = context
@@ -15,9 +17,9 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                token: this.token
             },
-            url:`${this.shop_url}/api/cs/mobile-topup`
+            url:`${this.baseUrl}/counter_service/mobile_topup`
         }
         await axios(request).then(response=>{
             data = response.data;
@@ -37,9 +39,9 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                token: this.token
             },
-            url:`${this.shop_url}/api/cs/nbaservice`
+            url:`${this.baseUrl}/counter_service/nba_service`
         }
         await axios(request).then(response=>{
             data = response.data;
@@ -58,9 +60,9 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                token: this.token
             },
-            url:`${this.shop_url}/api/cs/barcode-service`
+            url:`${this.baseUrl}/counter_service/barcode_service`
         }
         await axios(request).then(response=>{
             data = response.data;
@@ -79,9 +81,9 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                token: this.token
             },
-            url:`${this.shop_url}/api/cs/card-topup`
+            url:`${this.baseUrl}/counter_service/card_topup`
         }
         await axios(request).then(response=>{
             data = response.data;
@@ -99,7 +101,7 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                'auth-token':this.token_test
             },
             url:`${this.shop_url}/api/cs/proserm`
         }
@@ -119,7 +121,7 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                'auth-token':this.token_test
             },
             url:`${this.shop_url}/api/cs/key-in-service`
         }
@@ -139,7 +141,7 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                'auth-token':this.token_test
             },
             url:`${this.shop_url}/api/cs/wallet`
         }
@@ -160,7 +162,7 @@ export class CounterService {
         const request = {
             method:'get',
             headers:{
-                'auth-token':this.token
+                'auth-token':this.token_test
             },
             url:`${this.shop_url}/api/cs/cash-in`
         }

@@ -56,9 +56,9 @@ export default defineComponent({
             a.present().then(() => {
                 this.counterservices.getMobileServices().then((result: any) => {
                     console.log(result);
-                    if (result.status === true) {
+                    if (result.data.status === true) {
                         this.loading = false;
-                        this.topup = result.data;
+                        this.topup = result.data.data;
                     }
                     if (!this.loading) {
                         a.dismiss().then(() => console.log());

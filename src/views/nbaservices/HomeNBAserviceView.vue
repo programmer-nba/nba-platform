@@ -63,8 +63,8 @@ export default defineComponent({
             a.present().then(() => {
                 this.counterservices.getNBAServices().then((result: any) => {
                     console.log(result);
-                    if (result.status === true) {
-                        this.services = result.data;
+                    if (result.data.status === true) {
+                        this.services = result.data.data;
                         this.loading = false;
                     } if (!this.loading) {
                         a.dismiss().then(() => console.log());

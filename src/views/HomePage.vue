@@ -233,7 +233,7 @@
                 @click="$router.push('/tabs/cash')" />
             </ion-col>
             <ion-col>
-              <!-- <ion-button>TEST</ion-button> -->
+              <ion-button @click="$router.push('/barcode')">TEST</ion-button>
             </ion-col>
             <ion-col>
 
