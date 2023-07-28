@@ -14,9 +14,9 @@
                 <h3>จำนวน <strong>{{  Number(item.amount).toFixed(2) }}</strong> บาท</h3>
                 <p>อ้างอิง : {{ item.ref }} |  วันที่ {{ dateFormat(item.createdAt) }}</p>
             </ion-label>
-                <p slot="end"><ion-icon v-if="item.status === 'โอนเรียบร้อย'" :icon="checkmarkCircle"  style="color: #4CBB17; font-size: 25px;"></ion-icon></p>
-                <p slot="end"><ion-icon v-if="item.status === 'ยกเลิก'" :icon="closeCircle"  style="color: red; font-size: 25px;"></ion-icon></p>
-                <p slot="end"><ion-icon v-if="item.status === 'รอดำเนินการ'" :icon="informationCircle"  style="color: #3880ff; font-size: 25px;"></ion-icon></p>
+                <ion-icon slot="end" v-if="item.status === 'โอนเรียบร้อย'" :icon="checkmarkCircle"  style="color: #4CBB17; font-size: 25px;"></ion-icon>
+                <ion-icon slot="end" v-if="item.status === 'ยกเลิก'" :icon="closeCircle"  style="color: red; font-size: 25px;"></ion-icon>
+                <ion-icon slot="end" v-if="item.status === 'รอดำเนินการ'" :icon="informationCircle"  style="color: #3880ff; font-size: 25px;"></ion-icon>
         </ion-item>
         <ion-modal  ref="modal" trigger="open-modal">
                 <div>

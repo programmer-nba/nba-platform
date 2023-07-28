@@ -3,7 +3,7 @@
         <ion-input id="date" v-model="date" type="month" @change="chooseDate()">
         </ion-input>
     </ion-item>
-    <ion-list v-if="date_time.length !== 0"  @click="setOpen(true)">
+    <ion-list v-if="date_time.length !== 0" @click="setOpen(true)">
         <ion-item button :detail="false" v-for="item  in date_time"
             @click="openDailog(item._id, item.status, item.amount, item.charge, item.image, item.timestamp, item.invoice)">
             <ion-label>
@@ -14,12 +14,12 @@
                     (item.type === 'slip' ? 'สลิปโอน' : 'คิวอาร์โค้ด') }}</ion-chip><ion-text class="text">{{
         datetimeFormat(item.timestamp) }}</ion-text>
             </ion-label>
-            <p slot="end"><ion-icon v-if="item.status === 'สำเร็จ'" :icon="checkmarkCircle"
-                    style="color: #4CBB17; font-size: 25px;"></ion-icon></p>
-            <p slot="end"><ion-icon v-if="item.status === 'ยกเลิก'" :icon="closeCircle"
-                    style="color: red; font-size: 25px;"></ion-icon></p>
-            <p slot="end"><ion-icon v-if="item.status === 'รอตรวจสอบ'" :icon="informationCircle"
-                    style="color: #3880ff; font-size: 25px;"></ion-icon></p>
+            <ion-icon slot="end" v-if="item.status === 'สำเร็จ'" :icon="checkmarkCircle"
+                style="color: #4CBB17; font-size: 25px;"></ion-icon>
+            <ion-icon slot="end" v-if="item.status === 'ยกเลิก'" :icon="closeCircle"
+                style="color: red; font-size: 25px;"></ion-icon>
+            <ion-icon slot="end" v-if="item.status === 'รอตรวจสอบ'" :icon="informationCircle"
+                style="color: #3880ff; font-size: 25px;"></ion-icon>
         </ion-item>
         <ion-modal :is-open="isOpen">
             <div>
@@ -54,7 +54,8 @@
                         บาท<br />
                         <ion-text style="font-weight: bold; font-size: 17px;">ยอดสุทธิ : {{ Number(amount).toFixed(2) }}
                             บาท</ion-text>
-                        <ion-img style="width: 50%; height: 50%; margin-top: 10%;" :src="getImage(image)" @click="viewImage" v-if="image !== ''" />
+                        <ion-img style="width: 50%; height: 50%; margin-top: 10%;" :src="getImage(image)" @click="viewImage"
+                            v-if="image !== ''" />
                     </p>
                 </div>
             </div>
@@ -62,12 +63,12 @@
 
         <!-- Model ViewImage -->
         <ion-modal :is-open="isViewImgae" id="example-modal" ref="modal">
-          <ion-img :src="getImage(image)"></ion-img>
-          <div class="top-right">
-            <ion-button fill="clear" @click="isViewImgae = false">
-              <ion-icon style="color:  white;" :icon="closeOutline"></ion-icon>
-            </ion-button>
-          </div>
+            <ion-img :src="getImage(image)"></ion-img>
+            <div class="top-right">
+                <ion-button fill="clear" @click="isViewImgae = false">
+                    <ion-icon style="color:  white;" :icon="closeOutline"></ion-icon>
+                </ion-button>
+            </div>
         </ion-modal>
 
     </ion-list>
@@ -108,7 +109,8 @@ export default defineComponent({
     setup() {
         const userservice = new UserService(null);
         const isViewImgae = ref(false);
-        const OpenAlert = (state: boolean) => {;
+        const OpenAlert = (state: boolean) => {
+            ;
             isViewImgae.value = state;
         };
         return {
@@ -179,10 +181,10 @@ export default defineComponent({
 
 <style scoped>
 ion-img {
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100%;
 }
 
 .text-green {
@@ -206,14 +208,16 @@ ion-card {
     padding-bottom: 2%;
     width: 100%;
 }
+
 .top-right {
-  width: 100%;
-  position: absolute;
-  top: -10px;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(rgba(27, 27, 27, 0.85), transparent);
+    width: 100%;
+    position: absolute;
+    top: -10px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(rgba(27, 27, 27, 0.85), transparent);
 }
+
 .text {
     color: grey;
     font-size: 13px;
