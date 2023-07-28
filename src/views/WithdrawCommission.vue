@@ -10,10 +10,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-            <ion-row>
-                <div style="height: 45px;">
                     <ion-title>ถอนรายได้</ion-title>
-                </div>
             </ion-row>
         </ion-toolbar>
 

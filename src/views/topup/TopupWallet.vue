@@ -12,11 +12,7 @@
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-row>
-        <div style="height: 45px;">
           <ion-title>เติมเงินเข้ากระเป๋า</ion-title>
-        </div>
-      </ion-row>
     </ion-toolbar>
     <ion-content padding>
       <ion-row>
@@ -220,7 +216,6 @@ export default defineComponent({
 .custom-file-input {
   --padding-top: 10px !important;
 }
-
 .toolbar {
   --background: rgb(255, 1, 162);
   --color: white;

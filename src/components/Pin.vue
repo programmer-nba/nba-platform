@@ -7,7 +7,7 @@
       <ion-toolbar>
         <ion-buttons slot="start">
           <ion-icon :icon="chevronBackOutline"></ion-icon>
-          <ion-buttons @click="$router.go(-1)">Back</ion-buttons>
+          <ion-buttons @click="$router.go(-1)"></ion-buttons>
         </ion-buttons>
         <ion-title>PIN</ion-title>
       </ion-toolbar>

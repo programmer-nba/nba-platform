@@ -14,11 +14,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-            <ion-row>
-                <div style="height: 45px;">
                     <ion-title>เปลี่ยนรหัสผ่าน</ion-title>
-                </div>
-            </ion-row>
         </ion-toolbar>
         <ion-content padding>
             <ion-row>

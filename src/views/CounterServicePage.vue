@@ -1,7 +1,7 @@
 <template>
     <ion-page>
      
-      <ion-content :fullscreen="true">
+      <ion-content >
       
 
 
@@ -16,3 +16,9 @@
   import { IonPage,IonContent,IonRouterOutlet } from '@ionic/vue';
 
   </script>
+
+  <style scoped>
+  ion-content {
+    --background: rgba(0, 0, 0, 0);
+  }
+</style>

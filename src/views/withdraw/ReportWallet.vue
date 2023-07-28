@@ -7,7 +7,7 @@
         <ion-item button :detail="false" v-for="item  in date_time"
             @click="openDailog(item._id, item.status, item.amount, item.charge, item.image, item.timestamp, item.invoice)">
             <ion-label>
-                <h2><strong>ยอด :{{ numberDigitFormat(item.amount) }} ฿</strong> <small><em>(อ้างอิง : {{
+                <h2><strong>ยอด :{{ Number(item.amount).toFixed(2) }} ฿</strong> <small><em>(อ้างอิง : {{
                     item.invoice
                 }})</em></small></h2>
                 <ion-chip size="small" :color="(item.type === 'slip' ? 'tertiary' : 'success')"> {{
@@ -48,11 +48,11 @@
                 <div style="padding-left: 5%;">
                     <p style="color: gray;">รายละเอียด</p>
                     <p>
-                        <ion-text style="font-weight: bold;">ยอดเติมเงิน :</ion-text> {{ numberDigitFormat(amount) }}
+                        <ion-text style="font-weight: bold;">ยอดเติมเงิน :</ion-text> {{ Number(amount).toFixed(2) }}
                         บาท<br />
-                        <ion-text style="font-weight: bold;">ค่าธรรมเนียม :</ion-text> {{ numberDigitFormat(charge) }}
+                        <ion-text style="font-weight: bold;">ค่าธรรมเนียม :</ion-text> {{ Number(charge).toFixed(2) }}
                         บาท<br />
-                        <ion-text style="font-weight: bold; font-size: 17px;">ยอดสุทธิ : {{ numberDigitFormat(amount) }}
+                        <ion-text style="font-weight: bold; font-size: 17px;">ยอดสุทธิ : {{ Number(amount).toFixed(2) }}
                             บาท</ion-text>
                         <ion-img style="width: 50%; height: 50%; margin-top: 10%;" :src="getImage(image)" @click="viewImage" v-if="image !== ''" />
                     </p>
@@ -99,7 +99,7 @@ import {
     IonText,
     IonChip
 } from '@ionic/vue';
-import dayjs from 'dayjs'
+import { getImage, datetimeFormat, dayjs } from '@/services/fun'
 import { UserService } from "@/services/user";
 import { defineComponent, ref } from 'vue';
 import { checkmarkCircle, close, closeCircle, informationCircle, closeOutline } from 'ionicons/icons';
@@ -119,7 +119,10 @@ export default defineComponent({
             checkmarkCircle,
             isViewImgae,
             OpenAlert,
-            closeOutline
+            closeOutline,
+            getImage,
+            datetimeFormat,
+            dayjs
         }
     },
     components: {
@@ -132,7 +135,7 @@ export default defineComponent({
             loading: false,
             history: [],
             amount: null,
-            date_time: [],
+            date_time: '',
             date: dayjs(Date.now()).format('YYYY-MM'),
             ref_code: null,
             createdAt: null,
@@ -158,21 +161,6 @@ export default defineComponent({
         },
         setOpen(isOpen: boolean) {
             this.isOpen = isOpen;
-        },
-        datetimeFormat(date) {
-            return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
-        },
-        dateFormat(date) {
-            return dayjs(date).format("DD/MM/YYYY");
-        },
-        numberDigitFormat(num) {
-            return num.toLocaleString("en-US", {
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-            });
-        },
-        getImage(item) {
-            return "https://drive.google.com/uc?export=view&id=" + item;
         },
         viewImage() {
             this.isViewImgae = true;

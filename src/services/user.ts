@@ -654,5 +654,69 @@ export class UserService {
         return data;
     }
 
+     //Check QR Code
+     async CheckQRCode(Data: String) {
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: Data,
+            url: `${this.baseUrl}/counter_service/barcode_service/check`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    }
+
+      //Verify QR Code
+      async VerifyQRCode(Data: String) {
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: Data,
+            url: `${this.baseUrl}/counter_service/barcode_service/verify`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error)
+            })
+
+        return data;
+    }
+
+     //Confirme QR Code
+     async ConfirmeQRCode(Data: String) {
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: Data,
+            url: `${this.baseUrl}/counter_service/barcode_service/confirm`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error)
+            })
+
+        return data;
+    }
 }
 

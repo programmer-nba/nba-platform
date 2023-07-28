@@ -34,9 +34,9 @@
                             </ion-item>
                             <ion-item v-if="type ==='เข้า'">
                                 <p style="font-size: 14px;">
-                                    <ion-text style="font-weight: bold;">ยอดเต็มที่ได้รับ :</ion-text> {{ numberDigitFormat(amount) }}<br/>
-                                    <ion-text style="font-weight: bold;">หัก ณ ที่จ่าย :</ion-text> {{ numberDigitFormat(vat) }}<br/>
-                                    <ion-text style="font-weight: bold;">ยอดสุทธิที่ได้รับ :</ion-text> {{ numberDigitFormat(total) }}
+                                    <ion-text style="font-weight: bold;">ยอดเต็มที่ได้รับ :</ion-text> {{ Number(amount).toFixed(2) }}<br/>
+                                    <ion-text style="font-weight: bold;">หัก ณ ที่จ่าย :</ion-text> {{ Number(vat).toFixed(2) }}<br/>
+                                    <ion-text style="font-weight: bold;">ยอดสุทธิที่ได้รับ :</ion-text> {{ Number(total).toFixed(2) }}
                                 </p>
                             </ion-item>
                             <p displayFormat="MMMM YY"><small><em><strong>วันเวลา :</strong>{{ datetimeFormat(createdAt) }}</em></small></p>
@@ -73,7 +73,7 @@ import {
     IonText,
 
  } from '@ionic/vue';
- import dayjs from 'dayjs'
+ import { datetimeFormat, dayjs } from '@/services/fun';
  import { UserService } from "@/services/user";
  import { Historyservice } from "@/model/history.interface";
 import { defineComponent , ref } from 'vue';
@@ -86,6 +86,8 @@ export default defineComponent({
             userservice,
             listOutline,
             close,
+            datetimeFormat,
+            dayjs
         }
     },
     
@@ -103,7 +105,7 @@ export default defineComponent({
             id:null,
             detail: null,
             vat: null,
-            date_item: [],
+            date_item: '',
             total: null,
             createdAt: null,
             type: null,
@@ -126,15 +128,6 @@ export default defineComponent({
         dismiss() {
             this.$refs.modal.$el.dismiss();
         },
-         datetimeFormat(date) {
-            return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
-        },
-        numberDigitFormat(num) {
-            return num.toLocaleString("en-US", {
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-            });
-        }
     },
     async mounted(){
         //Get History 

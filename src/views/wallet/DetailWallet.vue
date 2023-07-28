@@ -13,11 +13,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-            <ion-row>
-                <div style="height: 45px;">
-                    <ion-title>เติมเงินวอเล็ท</ion-title>
-                </div>
-            </ion-row>
+            <ion-title>เติมเงินวอเล็ท</ion-title>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
             <ion-row v-for="item in wallet">
@@ -31,8 +27,9 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col size="4" size-md="2" size-lg="2" v-for="(number, id) in item.price.split(',')" :key="id">
-                            <ion-button class="btn-price" color="light" fill="outline" @click="AddPrice(number)" :value="id"> {{ number
-                            }}</ion-button>
+                            <ion-button class="btn-price" color="light" fill="outline" @click="AddPrice(number)"
+                                :value="id"> {{ number
+                                }}</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-grid>

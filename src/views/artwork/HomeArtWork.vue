@@ -7,7 +7,7 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col v-for="(item, index) in services" :key="index" size="4" style="text-align: center;">
-                            <ion-img class="service" alt="shoping" :src="`/images/icon_artwork/${item._id}.png`"
+                            <ion-img class="service" alt="shoping" :src="getImage(item.img_url)"
                                 @click="$router.push(`/artwork/${item._id}`)" />
                             {{ item.name }}
                         </ion-col>
@@ -29,24 +29,21 @@ import {
     loadingController,
     IonButton
 } from '@ionic/vue';
+import { getImage } from '@/services/fun'
 import { UserService } from "../../services/user";
 import { defineComponent } from 'vue';
 
 export default defineComponent({
     setup() {
         const userservice = new UserService(null);
-        return { userservice }
+        return { userservice,getImage }
     },
     components: { IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonButton },
     data() {
         return {
             services: [],
             loading: false,
-        }
-    },
-    methods: {
-        getImage(item) {
-            return "https://drive.google.com/uc?export=view&id=" + item;
+            
         }
     },
     async mounted() {

@@ -2,9 +2,7 @@
   <ion-page>
     <ion-header collapse="condense">
       <ion-toolbar>
-        <ion-row>
           <ion-title>คอมมิชชั่นสะสม</ion-title>
-        </ion-row>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">

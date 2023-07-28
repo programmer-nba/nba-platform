@@ -1,7 +1,8 @@
 <template>
     <ion-page>
         <!-- Toast Success -->
-        <ion-toast :is-open="isOpenToast" :message="message" :duration="5000" class="custom-toast" :icon="checkmarkCircle" @didDismiss="setOpen(false)"></ion-toast>
+        <ion-toast :is-open="isOpenToast" :message="message" :duration="5000" class="custom-toast" :icon="checkmarkCircle"
+            @didDismiss="setOpen(false)"></ion-toast>
 
         <ion-toolbar class="toolbar">
             <ion-buttons slot="start">
@@ -9,11 +10,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-            <ion-row>
-                <div style="height: 45px;">
-                    <ion-title>การเข้าสู่ระบบความปลอดภัย</ion-title>
-                </div>
-            </ion-row>
+            <ion-title>การเข้าสู่ระบบความปลอดภัย</ion-title>
         </ion-toolbar>
         <ion-content padding>
             <ion-col>
@@ -61,7 +58,7 @@ import {
 } from '@ionic/vue';
 import { UserService } from "@/services/user";
 import { defineComponent, ref } from 'vue';
-import dayjs from 'dayjs';
+import { datetimeFormat } from '@/services/fun';
 
 export default defineComponent({
     setup() {
@@ -84,7 +81,8 @@ export default defineComponent({
             userservice,
             image,
             trash,
-            isOpenToast
+            isOpenToast,
+            datetimeFormat
         }
     },
     components: {
@@ -106,9 +104,6 @@ export default defineComponent({
         }
     },
     methods: {
-        datetimeFormat(date) {
-            return dayjs(date).format('วัน DD/MM/YYYY เวลา HH:mm:ss น.')
-        },
         checkDevice(token) {
             if (token === localStorage.getItem('token')) {
                 return true;
@@ -120,8 +115,8 @@ export default defineComponent({
             await this.userservice.DeleteMumber(id).then((result: any) => {
                 console.log(result);
                 if (result.status === true) {
-                    const position = this.mumber.findIndex((el)=>el._id===id);
-                    this.mumber.splice(position,1);
+                    const position = this.mumber.findIndex((el) => el._id === id);
+                    this.mumber.splice(position, 1);
                     console.log('result', result.data);
                     this.isOpen = false
                     this.isOpenToast = true;
@@ -146,26 +141,26 @@ export default defineComponent({
             message: 'กำลังโหลดข้อมูล....'
         }).then(a => {
             a.present().then(() => {
-        //Get me 
-         this.userservice.GetMe().then((result: any | null) => {
-            console.log(result);
-            if (result.status === true) {
-                this.loading = false
-                this.user = result.data;
-            }  if (!this.loading) {
+                //Get me 
+                this.userservice.GetMe().then((result: any | null) => {
+                    console.log(result);
+                    if (result.status === true) {
+                        this.loading = false
+                        this.user = result.data;
+                    } if (!this.loading) {
                         a.dismiss().then(() => console.log());
                     }
-        })
-        //Get Mumber 
-         this.userservice.GetMumber().then((result: any | null) => {
-            console.log(result);
-            if (result.status === true) {
-                this.mumber = result.data;
-            }  if (!this.loading) {
+                })
+                //Get Mumber 
+                this.userservice.GetMumber().then((result: any | null) => {
+                    console.log(result);
+                    if (result.status === true) {
+                        this.mumber = result.data;
+                    } if (!this.loading) {
                         a.dismiss().then(() => console.log());
                     }
-        })
-    });
+                })
+            });
         });
     },
 
@@ -214,16 +209,16 @@ ion-modal#example-modal ion-button {
 ion-toast.custom-toast {
     --background: #25b800;
     --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
-        color: white;
-  }
+    color: white;
+}
 
-  ion-toast.custom-toast::part(message) {
+ion-toast.custom-toast::part(message) {
     font-style: italic;
-  }
+}
 
-  ion-toast.custom-toast::part(button) {
+ion-toast.custom-toast::part(button) {
     border-left: 1px solid #d2d2d2;
     color: #030207;
     font-size: 15px;
-  }
+}
 </style>

@@ -9,11 +9,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-            <ion-row>
-                <div style="height: 45px;">
                     <ion-title>{{ name }}</ion-title>
-                </div>
-            </ion-row>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
             <div class="padding">
@@ -94,6 +90,7 @@ import {
     IonIcon, IonButtons, IonTitle, IonCard, IonItem, loadingController, IonModal,
     IonInput, IonTextarea, IonAlert
 } from '@ionic/vue';
+import { getImage } from '@/services/fun'
 import { checkmarkCircleOutline, chevronBackOutline } from 'ionicons/icons';
 import { UserService } from "../../services/user";
 import { defineComponent, ref } from 'vue';
@@ -111,7 +108,7 @@ export default defineComponent({
             isOpen.value = state;
         };
         return { userservice, chevronBackOutline, OpenModal, isOpen, checkmarkCircleOutline, isOpenAlert, OpenAlert,
-            alertButtons }
+            alertButtons, getImage }
     },
     components: {
         IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonToolbar, IonButton,
@@ -138,9 +135,6 @@ export default defineComponent({
         }
     },
     methods: {
-        getImage(item) {
-            return "https://drive.google.com/uc?export=view&id=" + item;
-        },
         SelectProducts(id: string) {
             this.isOpen = true;
             this.preorder.product_price_id = id

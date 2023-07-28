@@ -88,6 +88,11 @@ const routes: Array<RouteRecordRaw> = [
         ]
       },
       {
+        path: '/barcode',
+        name: 'BarCode',
+        component: () => import('@/views/BarCode.vue')
+      },
+      {
         path: 'cardtopup',
         name: 'Cardtopup',
         component: () => import('@/views/CardTopupPage.vue'),

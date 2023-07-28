@@ -63,11 +63,11 @@ import {
     IonText,
 
  } from '@ionic/vue';
- import dayjs from 'dayjs'
+
  import { UserService } from "@/services/user";
 import { defineComponent  } from 'vue';
 import {  listOutline, close } from 'ionicons/icons';
-
+import { datetimeFormat, dayjs } from '@/services/fun';
 export default defineComponent({
     setup(){
         const userservice = new UserService(null);
@@ -75,6 +75,8 @@ export default defineComponent({
             userservice,
             listOutline,
             close,
+            datetimeFormat,
+            dayjs
         }
     },
     
@@ -91,7 +93,7 @@ export default defineComponent({
             id_dialog : null,
             id:null,
             detail: null,
-            date_item: [],
+            date_item: '',
             date: dayjs(Date.now()).format('YYYY-MM'),
         }
     },
@@ -106,15 +108,6 @@ export default defineComponent({
         dismiss() {
             this.$refs.modal.$el.dismiss();
         },
-         datetimeFormat(date) {
-            return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
-        },
-        numberDigitFormat(num) {
-            return num.toLocaleString("en-US", {
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-            });
-        }
     },
     async mounted(){
         //Get History 

@@ -6,11 +6,7 @@
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-row>
-        <div style="height: 45px;">
           <ion-title>ข้อมูลทั่วไป</ion-title>
-        </div>
-      </ion-row>
     </ion-toolbar>
     <ion-content padding>
       <ion-col>
@@ -178,6 +174,7 @@ import {
   IonIcon, IonButtons, IonAlert, IonItem, IonLabel, IonChip,
   IonModal, IonList, loadingController
 } from '@ionic/vue';
+import { getImage } from '@/services/fun'
 import { UserService } from "@/services/user";
 import { defineComponent, ref } from 'vue';
 
@@ -197,7 +194,8 @@ export default defineComponent({
       setOpen,
       isOpen,
       userservice,
-      image
+      image,
+      getImage
     }
   },
   components: {
@@ -221,9 +219,6 @@ export default defineComponent({
     dismiss() {
       this.$refs.modal.$el.dismiss();
     },
-    getImage(item) {
-      return "https://drive.google.com/uc?export=view&id=" + item;
-    }
   },
   async mounted() {
     this.loading = true;

@@ -14,11 +14,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-            <ion-row>
-                <div style="height: 45px;">
                     <ion-title>เติมเงิน</ion-title>
-                </div>
-            </ion-row>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
             <ion-row v-for="item in cardtopup">

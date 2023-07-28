@@ -1,17 +1,13 @@
 <template>
     <ion-page>
-            <ion-toolbar class="toolbar">
-                <ion-buttons slot="start">
-                    <ion-button @click="$router.go(-1)">
-                        <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
-                    </ion-button>
-                </ion-buttons>
-                <ion-row>
-                    <div style="height: 45px;">
-                        <ion-title>ประวัติเงินเข้า-ออก</ion-title>
-                    </div>
-                </ion-row>
-            </ion-toolbar>
+        <ion-toolbar class="toolbar">
+            <ion-buttons slot="start">
+                <ion-button @click="$router.go(-1)">
+                    <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                </ion-button>
+            </ion-buttons>
+            <ion-title>ประวัติเงินเข้า-ออก</ion-title>
+        </ion-toolbar>
         <ion-content :fullscreen="true">
             <ion-card class="card-wallet">
                 <div style="display: flex; justify-content: center;">
@@ -43,10 +39,10 @@
 
             <div style="padding-left: 3%; padding-right: 3%;">
                 <h3 v-if="selectTabs == 'monney'">
-                  <History/>
+                    <History />
                 </h3>
                 <h3 v-if="selectTabs == 'segment'">
-                  <Reprot/>
+                    <Reprot />
                 </h3>
             </div>
         </ion-content>
@@ -113,10 +109,11 @@ export default defineComponent({
 </script>
   
 <style scoped>
-ion-icon{
-  font-size: 15px;
-  padding-right: 2%;
+ion-icon {
+    font-size: 15px;
+    padding-right: 2%;
 }
+
 .card-wallet {
     justify-content: center;
     text-align: center;

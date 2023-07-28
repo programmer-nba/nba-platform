@@ -9,11 +9,7 @@
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-      <ion-row>
-        <div style="height: 45px;">
-          <ion-title>ข้อมูลรายละเอียด</ion-title>
-        </div>
-      </ion-row>
+      <ion-title>ข้อมูลรายละเอียด</ion-title>
     </ion-toolbar>
     <ion-content :fullscreen="true" class="ion-padding">
       <ion-row v-for="(item, index) in services" :key="index">
@@ -96,9 +92,10 @@
             ลบรูปภาพ
           </ion-button>
         </ion-col>
-        <ion-button class="btn-confrime" @click="confirm()">ยันยืน</ion-button>
+        <ion-col size="12" style="margin-bottom: 15%;">
+          <ion-button class="btn-confrime" @click="confirm()">ยันยืน</ion-button>
+        </ion-col>
       </ion-row>
-
       <!-- Model Confirm Check -->
       <ion-modal :is-open="confirmcheck" id="example-modal" ref="modal">
         <ion-toolbar style="text-align: center;">

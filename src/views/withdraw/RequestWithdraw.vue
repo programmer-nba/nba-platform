@@ -11,7 +11,7 @@
     <ion-list v-if="date_time.length !== 0" id="open-modal">
         <ion-item button :detail="false" v-for="item  in date_time" @click="openDailog(item._id,item.status,item.amount,item.charge,item.total,item.createdAt,item.ref)">
             <ion-label>                                                                     
-                <h3>จำนวน <strong>{{  numberDigitFormat(item.amount) }}</strong> บาท</h3>
+                <h3>จำนวน <strong>{{  Number(item.amount).toFixed(2) }}</strong> บาท</h3>
                 <p>อ้างอิง : {{ item.ref }} |  วันที่ {{ dateFormat(item.createdAt) }}</p>
             </ion-label>
                 <p slot="end"><ion-icon v-if="item.status === 'โอนเรียบร้อย'" :icon="checkmarkCircle"  style="color: #4CBB17; font-size: 25px;"></ion-icon></p>
@@ -45,10 +45,10 @@
                     <div style="padding-left: 5%;">
                         <p style="color: gray;">รายละเอียด</p>
                             <p>
-                                <ion-text style="font-weight: bold;">ยอดถอน :</ion-text> {{ numberDigitFormat(amount) }} บาท<br/>
-                                <ion-text style="font-weight: bold;">ค่าธรรมเนียม :</ion-text> {{ numberDigitFormat(charge) }} บาท<br/>
-                                <ion-text style="font-weight: bold;">หักค่าคอมมิชั่นสะสม :</ion-text> {{ numberDigitFormat(total) }} บาท<br/>
-                                <ion-text style="font-weight: bold; font-size: 17px;">ยอดเข้าบัญชีสุทธิ : {{ numberDigitFormat(amount) }} บาท</ion-text> 
+                                <ion-text style="font-weight: bold;">ยอดถอน :</ion-text> {{ Number(amount).toFixed(2) }} บาท<br/>
+                                <ion-text style="font-weight: bold;">ค่าธรรมเนียม :</ion-text> {{ Number(charge).toFixed(2) }} บาท<br/>
+                                <ion-text style="font-weight: bold;">หักค่าคอมมิชั่นสะสม :</ion-text> {{ Number(total).toFixed(2) }} บาท<br/>
+                                <ion-text style="font-weight: bold; font-size: 17px;">ยอดเข้าบัญชีสุทธิ : {{ Number(amount).toFixed(2) }} บาท</ion-text> 
                             </p>
                     </div>
                     </div>
@@ -82,7 +82,7 @@ import {
     IonText,
     IonChip
  } from '@ionic/vue';
- import dayjs from 'dayjs'
+ import {  datetimeFormat,  dayjs, dateFormat } from '@/services/fun'
  import { UserService } from "@/services/user";
  import { Requestservice } from "@/model/request.interface";
 import { defineComponent , ref } from 'vue';
@@ -96,7 +96,10 @@ export default defineComponent({
             close,
             informationCircle,
             closeCircle,
-            checkmarkCircle
+            checkmarkCircle,
+            datetimeFormat,
+            dayjs,
+            dateFormat
         }
     },
     components: {IonPage, IonContent,IonGrid,IonRow,IonCol,IonImg,IonDatetime,
@@ -108,7 +111,7 @@ export default defineComponent({
             loading:false,
             history:[] as Requestservice[],
             amount: null,
-            date_time:[],
+            date_time:[''],
             date: dayjs(Date.now()).format('YYYY-MM'),
             ref_code: null,
             createdAt: null,
@@ -116,7 +119,6 @@ export default defineComponent({
             charge: null,
             total: null,
             _id: null,
-
         }
     },
     methods : {
@@ -135,18 +137,6 @@ export default defineComponent({
         dismiss() {
             this.$refs.modal.$el.dismiss();
         },
-        datetimeFormat(date) {
-            return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
-        },
-        dateFormat(date) {
-            return dayjs(date).format("DD/MM/YYYY");
-        },
-        numberDigitFormat(num) {
-            return num.toLocaleString("en-US", {
-                maximumFractionDigits: 2,
-                minimumFractionDigits: 2,
-            });
-        }
     },
     async mounted(){
       await this.userservice.GetRequest().then((result:any | null)=>{

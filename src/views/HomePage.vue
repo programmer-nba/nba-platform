@@ -192,19 +192,19 @@
                 @click="$router.push('/tabs/cardtopup')" />
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png"
-                @click="$router.push('/tabs/proserm')" />
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/wallet.png"
+                @click="$router.push('/tabs/wallet')" />
             </ion-col>
           </ion-row>
 
-          <ion-row>
+          <!-- <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/keyservice.png"
                 @click="$router.push('/tabs/keyservice')" />
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/wallet.png"
-                @click="$router.push('/tabs/wallet')" />
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png"
+                @click="$router.push('/tabs/proserm')" />
             </ion-col>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/cash.png"
@@ -225,9 +225,9 @@
               <ion-img class="service" alt="transfer" src="/images/icon_menu/Insurancetaxact.png"
                 @click="$router.push('/tabs/cash')" />
             </ion-col>
-          </ion-row>
+          </ion-row> -->
 
-          <ion-row>
+          <!-- <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/planeticket.png"
                 @click="$router.push('/tabs/cash')" />
@@ -239,7 +239,7 @@
 
             </ion-col>
 
-          </ion-row>
+          </ion-row> -->
         </ion-grid>
       </div>
     </ion-content>
@@ -247,11 +247,11 @@
 </template>
 
 <script  lang="ts">
-import dayjs from 'dayjs'
 import { alertCircleOutline, notifications, trash, checkmarkCircle, ellipse } from 'ionicons/icons';
 import { Storage } from '@ionic/storage';
 import { UserService } from "@/services/user";
 import CounterServicePage from "@/views/CounterServicePage.vue";
+import { datetimeFormat } from '@/services/fun';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonCol, IonGrid, IonRow, IonInput, IonAvatar, IonSearchbar, IonProgressBar, IonImg, IonNav,
@@ -282,7 +282,8 @@ export default defineComponent({
       trash,
       alertCircleOutline,
       checkmarkCircle,
-      ellipse
+      ellipse,
+      datetimeFormat
     }
   },
 
@@ -336,9 +337,6 @@ export default defineComponent({
         return notify.length;
       }
     },
-    datetimeFormat(date) {
-      return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
-    },
     close(Check: String) {
       if (Check === 'Detail') {
         this.isOpen_2 = false;
@@ -352,7 +350,7 @@ export default defineComponent({
       this.check = Check
       console.log(Check)
     },
-    CheckDelete(ID, Check: string) {
+    CheckDelete(ID: string, Check: string) {
       this.isOpenDelete = true;
       this.id_noti = ID
       this.check = Check
@@ -478,6 +476,7 @@ ion-content {
   align-items: center;
 
 }
+
 .all-sell-point {
   display: flex;
   width: 100%;
