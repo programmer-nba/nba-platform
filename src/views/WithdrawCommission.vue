@@ -11,7 +11,6 @@
                 </ion-button>
             </ion-buttons>
                     <ion-title>ถอนรายได้</ion-title>
-            </ion-row>
         </ion-toolbar>
 
         <ion-content :fullscreen="true">
@@ -69,7 +68,6 @@ import { listOutline, timerOutline, chevronBackOutline, alertCircleOutline, chec
 import { UserService } from "@/services/user";
 
 export default defineComponent({
-
     components: {
         IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonText, IonLabel,
         IonSegment, IonSegmentButton, IonIcon, IonInput, IonItem, IonDatetimeButton, IonModal,
