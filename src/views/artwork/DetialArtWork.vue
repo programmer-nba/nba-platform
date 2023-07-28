@@ -9,7 +9,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-                    <ion-title>{{ name }}</ion-title>
+                    <ion-title>{{ $route.query.query }}</ion-title>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
             <div class="padding">
@@ -194,6 +194,7 @@ export default defineComponent({
                         this.loading = false
                         this.services = result.data;
                         this.name = this.services[0].product.name;
+                        console.log(this.$router)
                     }
                     if (!this.loading) {
                         a.dismiss().then(() => console.log());
