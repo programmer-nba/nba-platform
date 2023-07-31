@@ -1,7 +1,7 @@
+import { UserService } from '@/services/user';
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
 import TabsPage from '../views/TabsPage.vue';
-import { UserService } from '@/services/user';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -106,6 +106,24 @@ const routes: Array<RouteRecordRaw> = [
             path: '/detailcardtopup/:id',
             name: 'DetailCardTopup',
             component: () => import('@/views/cardtopup/DetailCardTopup.vue'),
+            props: true,
+          },
+        ]
+      },
+      {
+        path: 'mobliebill',
+        name: 'MoblieBill',
+        component: () => import('@/views/MoblieBillPage.vue'),
+        children: [
+          {
+            path: '',
+            name: 'MoblieBillHome',
+            component: () => import('@/views/mobliebill/MoblieBillView.vue')
+          },
+          {
+            path: '/detailmobliebill/:id',
+            name: 'DetailMoblieBill',
+            component: () => import('@/views/mobliebill/DetailMoblieBill.vue'),
             props: true,
           },
         ]

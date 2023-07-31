@@ -5,9 +5,8 @@
         @didDismiss="setOpen(false)"></ion-alert>
 
       <ion-toolbar>
-        <ion-buttons slot="start">
+        <ion-buttons slot="start" @click="$router.go(-1)">
           <ion-icon :icon="chevronBackOutline"></ion-icon>
-          <ion-buttons @click="$router.go(-1)"></ion-buttons>
         </ion-buttons>
         <ion-title>PIN</ion-title>
       </ion-toolbar>
@@ -189,6 +188,15 @@ export default defineComponent({
             this.$router.push({
               path: `/createpin`,
               name: 'CreatePin',
+            });
+          } else if (this.$route.query.query === 'confirmQRCode') {
+            this.$router.push({
+              path: `/detailservices/${this.$route.query.id}`,
+              query: {
+                barcode: this.$route.query.barcode,
+                mobile: this.$route.query.mobile,
+                data: 'confirmed'
+              }
             });
           }
           this.pin.length == 0;

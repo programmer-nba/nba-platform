@@ -195,7 +195,6 @@ export default defineComponent({
         return;
       } if (pinconfirm === 'delete') {
         this.pinconfirm = this.pinconfirm.substring(0, this.pinconfirm.length - 1);
-        console.log(this.pinconfirm)
         return;
       }
       this.pinconfirm += pinconfirm;
@@ -206,7 +205,6 @@ export default defineComponent({
         return;
       } if (pin === 'delete') {
         this.pin = this.pin.substring(0, this.pin.length - 1);
-        console.log(this.pin)
         return;
       }
       this.pin += pin;
@@ -220,8 +218,6 @@ export default defineComponent({
       } else {
         this.check = 'confirm'
       }
-      console.log('pin', this.pin)
-      console.log('confirm', this.pinconfirm)
     },
     async ConfirmPin() {
       if (this.pinconfirm != this.pin) {

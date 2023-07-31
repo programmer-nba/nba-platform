@@ -96,6 +96,7 @@
           <ion-button class="btn-confrime" @click="confirm()">ยันยืน</ion-button>
         </ion-col>
       </ion-row>
+
       <!-- Model Confirm Check -->
       <ion-modal :is-open="confirmcheck" id="example-modal" ref="modal">
         <ion-toolbar style="text-align: center;">
@@ -121,6 +122,23 @@
           </ion-col>
         </ion-row>
       </ion-modal>
+
+      <!-- Model Confirm Check -->
+      <ion-modal :is-open="success" id="example-modal" ref="modal">
+        <ion-row style="text-align: center;">
+          <div class="ioc-success">
+            <ion-icon :icon="checkmarkCircleOutline" slot="start"></ion-icon>
+          </div>
+          <ion-col size="12">
+            <p>ทำรายการเสร็จสิ้น!</p>
+          </ion-col>
+          <ion-col>
+            <ion-button class="btn" @click="Success()">
+              ตกลง
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-modal>
     </ion-content>
   </ion-page>
 </template>
@@ -134,7 +152,7 @@ import {
 import { UserService } from "@/services/user";
 import { CounterService } from "../../services/counterservices";
 import { defineComponent, ref } from 'vue';
-import { chevronBackOutline, closeOutline, closeCircleOutline, alertCircleOutline, trash, warningOutline } from 'ionicons/icons';
+import { chevronBackOutline, closeOutline, closeCircleOutline, alertCircleOutline, trash, warningOutline, checkmarkCircleOutline } from 'ionicons/icons';
 
 export default defineComponent({
   setup() {
@@ -143,6 +161,7 @@ export default defineComponent({
     const counterservices = new CounterService(null);
     const isOpenImgae = ref(false);
     const confirmcheck = ref(false);
+    const success = ref(false);
     const isViewImgae = ref(false);
     const OpenAlert = (state: boolean) => {
       isOpenImgae.value = state;
@@ -162,6 +181,8 @@ export default defineComponent({
       alertButtons,
       confirmcheck,
       warningOutline,
+      success,
+      checkmarkCircleOutline
     };
   },
   components: {
@@ -234,7 +255,6 @@ export default defineComponent({
       formData.append('price', this.price);
       formData.append('mobile', this.mobile);
       formData.append('ref_image', this.image);
-      this.loading = true;
       loadingController.create({
         message: 'โปรดรอสักรู่....'
       }).then(a => {
@@ -242,11 +262,14 @@ export default defineComponent({
           this.userservice.PostNBAServices(formData).then((result: any) => {
             console.log(result)
             if (result.message === 'successful') {
-              this.loading = false
+              this.loading = false;
+              this.confirmcheck = false;
+              this.success = true;
+              // window.location.reload();
               console.log('result', result.data);
-              window.location.reload();
             } else if (result.message === 'failed') {
               this.isOpenImgae = true;
+              this.loading = false
               this.sentmessage = result.test.message;
               this.error = 'ตรวจสอบเงินในกระเป๋าของคุณ';
               console.log('result', result.data);
@@ -262,7 +285,10 @@ export default defineComponent({
     },
     viewImage() {
       this.isViewImgae = true;
-    }
+    },
+    Success(){
+      window.location.href = '/tabs/nbaservices'
+    } 
   },
   async mounted() {
     this.loading = true;
@@ -398,5 +424,11 @@ ion-modal#example-modal ion-img {
   margin-left: auto;
   margin-right: auto;
   margin-top: 18px;
+}
+.ioc-success{
+  color: green;
+  font-size: 80px;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

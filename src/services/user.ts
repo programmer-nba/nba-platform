@@ -589,6 +589,27 @@ export class UserService {
         return responseData;
     };
 
+     //Check mobile services
+     async CheckMobileBill(MobileBill: String) {
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: MobileBill,
+            url: `${this.baseUrl}/counter_service/mobile_bill/check`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    }
+
     //Check mobile services
     async CheckWalletServices(Wallet: String) {
         let data = null;
@@ -718,5 +739,7 @@ export class UserService {
 
         return data;
     }
+
+
 }
 

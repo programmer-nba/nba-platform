@@ -175,4 +175,24 @@ export class CounterService {
         return data;
     }
     
+       // MoblieBill
+
+       async getMoblieBill(){
+        let data=null;
+        const request = {
+            method:'get',
+            headers:{
+                token: this.token
+            },
+            url:`${this.baseUrl}/counter_service/mobile_bill`
+        }
+        await axios(request).then(response=>{
+            data = response.data;
+        })
+        .catch(error => {
+            data = error
+        })
+
+        return data;
+    }
 }
