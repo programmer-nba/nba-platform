@@ -34,21 +34,20 @@ import {
 } from '@ionic/vue';
 import { CounterService } from "../../services/counterservices";
 import { BarcodeService } from "@/model/counterservice.interface"
-import { Plugins } from '@capacitor/core';
+import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
     setup() {
-        const { BarcodeScanner } = Plugins;
         const counterService = new CounterService(null);
-        return { counterService, BarcodeScanner, alertController }
+        return { counterService, alertController }
     },
     components: { IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonButton },
     data() {
         return {
             services: [] as BarcodeService[],
             loading: false,
-            result: null,
+            result: '',
             scanActive: false,
             productid: '',
         }
@@ -60,7 +59,7 @@ export default defineComponent({
             console.log(this.scanActive)
             if (allowed) {
                 this.scanActive = true;
-                const result = await this.BarcodeScanner.startScan();
+                const result = await BarcodeScanner.startScan();
                 console.log(result);
                 if (result.hasContent) {
                     this.result = result.content;
@@ -76,7 +75,7 @@ export default defineComponent({
         },
         async checkPermission() {
             return new Promise(async (resolve, reject) => {
-                const status = await this.BarcodeScanner.checkPermission({ focus: true });
+                const status = await BarcodeScanner.checkPermission({ force: true });
                 if (status.granted) {
                     resolve(true);
                 } else if (status.denied || status.neverAsked) {
@@ -90,7 +89,7 @@ export default defineComponent({
                         {
                             text: 'เปิดการตั้งค่า',
                             handler: () => {
-                                this.BarcodeScanner.openAppSettings();
+                                BarcodeScanner.openAppSettings();
                                 resolve(false);
                             }
                         }]
@@ -102,7 +101,8 @@ export default defineComponent({
             })
         },
         stopScanner() {
-            this.BarcodeScanner.stopScan();
+            BarcodeScanner.stopScan();
+            BarcodeScanner.showBackground();
             this.scanActive = false;
         }
     },

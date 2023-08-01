@@ -32,7 +32,7 @@
                             <ion-input type="number" :value="datachecpin.mobile" placeholder="กรอกเบอร์โทร"
                                 onkeypress="if(this.value.length==10) return false;"></ion-input>
                             QR Code
-                            <ion-input type="text" :value="datachecpin.barcode" disabled></ion-input>
+                            <ion-input type="text" :value="datachecpin.barcode" readonly></ion-input>
                         </ion-col>
                         <ion-col>
                             <ion-button expand="full" @click="CheckQR()">
