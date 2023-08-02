@@ -42,7 +42,7 @@
               </ion-item>
               <ion-item lines="none" v-if="image_preview === ''">
                 <ion-icon class="icon-attach" :icon="attachOutline"></ion-icon>
-                <ion-input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"></ion-input>
+                <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"/>
               </ion-item>
               
               <!-- Alert Confrime -->
@@ -214,7 +214,11 @@ export default defineComponent({
  
 <style scoped>
 .custom-file-input {
-  --padding-top: 10px !important;
+  padding: 5%;
+  background: white;
+  color: black;
+  width: 100%;
+  height: auto;
 }
 .toolbar {
   --background: rgb(255, 1, 162);

@@ -65,7 +65,7 @@
         </ion-col>
         <ion-col v-if="image_preview === null">
           แนบรูปภาพ (ถ้ามี และป้องกันความผิดพลาด)
-          <ion-input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"></ion-input>
+          <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"/>
         </ion-col>
 
         <ion-col size="12" style="text-align: center;" v-if="image_preview != null">
@@ -316,7 +316,11 @@ export default defineComponent({
 
 <style scoped>
 .custom-file-input {
-  --padding-top: 10px !important;
+  padding: 5%;
+  background: white;
+  color: black;
+  width: 100%;
+  height: auto;
 }
 
 ion-toolbar {
