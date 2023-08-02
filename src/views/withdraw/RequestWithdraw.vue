@@ -8,8 +8,8 @@
             >
         </ion-input>
     </ion-item>
-    <ion-list v-if="date_time.length !== 0" id="open-modal">
-        <ion-item button :detail="false" v-for="item  in date_time" @click="openDailog(item._id,item.status,item.amount,item.charge,item.total,item.createdAt,item.ref)">
+    <ion-list v-if="date_time.length !== 0" @click="setOpen(true)">
+        <ion-item button :detail="false" v-for="item  in date_time" @click="openDailog(item._id)">
             <ion-label>                                                                     
                 <h3>จำนวน <strong>{{  Number(item.amount).toFixed(2) }}</strong> บาท</h3>
                 <p>อ้างอิง : {{ item.ref }} |  วันที่ {{ dateFormat(item.createdAt) }}</p>
@@ -18,26 +18,26 @@
                 <ion-icon slot="end" v-if="item.status === 'ยกเลิก'" :icon="closeCircle"  style="color: red; font-size: 25px;"></ion-icon>
                 <ion-icon slot="end" v-if="item.status === 'รอดำเนินการ'" :icon="informationCircle"  style="color: #3880ff; font-size: 25px;"></ion-icon>
         </ion-item>
-        <ion-modal  ref="modal" trigger="open-modal">
+        <ion-modal  ref="modal" :is-open="isOpen">
                 <div>
                     <ion-toolbar class="toolbar">
                         <h4>รายละเอียด</h4>
-                        <ion-button slot="end" fill="clear" @click="dismiss()">
+                        <ion-button slot="end" fill="clear" @click="setOpen(false)">
                             <ion-icon style="color: white;"  :icon="close"></ion-icon>
                         </ion-button>
                         </ion-toolbar>
                         <ion-item lines="full">
                         <ion-row>
                             <ion-col size="12" style="padding-bottom: 0%;">
-                                <h3><strong>อ้างอิง : {{ ref_code }}</strong></h3>
-                                <p style="font-size: 14px; color: gray;">วันที่ทำรายการ {{ datetimeFormat(createdAt) }}</p>
+                                <h3><strong>อ้างอิง : {{ report_byid.ref }}</strong></h3>
+                                <p style="font-size: 14px; color: gray;">วันที่ทำรายการ {{ datetimeFormat(report_byid.createdAt) }}</p>
                             </ion-col>
                             <ion-col size="11" style="padding: 0%;">
                                     <ion-card>
                                         <ion-text> สถานะ : </ion-text>
-                                            <ion-chip v-if="status === 'รอดำเนินการ'" color="primary">{{ status }}</ion-chip>
-                                            <ion-chip v-if="status === 'ยกเลิก'" color="danger">{{ status }}</ion-chip>
-                                            <ion-chip v-if="status === 'โอนเรียบร้อย'" color="success">{{ status }}</ion-chip>
+                                            <ion-chip v-if="report_byid.status === 'รอดำเนินการ'" color="primary">{{ report_byid.status }}</ion-chip>
+                                            <ion-chip v-if="report_byid.status === 'ยกเลิก'" color="danger">{{ report_byid.status }}</ion-chip>
+                                            <ion-chip v-if="report_byid.status === 'โอนเรียบร้อย'" color="success">{{ report_byid.status }}</ion-chip>
                                     </ion-card>
                             </ion-col>
                         </ion-row>
@@ -45,14 +45,26 @@
                     <div style="padding-left: 5%;">
                         <p style="color: gray;">รายละเอียด</p>
                             <p>
-                                <ion-text style="font-weight: bold;">ยอดถอน :</ion-text> {{ Number(amount).toFixed(2) }} บาท<br/>
-                                <ion-text style="font-weight: bold;">ค่าธรรมเนียม :</ion-text> {{ Number(charge).toFixed(2) }} บาท<br/>
-                                <ion-text style="font-weight: bold;">หักค่าคอมมิชั่นสะสม :</ion-text> {{ Number(total).toFixed(2) }} บาท<br/>
-                                <ion-text style="font-weight: bold; font-size: 17px;">ยอดเข้าบัญชีสุทธิ : {{ Number(amount).toFixed(2) }} บาท</ion-text> 
+                                <ion-text style="font-weight: bold;">ยอดถอน :</ion-text> {{ Number(report_byid.amount).toFixed(2) }} บาท<br/>
+                                <ion-text style="font-weight: bold;">ค่าธรรมเนียม :</ion-text> {{ Number(report_byid.charge).toFixed(2) }} บาท<br/>
+                                <ion-text style="font-weight: bold;">หักค่าคอมมิชั่นสะสม :</ion-text> {{ Number(report_byid.total).toFixed(2) }} บาท<br/>
+                                <ion-text style="font-weight: bold; font-size: 17px;">ยอดเข้าบัญชีสุทธิ : {{ Number(report_byid.amount).toFixed(2) }} บาท</ion-text> 
+                                <ion-img style="width: 50%; height: 50%; margin-top: 10%;" :src="getImage(report_byid.image)" @click="viewImage"
+                            v-if="report_byid.image !== ''" />
                             </p>
                     </div>
                     </div>
                 </ion-modal>
+
+                  <!-- Model ViewImage -->
+        <ion-modal :is-open="isViewImgae" id="example-modal" ref="modal">
+            <ion-img :src="getImage(report_byid.image)"></ion-img>
+            <div class="top-right">
+                <ion-button fill="clear" @click="isViewImgae = false">
+                    <ion-icon style="color:  white;" :icon="closeOutline"></ion-icon>
+                </ion-button>
+            </div>
+        </ion-modal>
     </ion-list>
         <div v-else class="text-center">
             <p><em>--ไม่มีรายการแจ้งเติมเงิน--</em></p>
@@ -82,15 +94,20 @@ import {
     IonText,
     IonChip
  } from '@ionic/vue';
- import {  datetimeFormat,  dayjs, dateFormat } from '@/services/fun'
+ import {  datetimeFormat,  dayjs, dateFormat, getImage } from '@/services/fun'
  import { UserService } from "@/services/user";
- import { Requestservice } from "@/model/request.interface";
+ import { Historyservice } from "@/model/history.interface";
 import { defineComponent , ref } from 'vue';
-import {  checkmarkCircle, close, closeCircle, informationCircle } from 'ionicons/icons';
+import {  checkmarkCircle, close, closeCircle, informationCircle, closeOutline } from 'ionicons/icons';
 
 export default defineComponent({
     setup(){
         const userservice = new UserService(null);
+        const isViewImgae = ref(false);
+        const OpenAlert = (state: boolean) => {
+            ;
+            isViewImgae.value = state;
+        };
         return {
             userservice,
             close,
@@ -99,7 +116,11 @@ export default defineComponent({
             checkmarkCircle,
             datetimeFormat,
             dayjs,
-            dateFormat
+            dateFormat,
+            OpenAlert,
+            getImage,
+            isViewImgae,
+            closeOutline
         }
     },
     components: {IonPage, IonContent,IonGrid,IonRow,IonCol,IonImg,IonDatetime,
@@ -109,34 +130,44 @@ export default defineComponent({
     data(){
         return {
             loading:false,
-            history:[] as Requestservice[],
-            amount: null,
-            date_time:[''],
+            history:[] as Historyservice[],
+            date_time:[] as Historyservice[] | any,
             date: dayjs(Date.now()).format('YYYY-MM'),
-            ref_code: null,
-            createdAt: null,
-            status: null,
-            charge: null,
-            total: null,
-            _id: null,
+            isOpen: false,
+            report_byid: {
+                ref: '',
+                createdAt: '',
+                status: '',
+                amount: '',
+                charge: '',
+                total: '',
+                image: '',
+            }
         }
     },
     methods : {
-        openDailog(_id,status,amount,charge,total,createdAt,ref){
-            this.ref_code = ref;
-            this.status = status;
-            this.amount = amount;
-            this.charge = charge;
-            this.total = total;
-            this._id = _id;
-            this.createdAt = createdAt;
+      async openDailog(_id: string){
+            await this.userservice.GetByIdReprtWithdraw(_id).then((result: any) => {
+                console.log(result);
+                this.report_byid = result.data;
+                this.report_byid.ref = result.data.ref;
+                this.report_byid.createdAt = result.data.createdAt;
+                this.report_byid.status = result.data.status;
+                this.report_byid.amount = result.data.amount;
+                this.report_byid.charge = result.data.charge;
+                this.report_byid.total = result.data.total;
+                this.report_byid.image = result.data.image;
+            })
         },
         chooseDate(){
             this.date_time = this.history.filter((el)=>dayjs(el.createdAt).format('YYYY-MM') === dayjs(this.date).format('YYYY-MM'));
         },
-        dismiss() {
-            this.$refs.modal.$el.dismiss();
+        setOpen(isOpen: boolean) {
+            this.isOpen = isOpen;
         },
+        viewImage() {
+            this.isViewImgae = true;
+        }
     },
     async mounted(){
       await this.userservice.GetRequest().then((result:any | null)=>{

@@ -97,25 +97,25 @@ export default defineComponent({
     data() {
         return {
             user: null,
-            mumber: [],
+            mumber: [] as any[],
             id: '',
             message: 'ออกจากอุปกรณ์บนเครื่อง อื่นๆ สำเร็จ',
             loading: false
         }
     },
     methods: {
-        checkDevice(token) {
+        checkDevice(token: any) {
             if (token === localStorage.getItem('token')) {
                 return true;
             } else {
                 return false;
             }
         },
-        async logoutDevice(id) {
+        async logoutDevice(id: any) {
             await this.userservice.DeleteMumber(id).then((result: any) => {
                 console.log(result);
                 if (result.status === true) {
-                    const position = this.mumber.findIndex((el) => el._id === id);
+                    const position = this.mumber.findIndex((el: any) => el._id === id);
                     this.mumber.splice(position, 1);
                     console.log('result', result.data);
                     this.isOpen = false
@@ -127,7 +127,7 @@ export default defineComponent({
                 console.log(err);
             })
         },
-        confirm(id) {
+        confirm(id: string) {
             this.isOpen = true;
             this.id = id;
         },

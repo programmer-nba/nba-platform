@@ -192,6 +192,7 @@ import { BarcodeService } from "@/model/counterservice.interface"
 import { chevronBackOutline, checkmarkCircleOutline, informationCircleOutline } from 'ionicons/icons';
 
 import { defineComponent, ref } from 'vue';
+import { LocationQuery, LocationQueryValue } from 'vue-router';
 
 export default defineComponent({
     setup() {
@@ -235,12 +236,12 @@ export default defineComponent({
             loading: false,
             mobile: '',
             datacheck: {
-                mobile: '',
-                barcode: this.$route.query.query,
+                mobile: '' ,
+                barcode: this.$route.query.query as string,
             },
             datachecpin: {
-                mobile: this.$route.query.mobile,
-                barcode: this.$route.query.barcode,
+                mobile: this.$route.query.mobile  as string,
+                barcode: this.$route.query.barcode as string,
             },
             img: '',
             sentmessage: '',
@@ -251,11 +252,11 @@ export default defineComponent({
             error: '',
             amount: '',
             verify: {
-                mobile: '',
+                mobile: '' as string,
                 data5: '',
             },
             confirm: {
-                mobile: '',
+                mobile: '' as string,
                 transid: '',
             },
             OpenConfiem: false,

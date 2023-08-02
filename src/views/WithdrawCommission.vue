@@ -91,9 +91,9 @@ export default defineComponent({
     data() {
         return {
             user: [],
-            allsale: '',
+            allsale: '' as any,
             charge: 10,
-            amount: '',
+            amount: '' as any,
             sentmessage: '',
             error: '',
             check: 'check',

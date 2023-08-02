@@ -155,7 +155,7 @@ export default defineComponent({
     return {
       loading: false,
       isOpenRef: true,
-      user: null,
+      user: null as any,
       allsale: '',
       servicePage: CounterServicePage,
       walletMonney: '',
@@ -212,7 +212,6 @@ export default defineComponent({
     //get me 
      this.userservice.GetMe().then((result: any | null) => {
       console.log(result);
-      console.log(this.isOpenRef);
       if (result.status === true) {
         this.user = result.data;
         this.loading = false

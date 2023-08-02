@@ -1,6 +1,7 @@
-import axios from 'axios'
-import { User } from '@/model/user.interface'
-import { AuthData } from '@/model/auth.interface'
+import { AuthData } from '@/model/auth.interface';
+import { User } from '@/model/user.interface';
+import axios from 'axios';
+import { LocationQuery } from 'vue-router';
 
 
 
@@ -68,9 +69,9 @@ export class UserService {
         return responseData;
 
     };
-    
-      //CreatePin
-      public async CreatePin(Pin: string) {
+
+    //CreatePin
+    public async CreatePin(Pin: string) {
 
         let data = null;
         const request = {
@@ -141,8 +142,8 @@ export class UserService {
         return responseData;
     };
 
-     //Get Notify
-     public async GetNotify() {
+    //Get Notify
+    public async GetNotify() {
 
         let responseData = null;
 
@@ -164,8 +165,8 @@ export class UserService {
         return responseData;
     };
 
-     //Put Notify
-     public async PutNotify(ID: string) {
+    //Put Notify
+    public async PutNotify(ID: string) {
 
         let responseData = null;
 
@@ -187,8 +188,8 @@ export class UserService {
         return responseData;
     };
 
-     //Delete Notify
-     public async DeleteNotify(ID: string) {
+    //Delete Notify
+    public async DeleteNotify(ID: string) {
 
         let responseData = null;
 
@@ -210,8 +211,8 @@ export class UserService {
         return responseData;
     };
 
-     //Delete Notify
-     public async DeleteAllNotify() {
+    //Delete Notify
+    public async DeleteAllNotify() {
 
         let responseData = null;
 
@@ -326,6 +327,28 @@ export class UserService {
         return responseData;
     };
 
+    //Get By Id History
+    public async GetByIdHistory(Id: String) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/money/history/${Id}`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
     //Get ArtWork
     public async GetArtWork() {
 
@@ -388,7 +411,7 @@ export class UserService {
         })
             .catch(error => {
                 data = { message: 'failed', error: error, test: error.response.data }
-                
+
             })
 
         return data;
@@ -417,8 +440,32 @@ export class UserService {
         return responseData;
     };
 
+    //ById Report Withdraw
+    public async GetByIdReprtWithdraw(Id: string) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/withdraw/${Id}`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+
     //Check mobile services
-    async checkMobileServices(Topup: String) {
+    async checkMobileServices(Topup: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -439,7 +486,7 @@ export class UserService {
     }
 
     //Confirm mobile services
-    async ConfirmMobileServices(Topup: String) {
+    async ConfirmMobileServices(Topup: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -460,7 +507,7 @@ export class UserService {
     }
 
     //Check mobile services
-    async checkCardTopupServices(CardTopupService: String) {
+    async checkCardTopupServices(CardTopupService: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -481,7 +528,7 @@ export class UserService {
     }
 
     //Confirm mobile services
-    async ConfirmCardTopupServices(CardTopupService: String) {
+    async ConfirmCardTopupServices(CardTopupService: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -566,6 +613,29 @@ export class UserService {
         return responseData;
     };
 
+    //GetById History Wallet
+    public async GetByIdHistoryWallet(Id: String) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/wallet/${Id}`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
     //Request Report Wallet
     public async GetReprtWallet() {
 
@@ -589,8 +659,32 @@ export class UserService {
         return responseData;
     };
 
-     //Check mobile services
-     async CheckMobileBill(MobileBill: String) {
+    //Request Report Wallet
+    public async GetByIdReprtWallet(Id: string) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/wallet/${Id}`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+
+    //Check MobileBill
+    async CheckMobileBill(MobileBill: any) {
         let data = null;
         const request = {
             method: 'post',
@@ -610,8 +704,51 @@ export class UserService {
         return data;
     }
 
+    //Get MobileBill
+    async getMobileBill(MobileBill: any) {
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: MobileBill,
+            url: `${this.baseUrl}/counter_service/mobile_bill/get-transaction`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error)
+            })
+
+        return data;
+    }
+
+    //Confirm MobileBill
+    async ConfirmMobileBill(MobileBill: any) {
+        let data = null;
+        const request = {
+            method: 'post',
+            headers: {
+                token: this.token
+            },
+            data: MobileBill,
+            url: `${this.baseUrl}/counter_service/mobile_bill/confirm`
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    }
+
     //Check mobile services
-    async CheckWalletServices(Wallet: String) {
+    async CheckWalletServices(Wallet: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -632,7 +769,7 @@ export class UserService {
     }
 
     //Confirme mobile services
-    async ConfirmekWalletServices(Wallet: String) {
+    async ConfirmekWalletServices(Wallet: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -675,8 +812,8 @@ export class UserService {
         return data;
     }
 
-     //Check QR Code
-     async CheckQRCode(Data: String) {
+    //Check QR Code
+    async CheckQRCode(Data: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -696,8 +833,8 @@ export class UserService {
         return data;
     }
 
-      //Verify QR Code
-      async VerifyQRCode(Data: String) {
+    //Verify QR Code
+    async VerifyQRCode(Data: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -718,8 +855,8 @@ export class UserService {
         return data;
     }
 
-     //Confirme QR Code
-     async ConfirmeQRCode(Data: String) {
+    //Confirme QR Code
+    async ConfirmeQRCode(Data: LocationQuery) {
         let data = null;
         const request = {
             method: 'post',
@@ -739,7 +876,6 @@ export class UserService {
 
         return data;
     }
-
 
 }
 

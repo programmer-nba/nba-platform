@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <ion-content padding>
+    <ion-content padding :fullscreen="true">
       <ion-alert :is-open="isOpen" header="รหัส PIN ไม่ถูกต้อง" sub-header="กรุณาลองใหม่อีกครั้ง" :buttons="alertButtons"
         @didDismiss="setOpen(false)"></ion-alert>
 
@@ -195,6 +195,13 @@ export default defineComponent({
               query: {
                 barcode: this.$route.query.barcode,
                 mobile: this.$route.query.mobile,
+                data: 'confirmed'
+              }
+            });
+          } else if (this.$route.query.query === 'confirmmobilebill') {
+            this.$router.push({
+              path: `/detailmobliebill/${this.$route.query.id}`,
+              query: {
                 data: 'confirmed'
               }
             });

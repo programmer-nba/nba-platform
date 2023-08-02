@@ -6,10 +6,10 @@
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
         </ion-button>
       </ion-buttons>
-          <ion-title>ข้อมูลทั่วไป</ion-title>
+      <ion-title>ข้อมูลทั่วไป</ion-title>
     </ion-toolbar>
     <ion-content padding>
-      <ion-col>
+      <ion-col >
         <ion-item lines="none">
           <ion-label style="color: grey; font-size: 15px;">
             <p>ข้อมูลทั่วไป</p>
@@ -19,43 +19,43 @@
           <ion-label>
             <h3><strong>ชื่อ-นามสกุล :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.name }}</p>
+          <p slot="end">{{ data_user.name }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>เบอร์โทร :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.tel }}</p>
+          <p slot="end">{{ data_user.tel }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>ที่อยู่ :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.address }}</p>
+          <p slot="end">{{ data_user.address }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>แขวง/ตำบล :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.subdistrict }}</p>
+          <p slot="end">{{ data_user.subdistrict }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>เขตอำเภอ :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.district }}</p>
+          <p slot="end">{{ data_user.district }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>จังหวัด :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.province }}</p>
+          <p slot="end">{{ data_user.province }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>รหัสไปรษณีย์ :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.postcode }}</p>
+          <p slot="end">{{ data_user.postcode }}</p>
         </ion-item>
 
         <!-- IDEN  -->
@@ -68,24 +68,25 @@
           <ion-label>
             <h3><strong>สถานะ :</strong></h3>
           </ion-label>
-          <ion-chip v-if="user?.iden.status" color="success">ยืนยันแล้ว</ion-chip>
-          <ion-chip v-if="!user?.iden.status && user?.iden.remark !== '-'" color="red">ยังไม่ได้ยืนยัน</ion-chip>
+          <ion-chip v-if="data_user.iden.status" color="success">ยืนยันแล้ว</ion-chip>
+          <ion-chip v-if="!data_user.iden.status && data_user.iden.remark !== '-'" color="red">ยังไม่ได้ยืนยัน</ion-chip>
           <ion-button elevation="0" class="btn-primary"
-            v-if="!user?.iden.status && user?.iden.remark === '-'">ยืนยันตอนนี้</ion-button>
+            v-if="!data_user.iden.status && data_user.iden.remark === '-'">ยืนยันตอนนี้</ion-button>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>หมายเลขบัตร :</strong></h3>
           </ion-label>
-          <p slot="end">{{ user?.iden.number }}</p>
+          <p slot="end">{{ data_user.iden.number }}</p>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>รูปที่แนบ :</strong></h3>
           </ion-label>
-          <ion-button id="open-custom-dialog" class="btn-img"><ion-icon style="margin-right: 10px;"
+          <ion-button @click="setOpenIden(true)" class="btn-img"><ion-icon style="margin-right: 10px;"
               :icon="image"></ion-icon>ดูรูปภาพ</ion-button>
-          <ion-modal id="example-modal" ref="modal" trigger="open-custom-dialog">
+
+          <ion-modal id="example-modal" ref="modal" :is-open="OpenIden">
             <div class="wrapper">
               <ion-toolbar class="toolbar">
                 <div style="height: 45px; text-align: center;">
@@ -93,10 +94,10 @@
                 </div>
               </ion-toolbar>
 
-              <ion-img :src="getImage(user?.iden.image)"></ion-img>
+              <ion-img :src="getImage(data_user.iden.image)"></ion-img>
               <ion-toolbar>
                 <ion-buttons slot="end">
-                  <ion-button @click="dismiss()">ปิด</ion-button>
+                  <ion-button @click="setOpenIden(false)">ปิด</ion-button>
                 </ion-buttons>
               </ion-toolbar>
             </div>
@@ -106,10 +107,10 @@
           <ion-label>
             <h3><strong>*หมายเหตุ :</strong></h3>
           </ion-label>
-          <div v-if="user?.iden.remark === 'ไม่ผ่านตรวจสอบ'">
+          <div v-if="data_user.iden.remark === 'ไม่ผ่านตรวจสอบ'">
             <ion-button>ส่งอีกครั้ง</ion-button>
           </div>
-          <p slot="end">{{ user?.iden.remark }}</p>
+          <p slot="end">{{ data_user.iden.remark }}</p>
         </ion-item>
 
         <!-- BANK -->
@@ -122,18 +123,18 @@
           <ion-label>
             <h3><strong>สถานะ :</strong></h3>
           </ion-label>
-          <ion-chip v-if="user?.iden.status" color="success">ยืนยันแล้ว</ion-chip>
-          <ion-chip v-if="!user?.iden.status && user?.iden.remark !== '-'" color="red">ยังไม่ได้ยืนยัน</ion-chip>
+          <ion-chip v-if="data_user.bank.status" color="success">ยืนยันแล้ว</ion-chip>
+          <ion-chip v-if="!data_user.bank.status && data_user.bank.remark !== '-'" color="red">ยังไม่ได้ยืนยัน</ion-chip>
           <ion-button elevation="0" class="btn-primary"
-            v-if="!user?.iden.status && user?.iden.remark === '-'">ยืนยันตอนนี้</ion-button>
+            v-if="!data_user.bank.status && data_user.bank.remark === '-'">ยืนยันตอนนี้</ion-button>
         </ion-item>
         <ion-item :detail="false">
           <ion-label>
             <h3><strong>รูปที่แนบ :</strong></h3>
           </ion-label>
-          <ion-button id="open-bank-dialog" class="btn-img"><ion-icon style="margin-right: 10px;"
+          <ion-button @click="setOpenBank(true)" class="btn-img"><ion-icon style="margin-right: 10px;"
               :icon="image"></ion-icon>ดูรูปภาพ</ion-button>
-          <ion-modal id="example-modal" ref="modalbank" trigger="open-bank-dialog">
+          <ion-modal id="example-modal" ref="modalbank" :is-open="OpenBank">
             <div class="wrapper">
               <ion-toolbar class="toolbar">
                 <div style="height: 45px; text-align: center;">
@@ -141,10 +142,10 @@
                 </div>
               </ion-toolbar>
 
-              <ion-img :src="getImage(user?.bank.image)"></ion-img>
+              <ion-img :src="getImage(data_user.bank.image)"></ion-img>
               <ion-toolbar>
                 <ion-buttons slot="end">
-                  <ion-button @click="dismissBank()">ปิด</ion-button>
+                  <ion-button @click="setOpenBank(false)">ปิด</ion-button>
                 </ion-buttons>
               </ion-toolbar>
             </div>
@@ -154,10 +155,10 @@
           <ion-label>
             <h3><strong>*หมายเหตุ :</strong></h3>
           </ion-label>
-          <div v-if="user?.bank.remark === 'ไม่ผ่านตรวจสอบ'">
+          <div v-if="data_user.bank.remark === 'ไม่ผ่านตรวจสอบ'">
             <ion-button>ส่งอีกครั้ง</ion-button>
           </div>
-          <p slot="end">{{ user?.bank.remark }}</p>
+          <p slot="end">{{ data_user.bank.remark }}</p>
         </ion-item>
       </ion-col>
 
@@ -174,6 +175,7 @@ import {
   IonIcon, IonButtons, IonAlert, IonItem, IonLabel, IonChip,
   IonModal, IonList, loadingController
 } from '@ionic/vue';
+import { User } from "@/model/user.interface";
 import { getImage } from '@/services/fun'
 import { UserService } from "@/services/user";
 import { defineComponent, ref } from 'vue';
@@ -182,17 +184,23 @@ export default defineComponent({
   setup() {
     const userservice = new UserService(null);
     const alertButtons = ['OK'];
-    const isOpen = ref(false);
-    const setOpen = (state: boolean) => {
-      isOpen.value = state;
+    const OpenIden = ref(false);
+    const OpenBank = ref(false);
+    const setOpenIden = (state: boolean) => {
+      OpenIden.value = state;
+    };
+    const setOpenBank = (state: boolean) => {
+      OpenBank.value = state;
     };
     return {
       radioButtonOffOutline,
       radioButtonOnOutline,
       chevronBackOutline,
       alertButtons,
-      setOpen,
-      isOpen,
+      setOpenBank,
+      setOpenIden,
+      OpenBank,
+      OpenIden,
       userservice,
       image,
       getImage
@@ -209,16 +217,35 @@ export default defineComponent({
   data() {
     return {
       user: null,
-      loading: false
+      loading: false,
+      data_user: {
+        name: '',
+        tel: '',
+        address: '',
+        subdistrict: '',
+        district: '',
+        province: '',
+        postcode: '',
+        iden: {
+          status: '',
+          remark: '',
+          number: '',
+          image: '',
+        },
+        bank: {
+          name: '',
+          status: '',
+          remark: '',
+          number: '',
+          image: '',
+        }
+      },
+      OpenBank: false,
+      OpenIden: false,
     }
   },
   methods: {
-    dismissBank() {
-      this.$refs.modalbank.$el.dismiss();
-    },
-    dismiss() {
-      this.$refs.modal.$el.dismiss();
-    },
+
   },
   async mounted() {
     this.loading = true;
@@ -227,11 +254,27 @@ export default defineComponent({
     }).then(a => {
       a.present().then(() => {
         //get me 
-        this.userservice.GetMe().then((result: any | null) => {
+        this.userservice.GetMe().then((result: any) => {
           console.log(result);
           if (result.status === true) {
             this.loading = false
             this.user = result.data;
+            this.data_user.name = result.data.name;
+            this.data_user.tel = result.data.tel;
+            this.data_user.address = result.data.address;
+            this.data_user.subdistrict = result.data.subdistrict;
+            this.data_user.district = result.data.district;
+            this.data_user.province = result.data.province;
+            this.data_user.postcode = result.data.postcode;
+            this.data_user.iden.status = result.data.iden.status;
+            this.data_user.iden.remark = result.data.iden.remark;
+            this.data_user.iden.number = result.data.iden.number;
+            this.data_user.iden.image = result.data.iden.image;
+            this.data_user.bank.name = result.data.bank.name;
+            this.data_user.bank.status = result.data.bank.status;
+            this.data_user.bank.remark = result.data.bank.remark;
+            this.data_user.bank.number = result.data.bank.number;
+            this.data_user.bank.image = result.data.bank.image;
           } if (!this.loading) {
             a.dismiss().then(() => console.log());
           }
@@ -243,7 +286,8 @@ export default defineComponent({
 
 </script>
 
-<style scoped>.toolbar {
+<style scoped>
+.toolbar {
   --background: rgb(255, 1, 162);
   --color: white;
   --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
@@ -266,4 +310,5 @@ ion-modal#example-modal {
 
 ion-modal#example-modal h1 {
   margin: 20px 20px 10px 20px;
-}</style>
+}
+</style>

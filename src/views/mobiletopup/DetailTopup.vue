@@ -156,7 +156,7 @@ export default defineComponent({
                 productid: this.$route.params.id
             },
             check: {
-                mobile: this.$route.query.mobile,
+                mobile: this.$route.query.mobile as string,
                 price: this.$route.query.price,
                 productid: this.$route.query.id
             },
@@ -178,12 +178,11 @@ export default defineComponent({
     async created() {
         if (this.$route.query.data === 'confirmed') {
             await this.userservice.checkMobileServices(this.check).then((result: any) => {
-                console.log(result)
                 this.loading = false;
                 if (result.message === 'successful') {
                     console.log('result', result.data);
                     this.confirm.mobile = this.check.mobile;
-                    this.confirm.price = this.check.price;
+                    this.confirm.price = result.data.price;
                     this.confirm.transid = result.data.transid;
                     this.isOpenConfrim = true;
                 } else if (result.message === 'failed') {
@@ -261,7 +260,6 @@ export default defineComponent({
         },
         AddPrice(number: string) {
             this.number_price = number;
-            console.log(this.number_price)
         },
     },
     async mounted() {

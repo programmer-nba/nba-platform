@@ -11,7 +11,7 @@
     </ion-item>
 
     <ion-list v-if="date_item.length !== 0"  id="open-custom-dialog">
-        <ion-item button :detail="false" v-for="item in date_item" @click="openDailog(item._id,item.detail)">
+        <ion-item  :detail="false" v-for="item in date_item">
             <ion-label>
                 <h3>{{ item.name }}</h3>
                 <p>{{ datetimeFormat(item.timestamp)}}</p>
@@ -20,7 +20,7 @@
                 {{ (item.type === 'เข้า' ? '+' : '-') }} {{ item.amount }}</p>
                
         </ion-item>
-        <ion-modal  id="example-modal" ref="modal" trigger="open-custom-dialog" >
+        <!-- <ion-modal  id="example-modal" ref="modal" trigger="open-custom-dialog" >
                 <div class="wrapper">
                         <ion-toolbar class="toolbar">
                            <h4>รายละเอียด</h4>
@@ -29,10 +29,10 @@
                             </ion-button>
                         </ion-toolbar>
                         <div class="detail">
-                            {{ detail }}
+                            {{ detail }}asdasd
                         </div>
                     </div>
-                </ion-modal>
+                </ion-modal> -->
     </ion-list>
     
         <div v-else class="text-center">
@@ -63,8 +63,8 @@ import {
     IonText,
 
  } from '@ionic/vue';
-
- import { UserService } from "@/services/user";
+import { HistoryWallet} from "@/model/historywallet.interface";
+import { UserService } from "@/services/user";
 import { defineComponent  } from 'vue';
 import {  listOutline, close } from 'ionicons/icons';
 import { datetimeFormat, dayjs } from '@/services/fun';
@@ -87,13 +87,14 @@ export default defineComponent({
     data(){
         return {
             loading:false,
-            history:[] ,
+            history: [] as HistoryWallet[],
             amount: null,
             dialog: false,
             id_dialog : null,
             id:null,
             detail: null,
-            date_item: '',
+            OpenModal: false,
+            date_item: {} as HistoryWallet[],
             date: dayjs(Date.now()).format('YYYY-MM'),
         }
     },
@@ -101,12 +102,12 @@ export default defineComponent({
         chooseDate(){
             this.date_item = this.history.filter((el)=>dayjs(el.timestamp).format('YYYY-MM') === dayjs(this.date).format('YYYY-MM'));
         },
-        openDailog(_id,detail){
-            this.id = _id;
-            this.detail = detail;
-        },
+        // openDailog(_id,detail){
+        //     this.id = _id;
+        //     this.detail = detail;
+        // },
         dismiss() {
-            this.$refs.modal.$el.dismiss();
+            this.OpenModal = false;
         },
     },
     async mounted(){

@@ -192,12 +192,12 @@ export default defineComponent({
   },
   data() {
     return {
-      services: [],
+      services: '' as any,
       loading: false,
       alerttext: true,
       alerttextbule: true,
-      image_preview: null,
-      image: null,
+      image_preview: null as any,
+      image: null as any,
       mobile: '',
       price: '',
       ref1: '',
@@ -216,7 +216,7 @@ export default defineComponent({
     ColseAlertBule() {
       this.alerttextbule = false;
     },
-    chooseImage(evt) {
+    chooseImage(evt: any) {
       this.image = evt.target.files[0];
       if (!evt.target.files[0]) {
         this.clearImage();
@@ -237,7 +237,7 @@ export default defineComponent({
       this.image_preview = null;
     },
     confirm() {
-      if (this.mobile.length <= 9 || this.price === '' || this.ref2 === '' || this.ref1 === '' || this.image === null) {
+      if (this.mobile.length <= 9 || this.price === '' || this.ref2 === '' || this.ref1 === '' || this.image === '') {
         this.sentmessage = 'ข้อมูลไม่ครบ';
         this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน';
         this.isOpenImgae = true;
@@ -300,8 +300,8 @@ export default defineComponent({
           console.log(result);
           if (result.data.status === true) {
             this.services = result.data.data.filter((el: any) => el._id == this.$route.params.id);
-            this.productid = this.services[0].productid;
-            this.productname = this.services[0].productname;
+            // this.productid = this.services[0].productid;
+            // this.productname = this.services[0].productname;
             this.loading = false
             console.log(this.services)
           } if (!this.loading) {

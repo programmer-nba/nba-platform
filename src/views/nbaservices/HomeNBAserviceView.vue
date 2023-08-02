@@ -35,7 +35,6 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { CounterService } from "../../services/counterservices";
-import { Topup } from '../../model/topup.interface';
 
 export default defineComponent({
     setup() {
@@ -48,7 +47,7 @@ export default defineComponent({
     components: { IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonText },
     data() {
         return {
-            services: [] as Topup[],
+            services: '' as any,
             display: {
                 colunm: 3
             },

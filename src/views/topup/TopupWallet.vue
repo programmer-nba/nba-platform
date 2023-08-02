@@ -40,7 +40,7 @@
                 <p class="icon-bath">฿</p>
                 <ion-input v-model="amount" placeholder="จำนวนเงินที่โอน (บาท)" type="number"></ion-input>
               </ion-item>
-              <ion-item lines="none" v-if="image_preview === null">
+              <ion-item lines="none" v-if="image_preview === ''">
                 <ion-icon class="icon-attach" :icon="attachOutline"></ion-icon>
                 <ion-input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"></ion-input>
               </ion-item>
@@ -56,7 +56,7 @@
               </ion-modal>
 
 
-              <ion-row v-if="image_preview != null">
+              <ion-row v-if="image_preview != ''">
                 <ion-col size="12" style="text-align: center;">
                   <ion-button @click="clearImage()" class="btn-deleteimg">
                     <ion-icon slot="start" :icon="trash"></ion-icon>
@@ -138,8 +138,8 @@ export default defineComponent({
   data() {
     return {
       selectTabs: 'monney',
-      image: null,
-      image_preview: null,
+      image: null as any,
+      image_preview: null as any,
       amount: '',
       sentmessage: '',
       error: '',
@@ -148,7 +148,7 @@ export default defineComponent({
     }
   },
   methods: {
-    chooseImage(evt) {
+    chooseImage(evt: any) {
       this.image = evt.target.files[0];
       if (!evt.target.files[0]) {
         this.clearImage();

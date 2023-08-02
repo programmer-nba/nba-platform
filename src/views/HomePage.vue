@@ -197,22 +197,24 @@
             </ion-col>
           </ion-row>
 
-          <!-- <ion-row>
+          <ion-row>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/keyservice.png"
-                @click="$router.push('/tabs/keyservice')" />
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/mobilebill.png"
+                @click="$router.push('/tabs/mobliebill')" />
+              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/keyservice.png"
+                @click="$router.push('/tabs/keyservice')" /> -->
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png"
-                @click="$router.push('/tabs/proserm')" />
+              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png"
+                @click="$router.push('/tabs/proserm')" /> -->
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/cash.png"
-                @click="$router.push('/tabs/cash')" />
+              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/cash.png"
+                @click="$router.push('/tabs/cash')" /> -->
             </ion-col>
           </ion-row>
 
-          <ion-row>
+          <!-- <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/accountingservice.png"
                 @click="$router.push('/tabs/cash')" />
@@ -292,15 +294,15 @@ export default defineComponent({
   },
   data() {
     return {
-      user: null,
+      user: null as any,
       servicePage: CounterServicePage,
       loading: false,
       progress: 0,
       isOpenDelete: false,
       isOpen_2: false,
       isOpen: false,
-      notify: [],
-      noti: '',
+      notify: [] as any[],
+      noti: '' as any,
       id_noti: '',
       isOpenToast: false,
       message: 'ลบข้อความแจ้งเตือนสำเร็จ สำเร็จ',
@@ -312,7 +314,7 @@ export default defineComponent({
     setOpen(isOpen: boolean) {
       this.isOpen = isOpen;
     },
-    async read(item) {
+    async read(item: any) {
       this.isOpen_2 = true;
       this.noti = item;
       if (!item.status) {

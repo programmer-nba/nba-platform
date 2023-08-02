@@ -117,7 +117,7 @@ export default defineComponent({
     },
     data() {
         return {
-            services: [],
+            services: '' as any,
             loading: false,
             name: '',
             preorder: {
@@ -156,7 +156,7 @@ export default defineComponent({
                 message: 'โปรดรอสักรู่....'
             }).then(a => {
                 a.present().then(() => {
-                    this.userservice.GetPreorderById(this.preorder).then((result: any) => {
+                    this.userservice.GetPreorderById(this.preorder.product_price_id).then((result: any) => {
                         console.log(result)
                         if (result.message === 'successful') {
                             this.loading = false
@@ -188,12 +188,11 @@ export default defineComponent({
             message: 'กำลังโหลดข้อมูล....'
         }).then(a => {
             a.present().then(() => {
-                this.userservice.GetArtWorkById(this.$route.params.id).then((result: any | null) => {
+                this.userservice.GetArtWorkById(this.$route.params.id as string).then((result: any | null) => {
                     console.log(result);
                     if (result.message === 'ดึงข้อมูลสำเร็จ') {
                         this.loading = false
                         this.services = result.data;
-                        this.name = this.services[0].product.name;
                         console.log(this.$router)
                     }
                     if (!this.loading) {

@@ -107,6 +107,7 @@ import {
     IonButtons,
     loadingController
 } from '@ionic/vue';
+import { WalletService } from "@/model/wallet.interface";
 import { defineComponent, ref } from 'vue';
 import { CounterService } from "../../services/counterservices";
 import { UserService } from "@/services/user";
@@ -147,7 +148,7 @@ export default defineComponent({
     },
     data() {
         return {
-            wallet: [],
+            wallet: [] as WalletService[],
             loading: false,
             test: null,
             sent: {
@@ -156,7 +157,7 @@ export default defineComponent({
                 productid: this.$route.params.id
             },
             check: {
-                mobile: this.$route.query.mobile,
+                mobile: this.$route.query.mobile as string,
                 price: this.$route.query.price,
                 productid: this.$route.query.id
             },
@@ -183,7 +184,7 @@ export default defineComponent({
                 if (result.message === 'successful') {
                     console.log('result', result.data);
                     this.confirm.mobile = this.check.mobile;
-                    this.confirm.price = this.check.price;
+                    this.confirm.price = result.data.price;
                     this.confirm.transid = result.data.transid;
                     this.isOpenConfrim = true;
                 } else if (result.message === 'failed') {

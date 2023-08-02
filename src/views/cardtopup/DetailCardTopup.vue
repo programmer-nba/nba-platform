@@ -153,12 +153,12 @@ export default defineComponent({
             sent: {
                 mobile: '',
                 price: this.number,
-                productid: this.$route.params.id
+                productid: this.$route.params.id as string,
             },
             check: {
-                mobile: this.$route.query.mobile,
-                price: this.$route.query.price,
-                productid: this.$route.query.id
+                mobile: this.$route.query.mobile as string,
+                price: this.$route.query.price as string,
+                productid: this.$route.query.id as string, 
             },
             confirm: {
                 mobile: '',

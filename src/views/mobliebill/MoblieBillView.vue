@@ -41,7 +41,7 @@ export default defineComponent({
     components: { IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg },
     data() {
         return {
-            moobliebill: [],
+            moobliebill: [] as any,
             display: {
                 colunm: 3
             },
