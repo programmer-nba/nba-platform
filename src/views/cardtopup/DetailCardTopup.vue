@@ -196,7 +196,7 @@ export default defineComponent({
                     this.confirm.transid = result.data.transid;
                     this.isOpenConfrim = true;
                 } else if (result.message === 'failed') {
-                    this.sentmessage = 'เครือข่ายยังไม่รองรับ'
+                    this.sentmessage = 'ระบบขัดข้องจากผู้ให้บริการ'
                     this.error = 'ขออภัยในความไม่สะดวก'
                     this.alertButtons = [
                         {
@@ -263,7 +263,7 @@ export default defineComponent({
                         } else if (result.message === 'failed') {
                             console.log('result', result.data);
                             this.loading = false
-                            this.sentmessage = 'เครือข่ายยังไม่รองรับ'
+                            this.sentmessage = 'ระบบขัดข้องจากผู้ให้บริการ'
                             this.error = 'ขออภัยในความไม่สะดวก'
                             this.alertButtons = [
                                 {

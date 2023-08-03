@@ -32,18 +32,14 @@
                 </ion-col>
                 <ion-col size="12" v-if="amount">
                     <ion-input v-model="check.price" label="จำนวนเงินที่ต้องการจ่าย" type="number"
-                        placeholder="กรอกจำนวนเงิน" :readOnly="cost.nba || cost.shop === null ? true : false">
+                        placeholder="กรอกจำนวนเงิน" :readOnly="cost.charge === null ? true : false">
                     </ion-input>
                 </ion-col>
-                <ion-col size="12" v-if="cost.nba || cost.shop">
+                <ion-col size="12" v-if="cost.charge">
                     <ion-item>
                         <ion-label>
-                            <h3>ค่าธรรมเนียม NBA</h3>
-                            <p>{{ cost.nba }} บาท</p>
-                        </ion-label>
-                        <ion-label>
-                            <h3>ค่าธรรมเนียม SHOP</h3>
-                            <p>{{ cost.shop }} บาท</p>
+                            <h3>ค่าธรรมเนียม </h3>
+                            <p>{{ cost.charge }} บาท</p>
                         </ion-label>
                     </ion-item>
                     <ion-item>
@@ -128,9 +124,7 @@ export default defineComponent({
             {
                 text: 'OK',
                 role: 'confirm',
-                handler: () => {
-
-                },
+                handler: () => {},
             },
         ];
         const isOpenConfrim = ref(false);
@@ -187,8 +181,6 @@ export default defineComponent({
             error_message: '',
             sentmessage: '',
             cost: {
-                nba: '',
-                shop: '',
                 charge: '',
                 transid: '',
             }
@@ -210,7 +202,7 @@ export default defineComponent({
                                     this.loading = false;
                                     console.log('result', result.data);
                                 } else if (result.message === 'failed') {
-                                    this.sentmessage = 'เคลื่อข่ายยังไม่รองรับ';
+                                    this.sentmessage = 'ระบบขัดข้องจากผู้ให้บริการ';
                                     this.error = 'ขออภัยในความไม่สะดวก';
                                     this.alertButtons = [
                                         {
@@ -262,7 +254,7 @@ export default defineComponent({
                             } else if (result.message === 'failed') {
                                 this.loading = false;
                                 console.log('result', result.data);
-                                this.sentmessage = 'เคลื่อข่ายยังไม่รองรับ';
+                                this.sentmessage = 'ระบบขัดข้องจากผู้ให้บริการ';
                                 this.error = 'ขออภัยในความไม่สะดวก';
                                 this.alertButtons = [
                                     {
@@ -310,14 +302,12 @@ export default defineComponent({
                                 this.check_button = 'จ่ายบิล';
                                 this.confirm.mobile = this.sent.mobile;
                                 this.confirm.transid = result.data.transid;
-                                this.cost.nba = result.data.cost_nba;
-                                this.cost.shop = result.data.cost_shop;
                                 this.cost.charge = result.data.charge;
                                 this.cost.transid = result.data.transid;
                                 console.log('result', result.data);
                             } else if (result.message === 'failed') {
                                 this.loading = false;
-                                this.sentmessage = 'เคลื่อข่ายยังไม่รองรับ';
+                                this.sentmessage = 'ระบบขัดข้องจากผู้ให้บริการ';
                                 this.error = 'ขออภัยในความไม่สะดวก';
                                 this.alertButtons = [
                                     {
