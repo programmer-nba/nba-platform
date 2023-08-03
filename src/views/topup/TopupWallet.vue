@@ -6,6 +6,7 @@
     <!-- Aler Imgae -->
     <ion-alert :is-open="isOpenImgae" header="แจ้งเตือน !" :sub-header="sentmessage" :message="error"
       :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
+
     <ion-toolbar class="toolbar">
       <ion-buttons slot="start">
         <ion-button @click="$router.go(-1)">
@@ -40,7 +41,7 @@
                 <p class="icon-bath">฿</p>
                 <ion-input v-model="amount" placeholder="จำนวนเงินที่โอน (บาท)" type="number"></ion-input>
               </ion-item>
-              <ion-item lines="none" v-if="image_preview === ''">
+              <ion-item style="margin-top: 2%;" lines="none" v-if="image_preview === null">
                 <ion-icon class="icon-attach" :icon="attachOutline"></ion-icon>
                 <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"/>
               </ion-item>
@@ -56,7 +57,7 @@
               </ion-modal>
 
 
-              <ion-row v-if="image_preview != ''">
+              <ion-row v-if="image_preview != null">
                 <ion-col size="12" style="text-align: center;">
                   <ion-button @click="clearImage()" class="btn-deleteimg">
                     <ion-icon slot="start" :icon="trash"></ion-icon>
@@ -214,11 +215,11 @@ export default defineComponent({
  
 <style scoped>
 .custom-file-input {
+  margin: 2%;
   padding: 5%;
   background: white;
   color: black;
   width: 100%;
-  height: auto;
 }
 .toolbar {
   --background: rgb(255, 1, 162);

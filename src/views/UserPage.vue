@@ -62,12 +62,12 @@
            <ion-text> ตั้งค่า</ion-text>
           </ion-label>
         </ion-item>
-        <ion-item href="/user/genaral">
+        <ion-item button @click="$router.push(`/user/genaral`)">
           <ion-label>
             <h3>ข้อมูลทั่วไป</h3>
           </ion-label>
         </ion-item>
-        <ion-item href="/user/security">
+        <ion-item button href="/user/security">
           <ion-label>
             <h3>เข้าสู่ระบบและความปลอดภัย</h3>
           </ion-label>

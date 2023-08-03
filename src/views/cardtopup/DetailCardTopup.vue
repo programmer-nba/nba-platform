@@ -1,8 +1,8 @@
 <template>
     <ion-page>
         <!-- Aler data -->
-        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" message="กรุณากรอกข้อมูลให้ครบถ้วน"
-            :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
+        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" :message="error" :buttons="alertButtons"
+            @didDismiss="OpenAlert(false)"></ion-alert>
         <!-- Aler Wallet -->
         <ion-alert :is-open="isOpenWallet" header="แจ้งเตือน !" :sub-header="!message ? error : message"
             :message="!message ? error_message : 'กรุณาตรวจสอบเงินในกระเป๋า'" :buttons="alertButtons"
@@ -14,7 +14,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-                    <ion-title>เติมเงิน</ion-title>
+            <ion-title>เติมเงิน</ion-title>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
             <ion-row v-for="item in cardtopup">
@@ -28,8 +28,9 @@
                 <ion-grid>
                     <ion-row>
                         <ion-col size="4" size-md="2" size-lg="2" v-for="(number, id) in item.price.split(',')" :key="id">
-                            <ion-button class="btn-price" color="light" fill="outline" @click="AddPrice(number)" :value="id"> {{ number
-                            }}</ion-button>
+                            <ion-button class="btn-price" color="light" fill="outline" @click="AddPrice(number)"
+                                :value="id"> {{ number
+                                }}</ion-button>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
@@ -117,7 +118,15 @@ export default defineComponent({
     setup() {
         const userservice = new UserService(null);
         const counterservice = new CounterService(null);
-        const alertButtons = ['OK'];
+        const alertButtons = [
+            {
+                text: 'OK',
+                role: 'confirm',
+                handler: () => {
+
+                },
+            },
+        ];
         const isOpenConfrim = ref(false);
         const isOpenWallet = ref(false);
         const isOpen = ref(false);
@@ -158,7 +167,7 @@ export default defineComponent({
             check: {
                 mobile: this.$route.query.mobile as string,
                 price: this.$route.query.price as string,
-                productid: this.$route.query.id as string, 
+                productid: this.$route.query.id as string,
             },
             confirm: {
                 mobile: '',
@@ -187,11 +196,20 @@ export default defineComponent({
                     this.confirm.transid = result.data.transid;
                     this.isOpenConfrim = true;
                 } else if (result.message === 'failed') {
-                    this.error = result.error
-                    this.error_message = result.message
-                    this.message = result.test.message
-                    console.log('result', result.data);
-                    this.isOpenWallet = true;
+                    this.sentmessage = 'เครือข่ายยังไม่รองรับ'
+                    this.error = 'ขออภัยในความไม่สะดวก'
+                    this.alertButtons = [
+                        {
+                            text: 'OK',
+                            role: 'confirm',
+                            handler: () => {
+                                this.$router.push({
+                                    path: `/tabs/cardtopup`,
+                                });
+                            },
+                        }
+                    ]
+                    this.isOpen = true;
                 }
             });
         }
@@ -206,7 +224,6 @@ export default defineComponent({
     methods: {
         async Send() {
             if (this.sent.mobile.length >= 10 && this.number_price != '' && this.sent.productid != '') {
-                console.log(this.sent.mobile)
                 this.$router.push({
                     path: `/pin`,
                     query: {
@@ -218,13 +235,15 @@ export default defineComponent({
                 });
             } else if (this.sent.mobile.length <= 9 && this.number_price === '') {
                 this.sentmessage = 'กรอกราคาและเบอร์โทรศัพท์ ไม่ครบ'
+                this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน'
                 this.isOpen = true;
             } else if (this.sent.mobile.length <= 9) {
                 this.sentmessage = 'กรอกเบอร์โทรศัพท์ไม่ครบ'
-                console.log(this.sent.mobile.length)
+                this.error = 'กรุณากรอกเบอร์ให้ครบ'
                 this.isOpen = true;
             } else if (this.number_price === '') {
                 this.sentmessage = 'โปรดเลือกราคาที่ต้องการเติม'
+                this.error = 'กรุณาเลือกราคา'
                 this.isOpen = true;
             }
         },
@@ -243,6 +262,21 @@ export default defineComponent({
                             this.check_confirm = 'confirm';
                         } else if (result.message === 'failed') {
                             console.log('result', result.data);
+                            this.loading = false
+                            this.sentmessage = 'เครือข่ายยังไม่รองรับ'
+                            this.error = 'ขออภัยในความไม่สะดวก'
+                            this.alertButtons = [
+                                {
+                                    text: 'OK',
+                                    role: 'confirm',
+                                    handler: () => {
+                                        this.$router.push({
+                                            path: `/tabs/cardtopup`,
+                                        });
+                                    },
+                                }
+                            ]
+                            this.isOpen = true;
                         }
                         if (!this.loading) {
                             a.dismiss().then(() => console.log('abort presenting'));

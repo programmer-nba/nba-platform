@@ -1,8 +1,8 @@
 <template>
     <ion-page>
         <!-- Aler data -->
-        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" message="กรุณากรอกข้อมูลให้ครบถ้วน"
-            :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
+        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" :message="error" :buttons="alertButtons"
+            @didDismiss="OpenAlert(false)"></ion-alert>
         <!-- Aler Wallet -->
         <ion-alert :is-open="isOpenWallet" header="แจ้งเตือน !" :sub-header="!message ? error : message"
             :message="!message ? error_message : 'กรุณาตรวจสอบเงินในกระเป๋า'" :buttons="alertButtons"
@@ -54,9 +54,12 @@
                     </ion-item>
                 </ion-col>
                 <ion-col>
-                    <ion-button v-if="check_button === 'ยืนยัน'" class="button-confrim" expand="block" @click="Send()">ยืนยัน</ion-button>
-                    <ion-button v-if="check_button === 'เช็คยอดรวม'" class="button-confrim" expand="block" @click="Confirm()">เช็คยอดรวม</ion-button>
-                    <ion-button v-if="check_button === 'จ่ายบิล'" class="button-confrim" expand="block" @click="PayBill()">จ่ายบิล</ion-button>
+                    <ion-button v-if="check_button === 'ยืนยัน'" class="button-confrim" expand="block"
+                        @click="Send()">ยืนยัน</ion-button>
+                    <ion-button v-if="check_button === 'เช็คยอดรวม'" class="button-confrim" expand="block"
+                        @click="Confirm()">เช็คยอดรวม</ion-button>
+                    <ion-button v-if="check_button === 'จ่ายบิล'" class="button-confrim" expand="block"
+                        @click="PayBill()">จ่ายบิล</ion-button>
 
 
                     <ion-modal :is-open="isOpenConfrim" id="example-modal" ref="modal">
@@ -121,7 +124,15 @@ export default defineComponent({
     setup() {
         const userservice = new UserService(null);
         const counterservices = new CounterService(null);
-        const alertButtons = ['OK'];
+        const alertButtons = [
+            {
+                text: 'OK',
+                role: 'confirm',
+                handler: () => {
+
+                },
+            },
+        ];
         const isOpenConfrim = ref(false);
         const isOpenWallet = ref(false);
         const isOpen = ref(false);
@@ -186,38 +197,50 @@ export default defineComponent({
     watch: {
         '$route.query.data': {
             handler: function (newQuery) {
-                if (newQuery === 'confirmed' ) {
-                loadingController.create({
-                    message: 'โปรดรอสักรู่....'
-                }).then(a => {
-                    a.present().then(() => {
-                        this.userservice.ConfirmMobileBill(this.confirm).then((result: any) => {
-                            console.log('test',newQuery)
-                            console.log(result)
-                            if (result.message === 'successful') {
-                                this.wellet = result.data.data.remainding_wallet.toFixed(2)
-                                this.isOpenConfrim = true;
+                if (newQuery === 'confirmed') {
+                    loadingController.create({
+                        message: 'โปรดรอสักรู่....'
+                    }).then(a => {
+                        a.present().then(() => {
+                            this.userservice.ConfirmMobileBill(this.confirm).then((result: any) => {
+                                console.log(result)
+                                if (result.message === 'successful') {
+                                    this.wellet = result.data.data.remainding_wallet.toFixed(2)
+                                    this.isOpenConfrim = true;
+                                    this.loading = false;
+                                    console.log('result', result.data);
+                                } else if (result.message === 'failed') {
+                                    this.sentmessage = 'เคลื่อข่ายยังไม่รองรับ';
+                                    this.error = 'ขออภัยในความไม่สะดวก';
+                                    this.alertButtons = [
+                                        {
+                                            text: 'OK',
+                                            role: 'confirm',
+                                            handler: () => {
+                                                this.$router.push({
+                                                    path: `/tabs/mobliebill`,
+                                                });
+                                            },
+                                        }
+                                    ]
+                                    this.isOpen = true;
+                                    this.loading = false;
+                                    console.log('result', result.data);
+                                }
+                                if (!this.loading) {
+                                    a.dismiss();
+                                }
+                            }).catch((err) => {
+                                console.log(err);
                                 this.loading = false;
-                                console.log('result', result.data);
-                            } else if (result.message === 'failed') {
-                                this.loading = false;
-                                console.log('result', result.data);
-                            }
-                            if (!this.loading) {
-                                a.dismiss();
-                            }
-                        }).catch((err) => {
-                            console.log(err);
-                            this.loading = false;
-                        })
+                            })
+                        });
                     });
-                });
-                // location.reload();
-            } else {
-                location.reload();
-            }
+                } else {
+                    location.reload();
+                }
             },
-            
+
         },
     },
     methods: {
@@ -239,6 +262,20 @@ export default defineComponent({
                             } else if (result.message === 'failed') {
                                 this.loading = false;
                                 console.log('result', result.data);
+                                this.sentmessage = 'เคลื่อข่ายยังไม่รองรับ';
+                                this.error = 'ขออภัยในความไม่สะดวก';
+                                this.alertButtons = [
+                                    {
+                                        text: 'OK',
+                                        role: 'confirm',
+                                        handler: () => {
+                                            this.$router.push({
+                                                path: `/tabs/mobliebill`,
+                                            });
+                                        },
+                                    }
+                                ]
+                                this.isOpen = true;
                             }
                             if (!this.loading) {
                                 a.dismiss();
@@ -280,6 +317,20 @@ export default defineComponent({
                                 console.log('result', result.data);
                             } else if (result.message === 'failed') {
                                 this.loading = false;
+                                this.sentmessage = 'เคลื่อข่ายยังไม่รองรับ';
+                                this.error = 'ขออภัยในความไม่สะดวก';
+                                this.alertButtons = [
+                                    {
+                                        text: 'OK',
+                                        role: 'confirm',
+                                        handler: () => {
+                                            this.$router.push({
+                                                path: `/tabs/mobliebill`,
+                                            });
+                                        },
+                                    }
+                                ]
+                                this.isOpen = true;
                                 console.log('result', result.data);
                             }
                             if (!this.loading) {
@@ -293,16 +344,16 @@ export default defineComponent({
                 });
             }
         },
-        async PayBill () {
+        async PayBill() {
             this.$router.push({
-                    path: `/pin`,
-                    query: {
-                        id : this.$route.params.id,
-                        transid: this.cost.transid,
-                        mobile: this.sent.mobile,
-                        query: 'confirmmobilebill'
-                    }
-                });
+                path: `/pin`,
+                query: {
+                    id: this.$route.params.id,
+                    transid: this.cost.transid,
+                    mobile: this.sent.mobile,
+                    query: 'confirmmobilebill'
+                }
+            });
         },
         async Close(isOpenConfrim: boolean) {
             this.isOpenConfrim = isOpenConfrim;

@@ -9,7 +9,7 @@
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                 </ion-button>
             </ion-buttons>
-                    <ion-title>{{ $route.query.query }}</ion-title>
+            <ion-title>{{ $route.query.query }}</ion-title>
         </ion-toolbar>
         <ion-content :fullscreen="true" class="ion-padding">
             <div class="padding">
@@ -19,11 +19,11 @@
                     </ion-col>
                     <ion-col>
                         <ion-item>
-                            <h5>{{ item.product.category }}</h5>
+                            <h5>{{ item.product.name }}</h5>
                         </ion-item>
                         <!-- Text Test -->
                         <ion-item>
-                            <p> It is a long established fact that a reader will be distracted by the </p>
+                            <p>{{ item.product.description }}</p>
                         </ion-item>
                     </ion-col>
                     <ion-col size="12" v-for="(pricelist, id) in item.pricelist" :key="id">
@@ -46,7 +46,8 @@
                     <ion-row>
                         <ion-col size="12">
                             <ion-input v-model="preorder.cus_name" placeholder="ชื่อ"></ion-input>
-                            <ion-input v-model="preorder.cus_tel" placeholder="เบอร์โทรศัพท์"  onkeypress="if(this.value.length==10) return false;" type="number"></ion-input>
+                            <ion-input v-model="preorder.cus_tel" placeholder="เบอร์โทรศัพท์"
+                                onkeypress="if(this.value.length==10) return false;" type="number"></ion-input>
                             <ion-textarea v-model="preorder.cus_address" fill="solid" placeholder="ที่อยู่"></ion-textarea>
                             <ion-input v-model="preorder.amount" type="number" placeholder="จำนวน"></ion-input>
                             <ion-input v-model="preorder.remark" type="number"
@@ -88,7 +89,7 @@
 import {
     IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonToolbar, IonButton,
     IonIcon, IonButtons, IonTitle, IonCard, IonItem, loadingController, IonModal,
-    IonInput, IonTextarea, IonAlert
+    IonInput, IonTextarea, IonAlert, IonThumbnail, IonLabel
 } from '@ionic/vue';
 import { getImage } from '@/services/fun'
 import { checkmarkCircleOutline, chevronBackOutline } from 'ionicons/icons';
@@ -107,13 +108,15 @@ export default defineComponent({
         const OpenModal = (state: boolean) => {
             isOpen.value = state;
         };
-        return { userservice, chevronBackOutline, OpenModal, isOpen, checkmarkCircleOutline, isOpenAlert, OpenAlert,
-            alertButtons, getImage }
+        return {
+            userservice, chevronBackOutline, OpenModal, isOpen, checkmarkCircleOutline, isOpenAlert, OpenAlert,
+            alertButtons, getImage
+        }
     },
     components: {
         IonPage, IonContent, IonGrid, IonRow, IonCol, IonImg, IonToolbar, IonButton,
-        IonIcon, IonButtons, IonTitle, IonCard, IonItem, IonModal, IonInput, IonTextarea, 
-        IonAlert
+        IonIcon, IonButtons, IonTitle, IonCard, IonItem, IonModal, IonInput, IonTextarea,
+        IonAlert, IonThumbnail, IonLabel
     },
     data() {
         return {
@@ -146,35 +149,35 @@ export default defineComponent({
                 this.isOpenAlert = true;
                 this.sentmessage = 'ข้อมูลไม่ครบถ้วน'
                 this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน'
-            } else  if(this.preorder.cus_tel.length <= 9 ){
+            } else if (this.preorder.cus_tel.length <= 9) {
                 this.isOpenAlert = true;
                 this.sentmessage = 'กรอกเบอร์โทรศัพท์ไม่ครบ 10 ตัว'
                 this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน'
-            }else {
-            this.loading = true;
-            loadingController.create({
-                message: 'โปรดรอสักรู่....'
-            }).then(a => {
-                a.present().then(() => {
-                    this.userservice.GetPreorderById(this.preorder.product_price_id).then((result: any) => {
-                        console.log(result)
-                        if (result.message === 'successful') {
-                            this.loading = false
-                            this.check = 'confirme'
-                            console.log('result', result.data);
-                        } else if (result.message === 'failed') {
-                            console.log('result', result.data);
-                            console.log('data', this.preorder)
-                        }
-                        if (!this.loading) {
-                            a.dismiss().then(() => console.log('abort presenting'));
-                        }
-                    }).catch((err) => {
-                        console.log(err);
-                        this.loading = false;
-                    })
+            } else {
+                this.loading = true;
+                loadingController.create({
+                    message: 'โปรดรอสักรู่....'
+                }).then(a => {
+                    a.present().then(() => {
+                        this.userservice.GetPreorderById(this.preorder.product_price_id).then((result: any) => {
+                            console.log(result)
+                            if (result.message === 'successful') {
+                                this.loading = false
+                                this.check = 'confirme'
+                                console.log('result', result.data);
+                            } else if (result.message === 'failed') {
+                                console.log('result', result.data);
+                                console.log('data', this.preorder)
+                            }
+                            if (!this.loading) {
+                                a.dismiss().then(() => console.log('abort presenting'));
+                            }
+                        }).catch((err) => {
+                            console.log(err);
+                            this.loading = false;
+                        })
+                    });
                 });
-            });
             }
         },
         Success() {

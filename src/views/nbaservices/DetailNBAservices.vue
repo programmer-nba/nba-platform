@@ -73,7 +73,6 @@
             <ion-chip style="margin-left: auto; margin-right: auto;">รูปที่แนบ</ion-chip>
           </ion-item>
           <ion-img class="img" @click="viewImage" :src="image_preview"></ion-img>
-
         </ion-col>
 
         <!-- Model ViewImage -->
