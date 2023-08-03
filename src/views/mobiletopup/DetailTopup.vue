@@ -11,6 +11,7 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.push('/tabs/topups')">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
             <ion-title>เติมเงินมือถือ</ion-title>
@@ -131,9 +132,7 @@ export default defineComponent({
             {
                 text: 'OK',
                 role: 'confirm',
-                handler: () => {
-
-                },
+                handler: () => {},
             },
         ];
         const isOpenConfrim = ref(false);

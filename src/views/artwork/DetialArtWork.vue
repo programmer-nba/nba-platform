@@ -7,6 +7,7 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.go(-1)">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
             <ion-title>{{ $route.query.query }}</ion-title>

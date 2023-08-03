@@ -4,12 +4,13 @@
       <ion-buttons slot="start">
         <ion-button @click="$router.go(-1)">
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+          กลับ
         </ion-button>
       </ion-buttons>
       <ion-title>ข้อมูลทั่วไป</ion-title>
     </ion-toolbar>
     <ion-content padding>
-      <ion-col >
+      <ion-col>
         <ion-item lines="none">
           <ion-label style="color: grey; font-size: 15px;">
             <p>ข้อมูลทั่วไป</p>

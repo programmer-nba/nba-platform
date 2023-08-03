@@ -11,14 +11,17 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.push('/tabs/services')" v-if="checkData === 'SentData'">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
                 <ion-button @click="$router.push('/tabs/services')" v-if="checkData === 'SentDataConfirme'">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
                 <ion-button
                     @click="$route.query.data === 'confirmed' ? checkData = 'SentDataConfirme' : checkData = 'SentData'"
                     v-if="checkData === 'CheckData'">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
             <ion-title>จ่ายชำระ</ion-title>
@@ -51,7 +54,7 @@
                             <ion-input type="number" v-model="datacheck.mobile" placeholder="กรอกเบอร์โทร"
                                 onkeypress="if(this.value.length==10) return false;"></ion-input>
                             QR Code
-                            <ion-input type="text" :value="datacheck.barcode" disabled></ion-input>
+                            <ion-input type="text" :value="datacheck.barcode" readonly></ion-input>
                         </ion-col>
                         <ion-col>
                             <ion-button expand="full" @click="CheckQR()">

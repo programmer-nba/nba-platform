@@ -12,6 +12,7 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.push('/tabs/cardtopup')">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
             <ion-title>เติมเงิน</ion-title>

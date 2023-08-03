@@ -7,6 +7,7 @@
       <ion-buttons slot="start">
         <ion-button @click="$router.push('/tabs/nbaservices')">
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+          กลับ
         </ion-button>
       </ion-buttons>
       <ion-title>ข้อมูลรายละเอียด</ion-title>
@@ -65,7 +66,7 @@
         </ion-col>
         <ion-col v-if="image_preview === null">
           แนบรูปภาพ (ถ้ามี และป้องกันความผิดพลาด)
-          <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"/>
+          <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg" />
         </ion-col>
 
         <ion-col size="12" style="text-align: center;" v-if="image_preview != null">
@@ -155,7 +156,13 @@ import { chevronBackOutline, closeOutline, closeCircleOutline, alertCircleOutlin
 
 export default defineComponent({
   setup() {
-    const alertButtons = ['OK'];
+    const alertButtons = [
+      {
+        text: 'OK',
+        role: 'confirm',
+        handler: () => { },
+      },
+    ];
     const userservice = new UserService(null);
     const counterservices = new CounterService(null);
     const isOpenImgae = ref(false);
@@ -208,6 +215,18 @@ export default defineComponent({
       productname: '',
     }
   },
+  watch: {
+    '$route.query.data': {
+      handler: function (newQuery) {
+        if (newQuery === 'confirmed') {
+          this.confirmcheck = true;
+        } else {
+          location.reload();
+        }
+      },
+
+    },
+  },
   methods: {
     ColseAlert() {
       this.alerttext = false;
@@ -241,7 +260,13 @@ export default defineComponent({
         this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน';
         this.isOpenImgae = true;
       } else {
-        this.confirmcheck = true;
+        this.$router.push({
+                path: `/pin`,
+                query: {
+                    id: this.$route.params.id,
+                    query: 'confirmnbaservices'
+                }
+            });
       }
     },
     async ConfirmAgain() {
@@ -270,6 +295,16 @@ export default defineComponent({
               this.isOpenImgae = true;
               this.loading = false
               this.sentmessage = result.test.message;
+              this.alertButtons = [
+                {
+                  text: 'OK',
+                  role: 'confirm',
+                  handler: () => {
+                    this.confirmcheck = false;
+                    this.$router.push('/tabs/nbaservices')
+                  },
+                },
+              ];
               this.error = 'ตรวจสอบเงินในกระเป๋าของคุณ';
               console.log('result', result.data);
             }
@@ -285,9 +320,9 @@ export default defineComponent({
     viewImage() {
       this.isViewImgae = true;
     },
-    Success(){
+    Success() {
       window.location.href = '/tabs/nbaservices'
-    } 
+    }
   },
   async mounted() {
     this.loading = true;
@@ -428,7 +463,8 @@ ion-modal#example-modal ion-img {
   margin-right: auto;
   margin-top: 18px;
 }
-.ioc-success{
+
+.ioc-success {
   color: green;
   font-size: 80px;
   margin-left: auto;

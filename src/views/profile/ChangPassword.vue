@@ -12,6 +12,7 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.push('/tabs/user')">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
                     <ion-title>เปลี่ยนรหัสผ่าน</ion-title>

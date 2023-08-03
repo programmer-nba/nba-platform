@@ -7,6 +7,7 @@
       <ion-toolbar>
         <ion-buttons slot="start" @click="$router.go(-1)">
           <ion-icon :icon="chevronBackOutline"></ion-icon>
+          กลับ
         </ion-buttons>
         <ion-title>PIN</ion-title>
       </ion-toolbar>
@@ -188,6 +189,9 @@ export default defineComponent({
             this.$router.push({
               path: `/createpin`,
               name: 'CreatePin',
+              query: {
+                data: 'confirmed'
+              }
             });
           } else if (this.$route.query.query === 'confirmQRCode') {
             this.$router.push({
@@ -201,6 +205,13 @@ export default defineComponent({
           } else if (this.$route.query.query === 'confirmmobilebill') {
             this.$router.push({
               path: `/detailmobliebill/${this.$route.query.id}`,
+              query: {
+                data: 'confirmed'
+              }
+            });
+          } else if (this.$route.query.query === 'confirmnbaservices') {
+            this.$router.push({
+              path: `/nbaservices/${this.$route.query.id}`,
               query: {
                 data: 'confirmed'
               }

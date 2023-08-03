@@ -10,6 +10,10 @@
         @didDismiss="setOpen(false)"></ion-alert>
 
       <ion-toolbar>
+        <ion-buttons v-if="$route.query.data === 'confirmed'" slot="start" @click="$router.push('/tabs/user')">
+          <ion-icon :icon="chevronBackOutline"></ion-icon>
+          กลับ
+        </ion-buttons>
         <ion-title>สร้างรหัส PIN</ion-title>
       </ion-toolbar>
       <div class="container">

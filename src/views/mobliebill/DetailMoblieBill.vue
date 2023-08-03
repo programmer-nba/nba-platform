@@ -11,6 +11,7 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.push('/tabs/mobliebill')">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
             <ion-title>จ่ายบิลมือถือ</ion-title>
@@ -209,6 +210,7 @@ export default defineComponent({
                                             text: 'OK',
                                             role: 'confirm',
                                             handler: () => {
+                                                this.isOpen = false;
                                                 this.$router.push({
                                                     path: `/tabs/mobliebill`,
                                                 });
@@ -261,6 +263,7 @@ export default defineComponent({
                                         text: 'OK',
                                         role: 'confirm',
                                         handler: () => {
+                                            this.isOpen = false;
                                             this.$router.push({
                                                 path: `/tabs/mobliebill`,
                                             });
@@ -281,6 +284,7 @@ export default defineComponent({
             } else
                 if (this.sent.mobile.length <= 9) {
                     this.sentmessage = 'กรอกเบอร์โทรศัพท์ไม่ครบ'
+                    this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน';
                     console.log(this.sent.mobile.length)
                     this.isOpen = true;
                 }
@@ -288,6 +292,11 @@ export default defineComponent({
         async Confirm() {
             if (this.check.price === '') {
                 this.sentmessage = 'กรอกราคาที่ต้องการจ่ายบิล'
+                this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน';
+                this.isOpen = true;
+            } else if (this.check.price > this.amount) {
+                this.sentmessage = 'จ่ายเงินเกินกำหนดค่าบิล'
+                this.error = 'กรุณากรอกข้อมูลให้ถูกต้อง';
                 this.isOpen = true;
             } else {
                 this.loading = true;
@@ -314,6 +323,7 @@ export default defineComponent({
                                         text: 'OK',
                                         role: 'confirm',
                                         handler: () => {
+                                            this.isOpen = false;
                                             this.$router.push({
                                                 path: `/tabs/mobliebill`,
                                             });

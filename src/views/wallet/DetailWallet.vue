@@ -11,6 +11,7 @@
             <ion-buttons slot="start">
                 <ion-button @click="$router.push('/tabs/wallet')">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
+                    กลับ
                 </ion-button>
             </ion-buttons>
             <ion-title>เติมเงินวอเล็ท</ion-title>
