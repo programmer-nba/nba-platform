@@ -152,12 +152,16 @@ ion-icon {
 }
 
 /* Material Design styles */
+ion-segment {
+    background-color: rgba(255, 255, 255, 0.26);
+}
+
 ion-segment-button.md::part(native) {
-    color: #000;
+    color: #ffffff;
 }
 
 .segment-button-checked.md::part(native) {
-    color: rgba(117, 9, 121, 1);
+    color: #4b037a;
 }
 
 ion-segment-button.md::part(indicator-background) {

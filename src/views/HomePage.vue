@@ -15,12 +15,16 @@
             </ion-col>
             <ion-col>
               <div class="avatar-user">
-                <ion-button fill="clear" @click="setOpen(true)">
+                <ion-button fill="clear" @click="setOpen(true)" style="--padding-end: 0;">
                   <ion-badge class="badge" color="danger" v-if="getNumberNotify() !== 0" :content="getNumberNotify()">{{
                     getNumberNotify() }}</ion-badge>
                   <ion-icon :icon="notifications"></ion-icon>
                 </ion-button>
+                <ion-avatar>
 
+                  <img alt="Silhouette of a person's head" src="/images/profile.f171d482.jpg" />
+
+                </ion-avatar>
                 <!-- Modal Notify -->
                 <ion-modal :is-open="isOpen">
                   <ion-header>
@@ -91,13 +95,6 @@
                     <ion-button class="btn-close" @click="close('Delete')">ยกเลิก</ion-button>
                   </div>
                 </ion-modal>
-
-
-                <ion-avatar>
-
-                  <img alt="Silhouette of a person's head" src="/images/profile.f171d482.jpg" />
-
-                </ion-avatar>
               </div>
             </ion-col>
           </ion-row>
@@ -119,15 +116,6 @@
                         <span class="label">{{ Number(user?.allsale).toFixed(0) }}/50,000</span>
                       </div>
                     </ion-col>
-                    <!-- <ion-col style="padding-top: 0%;">
-                      <span class="label">All sale</span>
-                    </ion-col>
-                    <ion-col style="padding-top: 0%;">
-                      <div class="all-sell-point">
-                        <span class="label">{{ Number(user?.allsale).toFixed(0) }}/50,000</span>
-                      </div>
-                    </ion-col> -->
-                    <!-- <ion-progress-bar color="light" :value="progress/50000"></ion-progress-bar> -->
                   </ion-row>
                 </ion-grid>
               </div>

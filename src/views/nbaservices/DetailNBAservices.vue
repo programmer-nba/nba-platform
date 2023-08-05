@@ -221,7 +221,7 @@ export default defineComponent({
         if (newQuery === 'confirmed') {
           this.confirmcheck = true;
         } else {
-          location.reload();
+           location.reload();
         }
       },
 

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { IonApp,  IonButtons,  IonRouterOutlet, useBackButton, useIonRouter } from '@ionic/vue';
+import { IonApp,  IonRouterOutlet, useBackButton, useIonRouter } from '@ionic/vue';
 import { defineComponent,  } from 'vue';
 
 export default defineComponent({
@@ -16,9 +16,6 @@ export default defineComponent({
   },
   components: {
     IonApp, IonRouterOutlet
-  },
-  data() {
-
   },
   async created() {
     useBackButton(10, () => {

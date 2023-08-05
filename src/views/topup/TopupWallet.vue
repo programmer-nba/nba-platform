@@ -14,7 +14,7 @@
           กลับ
         </ion-button>
       </ion-buttons>
-          <ion-title>เติมเงินเข้ากระเป๋า</ion-title>
+      <ion-title>เติมเงินเข้ากระเป๋า</ion-title>
     </ion-toolbar>
     <ion-content padding>
       <ion-row>
@@ -44,9 +44,9 @@
               </ion-item>
               <ion-item style="margin-top: 2%;" lines="none" v-if="image_preview === null">
                 <ion-icon class="icon-attach" :icon="attachOutline"></ion-icon>
-                <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg"/>
+                <input class="custom-file-input" type="file" @change="chooseImage" accept=".jpeg, .png, .jpg" />
               </ion-item>
-              
+
               <!-- Alert Confrime -->
               <ion-modal :is-open="isOpenAlert" id="example-modal" ref="modal">
                 <div style="text-align: center;">
@@ -104,7 +104,13 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   setup() {
     const userservice = new UserService(null);
-    const alertButtons = ['OK'];
+    const alertButtons = [
+      {
+        text: 'OK',
+        role: 'confirm',
+        handler: () => { },
+      },
+    ];
     const isOpenAlert = ref(false);
     const isOpen = ref(false);
     const isOpenImgae = ref(false);
@@ -149,6 +155,51 @@ export default defineComponent({
       loading: false,
     }
   },
+  watch: {
+    '$route.query.data': {
+      handler: function (newQuery) {
+        if (newQuery === 'confirmed') {
+          const formData = new FormData();
+          formData.append('amount', this.amount);
+          formData.append('image', this.image);
+          this.loading = true;
+          loadingController.create({
+            message: 'โปรดรอสักรู่....'
+          }).then(a => {
+            a.present().then(() => {
+              this.userservice.PostTopupServices(formData).then((result: any) => {
+                console.log(result)
+                if (result.message === 'successful') {
+                  this.loading = false;
+                  this.isOpenAlert = true;
+                } else if (result.message === 'failed') {
+                  console.log('result', result.data);
+                  this.loading = false;
+                  this.isOpen = true;
+                  this.sentmessage = result.test.message;
+                  this.error = 'ขออภัยในความไม่สะดวก';
+                  this.alertButtons = [
+                    {
+                      text: 'OK',
+                      role: 'confirm',
+                      handler: () => {
+                        window.location.reload();
+                      },
+                    },
+                  ];
+                }
+                if (!this.loading) {
+                  a.dismiss();
+                }
+              }).catch((err) => {
+                console.log(err);
+              })
+            });
+          });
+        }
+      }
+    },
+  },
   methods: {
     chooseImage(evt: any) {
       this.image = evt.target.files[0];
@@ -176,32 +227,11 @@ export default defineComponent({
         this.sentmessage = 'ข้อมูลไม่ครบ';
         this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน';
       } else {
-        const formData = new FormData();
-        formData.append('amount', this.amount);
-        formData.append('image', this.image);
-        this.loading = true;
-            loadingController.create({
-                message: 'โปรดรอสักรู่....'
-            }).then(a => {
-                a.present().then(() => {
-         this.userservice.PostTopupServices(formData).then((result: any) => {
-          console.log(result)
-          if (result.message === 'successful') {
-            this.loading = false;
-            console.log('result', result.data);
-            console.log('amount', this.amount);
-            console.log('image', this.image);
-            this.isOpenAlert = true;
-          } else if (result.message === 'failed') {
-            console.log('result', result.data);
-          }
-          if (!this.loading) {
-                            a.dismiss().then(() => console.log('abort presenting'));
-                        }
-        }).catch((err) => {
-          console.log(err);
-        })
-      });
+        this.$router.push({
+                path: `/pin`,
+                query: {
+                    query: 'confirmtopupwallet'
+                }
             });
       }
     },
@@ -222,6 +252,7 @@ export default defineComponent({
   color: black;
   width: 100%;
 }
+
 .toolbar {
   --background: rgb(255, 1, 162);
   --color: white;
@@ -229,12 +260,16 @@ export default defineComponent({
 }
 
 /* Material Design styles */
+ion-segment {
+  background-color: rgba(255, 255, 255, 0.26);
+}
+
 ion-segment-button.md::part(native) {
-  color: #000;
+  color: #ffffff;
 }
 
 .segment-button-checked.md::part(native) {
-  color: rgba(117, 9, 121, 1);
+  color: #4b037a;
 }
 
 ion-segment-button.md::part(indicator-background) {

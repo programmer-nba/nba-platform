@@ -14,11 +14,11 @@
         <ion-segment v-model="selectTabs">
           <ion-segment-button value="monney" layout="icon-start" tab="history">
             <ion-icon :icon="timerOutline"></ion-icon>
-            ประวัติคอมมิชั่นเข้า-ออก
+            ประวัติเข้า-ออก
           </ion-segment-button>
           <ion-segment-button value="segment" layout="icon-start">
             <ion-icon :icon="listOutline"></ion-icon>
-            <ion-label>รายการถอนคอมมิชั่น</ion-label>
+            <ion-label>รายการถอน</ion-label>
           </ion-segment-button>
         </ion-segment>
       </div>
@@ -84,12 +84,16 @@ export default defineComponent({
 
 <style scoped>
 /* Material Design styles */
+ion-segment {
+  background-color: rgba(255, 255, 255, 0.26);
+}
+
 ion-segment-button.md::part(native) {
-  color: #000;
+  color: #ffffff;
 }
 
 .segment-button-checked.md::part(native) {
-  color: rgba(117, 9, 121, 1);
+  color: #4b037a;
 }
 
 ion-segment-button.md::part(indicator-background) {

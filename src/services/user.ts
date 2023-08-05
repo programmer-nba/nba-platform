@@ -877,5 +877,28 @@ export class UserService {
         return data;
     }
 
+    // Get History Member
+    public async GetHistoryWalletMember() {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/wallet/history/memberhistory`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
 }
 

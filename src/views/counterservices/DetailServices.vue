@@ -4,22 +4,16 @@
         <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" :message=error :buttons="alertButtons"
             @didDismiss="OpenAlert(false)"></ion-alert>
 
-        <ion-alert :is-open="isOpenQRCode" header="แจ้งเตือน !" :sub-header="sentmessage" :message=error :buttons="alertButtonsQRCode"
-            @didDismiss="OpenAlert(false)"></ion-alert>
+        <ion-alert :is-open="isOpenQRCode" header="แจ้งเตือน !" :sub-header="sentmessage" :message=error
+            :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
 
         <ion-toolbar>
             <ion-buttons slot="start">
-                <ion-button @click="$router.push('/tabs/services')" v-if="checkData === 'SentData'">
+                <ion-button @click="Successful()" v-if="checkData === 'SentData'">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                     กลับ
                 </ion-button>
-                <ion-button @click="$router.push('/tabs/services')" v-if="checkData === 'SentDataConfirme'">
-                    <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
-                    กลับ
-                </ion-button>
-                <ion-button
-                    @click="$route.query.data === 'confirmed' ? checkData = 'SentDataConfirme' : checkData = 'SentData'"
-                    v-if="checkData === 'CheckData'">
+                <ion-button @click="checkData = 'SentData'" v-if="checkData === 'CheckData'">
                     <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
                     กลับ
                 </ion-button>
@@ -27,25 +21,6 @@
             <ion-title>จ่ายชำระ</ion-title>
         </ion-toolbar>
         <ion-content :fullscreen="true">
-            <!-- Check QR Code -->
-            <div class="container" style="margin-bottom: 3rem;" v-if="checkData === 'SentDataConfirme'">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col size="12">
-                            <ion-input type="number" :value="datachecpin.mobile" placeholder="กรอกเบอร์โทร"
-                                onkeypress="if(this.value.length==10) return false;"></ion-input>
-                            QR Code
-                            <ion-input type="text" :value="datachecpin.barcode" readonly></ion-input>
-                        </ion-col>
-                        <ion-col>
-                            <ion-button expand="full" @click="CheckQR()">
-                                ยันยืน
-                            </ion-button>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </div>
-
             <!-- Check QR Code -->
             <div class="container" style="margin-bottom: 3rem;" v-if="checkData === 'SentData'">
                 <ion-grid>
@@ -195,20 +170,19 @@ import { BarcodeService } from "@/model/counterservice.interface"
 import { chevronBackOutline, checkmarkCircleOutline, informationCircleOutline } from 'ionicons/icons';
 
 import { defineComponent, ref } from 'vue';
-import { LocationQuery, LocationQueryValue } from 'vue-router';
+
 
 export default defineComponent({
     setup() {
         const userservice = new UserService(null);
         const counterService = new CounterService(null);
-        const alertButtons = ['ตกลง'];
-        const alertButtonsQRCode = [{
-            text: 'ตกลง',
-            handler: () => {
-                window.location.href = '/tabs/services';
-          },
-        
-        }];
+        const alertButtons = [
+            {
+                text: 'OK',
+                role: 'confirm',
+                handler: () => { },
+            },
+        ];
         const isOpenQRCode = ref(false)
         const isOpen = ref(false);
         const OpenAlert = (state: boolean) => {
@@ -224,7 +198,6 @@ export default defineComponent({
             isOpen,
             informationCircleOutline,
             checkmarkCircleOutline,
-            alertButtonsQRCode,
             isOpenQRCode
         }
     },
@@ -239,12 +212,8 @@ export default defineComponent({
             loading: false,
             mobile: '',
             datacheck: {
-                mobile: '' ,
+                mobile: '',
                 barcode: this.$route.query.query as string,
-            },
-            datachecpin: {
-                mobile: this.$route.query.mobile  as string,
-                barcode: this.$route.query.barcode as string,
             },
             img: '',
             sentmessage: '',
@@ -273,24 +242,14 @@ export default defineComponent({
             },
         }
     },
-    async created() {
-        if (this.$route.query.data === 'confirmed') {
-            loadingController.create({
-                message: 'กำลังโหลดข้อมูล....'
-            }).then(a => {
-                a.present().then(() => {
-                    this.userservice.CheckQRCode(this.datachecpin).then((result: any) => {
-                        console.log('data', this.$route.query.mobile)
-                        console.log(result)
-                        if (result.message === 'successful') {
-                            this.loading = false;
-                            this.checkData = 'CheckData';
-                            this.img = result.data.productid
-                            this.display = result.data.display;
-                            this.amount = result.data.amount;
-                            this.display_value = result.data.display_value;
-                            this.verify.data5 = result.data.data_value[4];
-                            this.verify.mobile = this.datachecpin.mobile;
+    watch: {
+        '$route.query.data': {
+            handler: function (newQuery) {
+                if (newQuery === 'confirmed') {
+                    loadingController.create({
+                        message: 'กำลังโหลดข้อมูล....'
+                    }).then(a => {
+                        a.present().then(() => {
                             this.userservice.VerifyQRCode(this.verify).then((result: any) => {
                                 console.log(result)
                                 if (result.message === 'successful') {
@@ -300,6 +259,18 @@ export default defineComponent({
                                     this.OpenConfiem = true;
                                 } else if (result.message === 'failed') {
                                     this.sentmessage = result.test.message;
+                                    this.alertButtons = [
+                                        {
+                                            text: 'OK',
+                                            role: 'confirm',
+                                            handler: () => {
+                                                this.isOpen = false;
+                                                this.$router.push({
+                                                    path: `/tabs/services`,
+                                                });
+                                            },
+                                        }
+                                    ]
                                     console.log('result', result.data);
                                 }
                                 if (!this.loading) {
@@ -308,27 +279,10 @@ export default defineComponent({
                             }).catch((err) => {
                                 console.log(err);
                             })
-                        } else if (result.message === 'failed') {
-                            this.isOpen = true;
-                            this.sentmessage = 'QR Code ไม่ถูกต้อง'
-                            this.error = 'กรุณาตรวจสอบ QR Code ของคุณ';
-                            console.log('result', result.data);
-                        }
-                        if (!this.loading) {
-                            a.dismiss().then(() => console.log());
-                        }
-                    }).catch((err) => {
-                        console.log(err);
-                    })
-                },
-                )
-            });
-        }
-    },
-    watch: {
-        '$route.query.query': {
-            handler: function (newQuery) {
-                location.reload();
+                        },
+                        )
+                    });
+                }
             },
         },
     },
@@ -362,6 +316,16 @@ export default defineComponent({
                                 this.isOpenQRCode = true;
                                 this.sentmessage = 'QR Code ไม่ถูกต้อง'
                                 this.error = 'กรุณาตรวจสอบ QR Code ของคุณ';
+                                this.alertButtons = [
+                                    {
+                                        text: 'OK',
+                                        role: 'confirm',
+                                        handler: () => {
+                                            this.isOpen = false;
+                                            window.location.href = '/tabs/services'
+                                        },
+                                    }
+                                ]
                                 console.log('result', result.data);
                             }
                             if (!this.loading) {

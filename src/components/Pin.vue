@@ -216,6 +216,13 @@ export default defineComponent({
                 data: 'confirmed'
               }
             });
+          }  else if (this.$route.query.query === 'confirmtopupwallet') {
+            this.$router.push({
+              path: `/wallet/topupwallet`,
+              query: {
+                data: 'confirmed'
+              }
+            });
           }
           this.pin.length == 0;
           console.log(this.$route.query.query)
