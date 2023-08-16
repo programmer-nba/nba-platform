@@ -11,7 +11,7 @@
                     กลับ
                 </ion-button>
             </ion-buttons>
-                    <ion-title>ถอนรายได้</ion-title>
+            <ion-title>ถอนรายได้</ion-title>
         </ion-toolbar>
 
         <ion-content :fullscreen="true">
@@ -62,7 +62,7 @@ import {
     IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonText,
     IonLabel, IonSegment, IonSegmentButton, IonIcon, IonInput, IonItem, IonDatetimeButton,
     IonModal, IonDatetime, IonCard, IonTabButton, IonRouterOutlet, IonTabs, IonTabBar, IonRow,
-    IonButtons, IonCol, IonAlert
+    IonButtons, IonCol, IonAlert, loadingController
 } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { listOutline, timerOutline, chevronBackOutline, alertCircleOutline, checkmarkCircleOutline, flash } from 'ionicons/icons';
@@ -79,19 +79,26 @@ export default defineComponent({
         const userservice = new UserService(null);
         const isOpen = ref(false);
         const isOpenAlert = ref(false);
-        const alertButtons = ['OK'];
+        const alertButtons = [
+            {
+                text: 'OK',
+                role: 'confirm',
+                handler: () => {},
+            }
+        ];
         const OpenAlert = (state: boolean) => {
             isOpen.value = state;
             isOpenAlert.value = state;
         };
         return {
             timerOutline, listOutline, chevronBackOutline, userservice, OpenAlert, isOpen,
-            alertCircleOutline, alertButtons, isOpenAlert, checkmarkCircleOutline
+            alertCircleOutline, alertButtons, isOpenAlert, checkmarkCircleOutline, loadingController
         }
     },
     data() {
         return {
             user: [],
+            loading: false,
             allsale: '' as any,
             charge: 10,
             amount: '' as any,
@@ -100,6 +107,19 @@ export default defineComponent({
             check: 'check',
             message: '',
         }
+    },
+    watch: {
+        '$route.query.data': {
+            handler: function (newQuery) {
+                if (newQuery === 'confirmed') {
+                    this.isOpen = true;
+                } 
+                // else {
+                //     location.reload();
+                // }
+            },
+
+        },
     },
     methods: {
         CheckData() {
@@ -112,28 +132,44 @@ export default defineComponent({
                 this.error = `จำนวนที่คุณถอนได้อยู่ในช่วง 1 ถึง ${(this.allsale - this.charge)} บาท`
                 this.isOpenAlert = true;
             } else {
-                this.isOpen = true;
+                this.$router.push({
+                    path: `/pin`,
+                    query: {
+                        query: 'confirmncommisionwallet'
+                    }
+                });
+                // this.isOpen = true;
             }
         },
         async Confirm() {
-            await this.userservice.PostkCommissions(this.amount).then((result: any) => {
-                console.log(result)
-                if (result.message === 'successful') {
-                    console.log('result', result.data);
-                    this.message = result.data.message;
-                    this.check = 'ok';
-                } else if (result.message === 'failed') {
-                    this.message = result.test.message;
-                    if (this.message === 'ยอดเงินในกระเป๋าของคุณไม่เพียงพอ') {
-                        this.sentmessage = 'ยอดเงินในกระเป๋าของคุณไม่เพียงพอ'
-                        this.error = 'กรุณตรวจสอบคอมมิชั่นของคุณ'
-                        this.isOpenAlert = true;
-                        this.isOpen = false;
-                    }
-                }
-            }).catch((err) => {
-                console.log(err);
-            })
+            loadingController.create({
+                message: 'กำลังโหลดข้อมูล....'
+            }).then(a => {
+                a.present().then(() => {
+                    this.userservice.PostkCommissions(this.amount).then((result: any) => {
+                        console.log(result)
+                        if (result.message === 'successful') {
+                            console.log('result', result.data);
+                            this.message = result.data.message;
+                            this.loading = false;
+                            this.check = 'ok';
+                        } else if (result.message === 'failed') {
+                            this.message = result.test.message;
+                            if (this.message === 'ยอดเงินในกระเป๋าของคุณไม่เพียงพอ') {
+                                this.sentmessage = 'ยอดเงินในกระเป๋าของคุณไม่เพียงพอ'
+                                this.error = 'กรุณตรวจสอบคอมมิชั่นของคุณ'
+                                this.isOpenAlert = true;
+                                this.isOpen = false;
+                                this.loading = false;
+                            }
+                        } if (!this.loading) {
+                            a.dismiss().then(() => console.log('abort presenting'));
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+                });
+            });
         },
         async Close(isOpen: boolean) {
             this.isOpen = isOpen;
@@ -144,15 +180,27 @@ export default defineComponent({
         }
     },
     async mounted() {
-        //get me 
-        await this.userservice.GetMe().then((result: any | null) => {
-            console.log(result);
-            if (result.status === true) {
-                this.user = result.data;
-                this.allsale = result.data.allsale.toFixed(2);
-            }
-        })
-    }
+        loadingController.create({
+            message: 'กำลังโหลดข้อมูล....'
+        }).then(a => {
+            a.present().then(() => {
+                //get me 
+                this.userservice.GetMe().then((result: any | null) => {
+                    console.log(result);
+                    if (result.status === true) {
+                        this.user = result.data;
+                        this.allsale = result.data.allsale.toFixed(2);
+                        this.loading = false;
+                    }
+                })
+                if (!this.loading) {
+                    a.dismiss();
+                }
+            }).catch((err) => {
+                console.log(err);
+            })
+        });
+    },
 });
 </script>
 

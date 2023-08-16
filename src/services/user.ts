@@ -396,7 +396,7 @@ export class UserService {
     };
 
     //Get Preorder By ID
-    public async GetPreorderById(Data: String) {
+    public async GetPreorderById(Data: any) {
         let data = null;
         const request = {
             method: 'post',
@@ -411,6 +411,7 @@ export class UserService {
         })
             .catch(error => {
                 data = { message: 'failed', error: error, test: error.response.data }
+                console.log(error)
 
             })
 
@@ -900,5 +901,211 @@ export class UserService {
         return responseData;
     };
 
+    // Get Account Service
+    public async GetAccountService() {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/nbaservice/accountservice/list`,
+            headers: {
+                token: this.token
+            }
+        }
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+    // Get Account Service
+    public async GetByIdAccountService(ID: string) {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/nbaservice/accountservice/package/listbycate/${ID}`,
+            headers: {
+                token: this.token
+            }
+        }
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+    // Get Facebook Service
+    public async GetFaceBookService() {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/nbaservice/facebookservice/list`,
+            headers: {
+                token: this.token
+            }
+        }
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+    //Post Report Wallet
+    public async PostFacebook(Data: any) {
+
+        let data = null;
+
+        const request = {
+            method: 'post',
+            data: Data,
+            url: `${this.baseUrl}/nbaservice/facebookservice/order`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    }
+
+    // Get WebSite Service
+    public async GetWebSiteService() {
+
+        let responseData = null;
+
+        const request = {
+            method: 'get',
+            url: `${this.baseUrl}/nbaservice/websiteservice/list`,
+            headers: {
+                token: this.token
+            }
+        }
+        await axios(request).then(response => {
+            responseData = response.data;
+        })
+            .catch(error => {
+                responseData = error
+            })
+
+        return responseData;
+    };
+
+    //Post WebSite
+    public async PostWebSite(Data: any) {
+
+        let data = null;
+
+        const request = {
+            method: 'post',
+            data: Data,
+            url: `${this.baseUrl}/nbaservice/websiteservice/order`,
+            headers: {
+                token: this.token
+            }
+        }
+
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error)
+            })
+
+        return data;
+    }
+
+    // Get Country
+    public async GetCountry(language: string) {
+
+        let data = null;
+
+        const request = {
+            method: 'get',
+            url: `https://api.nbadigital.tech/v1/nba-hotel/aocflight/countrycode/${language}`,
+            headers: {
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX2lkIjoiNjQ3ODViY2FjYzVhNDU3NzA1MzFlNzFlIiwiY29tcGFueSI6Ik5CQSBEaWdpdGFsIDkxMTEiLCJzaWduYXR1cmUiOiIzMDQwMDIxZTFhNTFmMDMzZTA4ZTU4ZWEwYjEzNDU1MDI4YjQ4OWI5Y2FhY2MzODEyZGViODJlNGM4MWFjZDc5YzQ3MjAyMWUxNjQ5NTc3YjhlYTcyMDllZjU1Y2I5YjljNTJjM2UwYjdkMzUyMmU1MGE4M2ZlOGVmZTEzZDM5Yjk3NzgiLCJyb2xlIjoiQVBJUEFSVE5FUiIsImlhdCI6MTY4NTYwOTQxOH0.ZULfQIAp8oXtMXscNog_ZNMNtXhFBQDD7FxRbzevYCo'
+            }
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    };
+
+    
+    // Get CountryCode
+    public async GetCountryCode(Code: string,language: string) {
+
+        let data = null;
+
+        const request = {
+            method: 'get',
+            url: `https://api.nbadigital.tech/v1/nba-hotel/aocflight/citycode/${Code}?language=${language}`,
+            headers: {
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX2lkIjoiNjQ3ODViY2FjYzVhNDU3NzA1MzFlNzFlIiwiY29tcGFueSI6Ik5CQSBEaWdpdGFsIDkxMTEiLCJzaWduYXR1cmUiOiIzMDQwMDIxZTFhNTFmMDMzZTA4ZTU4ZWEwYjEzNDU1MDI4YjQ4OWI5Y2FhY2MzODEyZGViODJlNGM4MWFjZDc5YzQ3MjAyMWUxNjQ5NTc3YjhlYTcyMDllZjU1Y2I5YjljNTJjM2UwYjdkMzUyMmU1MGE4M2ZlOGVmZTEzZDM5Yjk3NzgiLCJyb2xlIjoiQVBJUEFSVE5FUiIsImlhdCI6MTY4NTYwOTQxOH0.ZULfQIAp8oXtMXscNog_ZNMNtXhFBQDD7FxRbzevYCo'
+            }
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    };
+
+    // Post AocFlight
+    public async PostAocFlight(Data: any) {
+
+        let data = null;
+
+        const request = {
+            method: 'post',
+            data: Data,
+            url: `https://api.nbadigital.tech/v1/nba-hotel/aocflight/search`,
+            headers: {
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX2lkIjoiNjQ3ODViY2FjYzVhNDU3NzA1MzFlNzFlIiwiY29tcGFueSI6Ik5CQSBEaWdpdGFsIDkxMTEiLCJzaWduYXR1cmUiOiIzMDQwMDIxZTFhNTFmMDMzZTA4ZTU4ZWEwYjEzNDU1MDI4YjQ4OWI5Y2FhY2MzODEyZGViODJlNGM4MWFjZDc5YzQ3MjAyMWUxNjQ5NTc3YjhlYTcyMDllZjU1Y2I5YjljNTJjM2UwYjdkMzUyMmU1MGE4M2ZlOGVmZTEzZDM5Yjk3NzgiLCJyb2xlIjoiQVBJUEFSVE5FUiIsImlhdCI6MTY4NTYwOTQxOH0.ZULfQIAp8oXtMXscNog_ZNMNtXhFBQDD7FxRbzevYCo'
+            }
+        }
+
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error)
+            })
+
+        return data;
+    }
 }
 

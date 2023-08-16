@@ -1,8 +1,10 @@
 <template>
     <ion-page>
+
         <!-- Aler data -->
         <ion-alert :is-open="isOpenAlert" header="แจ้งเตือน !" :sub-header="sentmessage" :message="error"
             :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
+
         <ion-toolbar>
             <ion-buttons slot="start">
                 <ion-button @click="$router.go(-1)">
@@ -30,13 +32,12 @@
                     <ion-col size="12" v-for="(pricelist, id) in item.pricelist" :key="id">
                         <ion-item>
                             <p>{{ id + 1 }}. It is a long established fact that a reader will be distracted by the</p>
-                            <ion-button class="btn" slot="end" @click="SelectProducts(pricelist._id)">{{ pricelist.price }}
+                            <ion-button class="btn" slot="end" @click="SelectProducts(item)">{{ pricelist.price }}
                                 บาท</ion-button>
                         </ion-item>
                     </ion-col>
                 </ion-row>
             </div>
-
 
             <!-- Model -->
             <ion-modal :is-open="isOpen" id="example-modal" ref="modal">
@@ -123,7 +124,6 @@ export default defineComponent({
         return {
             services: '' as any,
             loading: false,
-            name: '',
             preorder: {
                 artwork_type: '',
                 cus_name: '',
@@ -139,11 +139,12 @@ export default defineComponent({
         }
     },
     methods: {
-        SelectProducts(id: string) {
+        SelectProducts(id: any) {
             this.isOpen = true;
-            this.preorder.product_price_id = id
-            this.preorder.artwork_type = this.name
+            this.preorder.product_price_id = id.product._id
+            this.preorder.artwork_type = id.product.name
             this.check = 'fromdata'
+            console.log(id)
         },
         Confirm() {
             if (this.preorder.cus_name === '' || this.preorder.cus_tel === '' || this.preorder.cus_address === '' || this.preorder.amount === '') {
@@ -160,7 +161,7 @@ export default defineComponent({
                     message: 'โปรดรอสักรู่....'
                 }).then(a => {
                     a.present().then(() => {
-                        this.userservice.GetPreorderById(this.preorder.product_price_id).then((result: any) => {
+                        this.userservice.GetPreorderById(this.preorder).then((result: any) => {
                             console.log(result)
                             if (result.message === 'successful') {
                                 this.loading = false
@@ -168,10 +169,11 @@ export default defineComponent({
                                 console.log('result', result.data);
                             } else if (result.message === 'failed') {
                                 console.log('result', result.data);
+                                this.loading = false
                                 console.log('data', this.preorder)
                             }
                             if (!this.loading) {
-                                a.dismiss().then(() => console.log('abort presenting'));
+                                a.dismiss();
                             }
                         }).catch((err) => {
                             console.log(err);
@@ -197,7 +199,6 @@ export default defineComponent({
                     if (result.message === 'ดึงข้อมูลสำเร็จ') {
                         this.loading = false
                         this.services = result.data;
-                        console.log(this.$router)
                     }
                     if (!this.loading) {
                         a.dismiss().then(() => console.log());
@@ -276,5 +277,5 @@ ion-modal#example-modal ion-textarea {
 }
 
 .padding {
-    margin-bottom: 10%;
+    margin-bottom: 15%;
 }</style>

@@ -88,9 +88,14 @@ const routes: Array<RouteRecordRaw> = [
         ]
       },
       {
-        path: '/barcode',
-        name: 'BarCode',
-        component: () => import('@/views/BarCode.vue')
+        path: '/test',
+        name: 'Test',
+        component: () => import('@/views/Test.vue')
+      },
+      {
+        path: '/test2',
+        name: 'Test2',
+        component: () => import('@/views/Test2.vue')
       },
       {
         path: 'cardtopup',
@@ -208,6 +213,47 @@ const routes: Array<RouteRecordRaw> = [
             name: 'DetailNBAservices',
             component: () => import('@/views/nbaservices/DetailNBAservices.vue')
           }
+        ]
+      },
+      {
+        path: 'accountservice',
+        name: 'AccountService',
+        component: () => import('@/views/AccountServicePage.vue'),
+        children: [
+          {
+            path: '',
+            name: 'AccountServiceHome',
+            component: () => import('@/views/accountservice/HomeAccountService.vue')
+          },
+          {
+            path: '/detailaccountservice/:id',
+            name: 'DetailAccountService',
+            component: () => import('@/views/accountservice/DetailAccountService.vue')
+          }
+        ]
+      },
+      {
+        path: 'facebookservice',
+        name: 'FaceBookService',
+        component: () => import('@/views/FacebookService.vue'),
+        children: [
+          {
+            path: '',
+            name: 'FaceBookServiceHome',
+            component: () => import('@/views/facebookservice/HomeFacebookService.vue')
+          },
+        ]
+      },
+      {
+        path: 'websiteservice',
+        name: 'WebSiteService',
+        component: () => import('@/views/WebSiteService.vue'),
+        children: [
+          {
+            path: '',
+            name: 'WebSiteServiceHome',
+            component: () => import('@/views/website/HomeWebSiteService.vue')
+          },
         ]
       },
       {

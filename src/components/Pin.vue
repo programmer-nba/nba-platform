@@ -223,6 +223,21 @@ export default defineComponent({
                 data: 'confirmed'
               }
             });
+          }  else if (this.$route.query.query === 'confirmncommisionwallet') {
+            this.$router.push({
+              path: `/withdrawcommission`,
+              query: {
+                data: 'confirmed'
+              }
+            });
+          }
+          else if (this.$route.query.query === 'confirmfacebook') {
+            this.$router.push({
+              path: `/tabs/facebookservice`,
+              query: {
+                data: 'confirmed'
+              }
+            });
           }
           this.pin.length == 0;
           console.log(this.$route.query.query)

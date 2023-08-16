@@ -5,7 +5,7 @@
       :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-button @click="$router.push('/tabs/nbaservices')">
+        <ion-button @click="Success()">
           <ion-icon style="color: white;" :icon="chevronBackOutline"></ion-icon>
           กลับ
         </ion-button>
@@ -16,7 +16,7 @@
       <ion-row v-for="(item, index) in services" :key="index">
         <ion-col style="text-align: center;" size="12">
           <ion-img :src="`/images/counter_service/${item.productid}.png`"></ion-img>
-          <ion-chip>{{ item.productname }}</ion-chip>
+          <ion-chip color="light">{{ item.productname }}</ion-chip>
         </ion-col>
         <ion-col size="12">
           <div class="alert-text" v-if="alerttext">
@@ -220,9 +220,10 @@ export default defineComponent({
       handler: function (newQuery) {
         if (newQuery === 'confirmed') {
           this.confirmcheck = true;
-        } else {
-           location.reload();
-        }
+        } 
+        // else {
+        //    location.reload();
+        // }
       },
 
     },

@@ -189,31 +189,28 @@
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/mobilebill.png"
                 @click="$router.push('/tabs/mobliebill')" />
-              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/keyservice.png"
-                @click="$router.push('/tabs/keyservice')" /> -->
             </ion-col>
             <ion-col>
-              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png"
-                @click="$router.push('/tabs/proserm')" /> -->
+              <ion-button @click="$router.push('/test')">test</ion-button>
+              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/accountingservice.png"
+                @click="$router.push('/tabs/accountservice')" /> -->
             </ion-col>
             <ion-col>
-              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/cash.png"
-                @click="$router.push('/tabs/cash')" /> -->
+              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/facebookservice.png"
+                @click="$router.push('/tabs/facebookservice')" /> -->
             </ion-col>
           </ion-row>
 
           <!-- <ion-row>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/accountingservice.png"
-                @click="$router.push('/tabs/cash')" />
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/website.png"
+                @click="$router.push('/tabs/websiteservice')" />
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/marketingservices.png"
-                @click="$router.push('/tabs/cash')" />
+              <ion-button @click="$router.push('/test')">test</ion-button>
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/Insurancetaxact.png"
-                @click="$router.push('/tabs/cash')" />
+
             </ion-col>
           </ion-row> -->
 
