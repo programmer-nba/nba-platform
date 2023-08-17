@@ -55,7 +55,8 @@
             <ion-item :button="true" :detail="false" id="returnDate" v-if="flight.tripType === 'R'">
               <p>{{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}</p>
               <div slot="end" id="returnDate" v-if="!flight.returnDate">-</div>
-              <div slot="end" id="returnDate" v-if="flight.returnDate">{{ flight.returnDate }}</div>
+              <div slot="end" id="returnDate" v-if="flight.returnDate">{{ flight.languageCode === 'th' ? toThaiDateString(flight.returnDate) :
+                toEnDateString(flight.returnDate) }}</div>
             </ion-item>
           </ion-list>
           <ion-list :inset="true">
@@ -193,7 +194,7 @@
                   <ion-col>
                     <ion-datetime presentation="date" :highlighted-dates="highlightedDates"
                       :locale="flight.languageCode === 'th' ? 'th-Th' : 'en-US'" @click="AddDete($event, 'returnDate')"
-                      :min="datetimeFormatLimit(DateNow)">
+                      :min="datetimeFormatLimit(flight.departDate)">
                       <ion-buttons slot="buttons">
                         <ion-button color="primary" @click="AddData('return')">{{ flight.languageCode === 'th' ? 'ยืนยัน'
                           : 'Confirm' }}</ion-button>
@@ -372,17 +373,14 @@ export default defineComponent({
       if (Check === 'depart') {
         const d = new Date(dateFormatValue(this.dete1));
         this.flight.departDate = d
+        this.flight.returnDate= ''
+        this.highlightedDates[1].date = ''
         this.highlightedDates[0].date = dateFormatValue(this.flight.departDate) as any
         modalController.dismiss();
       }
       if (Check === 'return') {
         const d = new Date(dateFormatValue(this.dete2))
-        if (this.flight.languageCode === 'th') {
-          this.flight.returnDate = toThaiDateString(d)
-        }
-        if (this.flight.languageCode === 'en') {
-          this.flight.returnDate = toEnDateString(d)
-        }
+        this.flight.returnDate = d
         this.highlightedDates[1].date = dateFormatValue(this.flight.returnDate) as any
         modalController.dismiss();
       }
@@ -428,18 +426,12 @@ export default defineComponent({
           const month = v.srcElement.activePartsClone.month;
           const year = v.srcElement.activePartsClone.year;
           this.dete2 = [year, month, day];
+          this.highlightedDates[1].date = '';
         }
       }
     },
     CheckLanguage(Check: string) {
       this.flight.languageCode = Check
-      const date = new Date(dateFormatValue(this.dete2));
-      if (this.flight.languageCode === 'th' && this.flight.returnDate != '') {
-        this.flight.returnDate = toThaiDateString(date)
-      }
-      if (this.flight.languageCode === 'en' && this.flight.returnDate != '') {
-        this.flight.returnDate = toEnDateString(date)
-      }
       this.loading = true;
       loadingController.create({
         message: this.flight.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
