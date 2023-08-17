@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-title>Test 2</ion-title>
         <IonButtons slot="start">
-          <ion-button @click="$router.go(-1)">กลับ</ion-button>
+          <ion-button @click="$router.go(-1)">{{ $route.query.languageCode === 'th' ? 'กลับ' : 'Back' }}</ion-button>
         </IonButtons>
       </ion-toolbar>
     </ion-header>
@@ -20,12 +20,16 @@
             <ion-row style="padding: 5%;">
               <ion-col size="12">
                 {{ item.depCity }} ---> {{ item.arrCity }} <br />
-                <ion-text>ราคา <s>฿ {{ item.fare.strikethroughTotalPrice }}</s> <ion-chip size="small" color="danger">{{
-                  item.discountTag.promotionText }}</ion-chip></ion-text> <br />
-                <ion-text style="color: rgb(65, 65, 65); font-size: 16px;">ราคารวม ฿ {{ item.price }}
-                  <small>/คน</small></ion-text>
-                <ion-button @click="CheckDetail(index, Check === index ? 'Close' : 'Open')"
-                  style="margin-left: 22%;">เลือก <ion-icon
+                <ion-text>{{ $route.query.languageCode === 'th' ? 'ราคา' : 'Price' }} <s>฿ {{
+                  item.fare.strikethroughTotalPrice }}</s> <ion-chip size="small" color="danger">{{
+    item.discountTag.promotionText }}</ion-chip></ion-text> <br />
+                <ion-text style="color: rgb(65, 65, 65); font-size: 16px;">{{ $route.query.languageCode === 'th' ? 'ราคา'
+                  : 'Price' }} ฿ {{ item.price }}
+                  <small>/{{ $route.query.languageCode === 'th' ? 'คน' : 'Person' }}</small></ion-text>
+              </ion-col>
+              <ion-col style="text-align: center;">
+                <ion-button @click="CheckDetail(index, Check === index ? 'Close' : 'Open')">{{ $route.query.languageCode
+                  === 'th' ? 'เลือก' : 'Choose' }}<ion-icon
                     :icon="Check === index ? chevronUpOutline : chevronDownOutline"></ion-icon></ion-button>
               </ion-col>
             </ion-row>
@@ -59,7 +63,8 @@
                         <ion-text>{{ data.arrCity.name }}</ion-text>
                       </ion-col>
                       <ion-col size="12">
-                        <ion-button style="width: 100%;">เลือก</ion-button>
+                        <ion-button style="width: 100%;">{{ $route.query.languageCode === 'th' ? 'เลือก' : 'Choose'
+                        }}</ion-button>
                       </ion-col>
                     </ion-row>
                   </ion-card-content>
@@ -83,7 +88,7 @@ import {
 } from '@ionic/vue';
 import { defineComponent } from 'vue';
 import { dayjs, toThaiDateString, dateFormatValue } from '@/services/fun';
-import { airplane, chevronDownOutline, chevronUpOutline,  man } from "ionicons/icons";
+import { airplane, chevronDownOutline, chevronUpOutline, man } from "ionicons/icons";
 
 export default defineComponent({
   name: 'HomePage',
@@ -114,6 +119,7 @@ export default defineComponent({
       loading: false,
       flights: [] as any,
       Check: null as any,
+      ReloadPage: true,
     }
   },
   methods: {
@@ -126,34 +132,35 @@ export default defineComponent({
     }
   },
   async mounted() {
-    this.loading = true;
-    loadingController.create({
-      message: 'กำลังโหลดข้อมูล....'
-    }).then(a => {
-      a.present().then(() => {
-        this.userservice.PostAocFlight(this.$route.query).then((result: any) => {
-          console.log(result);
-          if (result.message === 'successful') {
-            this.loading = false;
-            this.flights = result.data.data.flights;
-            console.log(this.flights);
-          }
-          if (!this.loading) {
-            a.dismiss().then(() => console.log());
-          }
-        })
+    if (this.ReloadPage === true) {
+      this.loading = true;
+      loadingController.create({
+        message: this.$route.query.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
+      }).then(a => {
+        a.present().then(() => {
+          this.userservice.PostAocFlight(this.$route.query).then((result: any) => {
+            console.log(result);
+            if (result.message === 'successful') {
+              this.loading = false;
+              this.flights = result.data.data.flights;
+            }
+            if (!this.loading) {
+              a.dismiss().then(() => console.log());
+            }
+          })
+        });
       });
-    });
+    }
   }
 });
 </script>
   
 <style scoped>
-.icon-air{
+.icon-air {
   font-size: 20px;
   color: #4b037a;
 }
+
 ion-range {
   pointer-events: none;
-}
-</style>
+}</style>

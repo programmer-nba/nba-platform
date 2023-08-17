@@ -10,9 +10,9 @@
       <ion-row style="padding: 5%;">
         <ion-col size="12">
           <ion-button @click="Check('R')" value="R" :class="flight.tripType === 'R' ? 'color-main' : 'color-try'"
-            shape="round">ไป-กลับ</ion-button>
+            shape="round">{{ (flight.languageCode === 'th' ? 'ไป-กลับ' : 'Round Trip') }}</ion-button>
           <ion-button @click="Check('O')" value="O" :class="flight.tripType === 'O' ? 'color-main' : 'color-try'"
-            shape="round">เที่ยวเดี่ยว</ion-button>
+            shape="round">{{ (flight.languageCode === 'th' ? 'เที่ยวเดียว' : 'One Way') }}</ion-button>
         </ion-col>
         <ion-col size="12">
           <ion-button @click="CheckLanguage('th')" value="th"
@@ -23,70 +23,79 @@
         <ion-col size="12">
           <ion-list :inset="true">
             <ion-item :button="true" :detail="false" id="select-fruits">
-              <p>ประเทศ</p>
-              <div style="color: grey;" slot="end" id="selected-fruits" v-if="!selectedCountry">ยังไม่ได้เลือก</div>
+              <p>{{ (flight.languageCode === 'th' ? 'ประเทศ' : 'Country') }}</p>
+              <div style="color: grey;" slot="end" id="selected-fruits" v-if="!selectedCountry">{{ (flight.languageCode
+                === 'th' ? 'ยังไม่ได้เลือก' : 'Not Yet Selected') }}</div>
               <div slot="end" id="selected-fruits" v-if="selectedCountry">{{ selectedCountry }}</div>
             </ion-item>
           </ion-list>
           <ion-list :inset="true">
             <ion-item :button="true" :detail="false" id="selected-Origin">
-              <p>ต้นทาง</p>
-              <div style="color: grey;" slot="end" id="selected-fruits" v-if="!flight.originCode">ยังไม่ได้เลือก</div>
+              <p>{{ (flight.languageCode === 'th' ? 'ต้นทาง' : 'Origin') }}</p>
+              <div style="color: grey;" slot="end" id="selected-fruits" v-if="!flight.originCode">{{ (flight.languageCode
+                === 'th' ? 'ยังไม่ได้เลือก' : 'Not Yet Selected') }}</div>
               <div slot="end" id="selected-Origin" v-if="flight.originCode">{{ flight.originCode }}</div>
             </ion-item>
           </ion-list>
           <ion-list :inset="true">
             <ion-item :button="true" :detail="false" id="selected-Destination">
-              <p>ปลายทาง</p>
-              <div style="color: grey;" slot="end" id="selected-fruits" v-if="!flight.destinationCode">ยังไม่ได้เลือก
+              <p>{{ (flight.languageCode === 'th' ? 'ปลายทาง' : 'Destination') }}</p>
+              <div style="color: grey;" slot="end" id="selected-fruits" v-if="!flight.destinationCode">{{
+                (flight.languageCode === 'th' ? 'ยังไม่ได้เลือก' : 'Not Yet Selected') }}
               </div>
               <div slot="end" id="selected-Destination" v-if="flight.destinationCode">{{ flight.destinationCode }}</div>
             </ion-item>
           </ion-list>
           <ion-list :inset="true">
             <ion-item :button="true" :detail="false" id="departDate">
-              <p>วันที่ไป</p>
-              <div slot="end" id="departDate">{{ toThaiDateString(flight.departDate) }}</div>
+              <p>{{ (flight.languageCode === 'th' ? 'วันที่ไป' : 'Date') }}</p>
+              <div slot="end" id="departDate">{{ flight.languageCode === 'th' ? toThaiDateString(flight.departDate) :
+                toEnDateString(flight.departDate) }}</div>
             </ion-item>
             <ion-item :button="true" :detail="false" id="returnDate" v-if="flight.tripType === 'R'">
-              <p>วันที่กลับ</p>
+              <p>{{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}</p>
               <div slot="end" id="returnDate" v-if="!flight.returnDate">-</div>
               <div slot="end" id="returnDate" v-if="flight.returnDate">{{ flight.returnDate }}</div>
             </ion-item>
           </ion-list>
           <ion-list :inset="true">
             <ion-item>
-              <ion-select label="ชั้นโดยสาร" v-model="flight.svcClass" placeholder="ยังไม่ได้เลือก" ok-text="ยืนยัน"
+              <ion-select :label="(flight.languageCode === 'th' ? 'ชั้นโดยสาร' : 'Class')" v-model="flight.svcClass"
+                :placeholder="flight.languageCode === 'th' ? 'ยังไม่ได้เลือก' : 'Not Yet Selected'" ok-text="ยืนยัน"
                 cancel-text="ยกเลิก">
-                <ion-select-option value="Y">ชั้นประหยัด</ion-select-option>
-                <ion-select-option value="P">ชั้นประหยัดพรีเมียม</ion-select-option>
-                <ion-select-option value="C">ชั้นธุรกิจ</ion-select-option>
-                <ion-select-option value="F">ชั้นหนึ่ง</ion-select-option>
+                <ion-select-option :value="'Y'">{{ flight.languageCode === 'th' ? 'ชั้นประหยัด' : 'Economy Class' }} </ion-select-option>
+                <ion-select-option :value="'P'">{{ flight.languageCode === 'th' ? 'ชั้นประหยัดพรีเมียม' : 'Premium Economy Class' }} </ion-select-option>
+                <ion-select-option :value="'C'">{{ flight.languageCode === 'th' ? 'ชั้นธุรกิจ' : 'Business Class' }} </ion-select-option>
+                <ion-select-option :value="'F'">{{ flight.languageCode === 'th' ? 'ชั้นหนึ่ง' : 'First Class' }} </ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>
           <ion-list :inset="true">
             <ion-item :button="true" :detail="false" id="passenger">
               <ion-label>
-                <h2>ผู้โดยสาร</h2>
+                <h2>{{ (flight.languageCode === 'th' ? 'ผู้โดยสาร' : 'Passenger') }}</h2>
                 <p>{{ passenger }}</p>
               </ion-label>
               <ion-icon :icon="man" slot="end"></ion-icon>
             </ion-item>
           </ion-list>
-          <ion-button class="btn-search" @click="getData()">ค้นหา</ion-button>
+          <ion-button class="btn-search" @click="getData()">{{ flight.languageCode === 'th' ? 'ค้นหา' : 'Search'
+          }}</ion-button>
 
           <!-- Modal Country  -->
           <ion-modal trigger="select-fruits" ref="modal">
             <ion-toolbar style="text-align: center;">
-              ค้นหาประเทศ
+              {{ (flight.languageCode === 'th' ? 'ประเทศ' : 'Country') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">ปิด</ion-button>
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
             <ion-content>
-              <ion-searchbar placeholder="ค้นหาประเทศ" @ionInput="handleInput($event)"></ion-searchbar>
-              <ion-list v-if="CheckInput != ''">
+              <ion-searchbar :value="selectedCountry"
+                :placeholder="flight.languageCode === 'th' ? 'ค้นหาประเทศ' : 'Country Search'"
+                @ionInput="handleInput($event)"></ion-searchbar>
+              <ion-list>
                 <ion-item v-for="result in searchedItem" button :key="result._id"
                   @click="InputCountry(result.Code, result.Name)">
                   <p>{{ result.Name }}</p>
@@ -98,13 +107,16 @@
           <!-- Modal Origin  -->
           <ion-modal trigger="selected-Origin" ref="modal">
             <ion-toolbar style="text-align: center;">
-              ต้นทาง
+              {{ (flight.languageCode === 'th' ? 'ต้นทาง' : 'Origin') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">ปิด</ion-button>
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
             <ion-content>
-              <ion-searchbar placeholder="ค้นหาจังหวัด/เมือง" @ionInput="handleInputOrigin($event)"></ion-searchbar>
+              <ion-searchbar :value="selectedOrigin"
+                :placeholder="flight.languageCode === 'th' ? 'ค้นหาจังหวัด/เมือง' : 'Search Province/City'"
+                @ionInput="handleInputOrigin($event)"></ion-searchbar>
               <ion-list v-if="CheckInput != ''">
                 <ion-item v-for="result in searchedCityOrigin" button :key="result._id"
                   @click="InputOrigin(result.Code, result.Name)">
@@ -118,13 +130,16 @@
           <!-- Modal Destination  -->
           <ion-modal trigger="selected-Destination" ref="modal">
             <ion-toolbar style="text-align: center;">
-              ปลายทาง
+              {{ (flight.languageCode === 'th' ? 'ปลายทาง' : 'Destination') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">ปิด</ion-button>
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
             <ion-content>
-              <ion-searchbar placeholder="ค้นหาจังหวัด/เมือง" @ionInput="handleInputDestination($event)"></ion-searchbar>
+              <ion-searchbar :value="selectedDestination"
+                :placeholder="flight.languageCode === 'th' ? 'ค้นหาจังหวัด/เมือง' : 'Search Province/City'"
+                @ionInput="handleInputDestination($event)"></ion-searchbar>
               <ion-list v-if="CheckInput != ''">
                 <ion-item v-for="result in searchedCityDestination" button :key="result._id"
                   @click="InputDestination(result.Code, result.Name)">
@@ -138,19 +153,22 @@
           <ion-modal trigger="departDate" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]"
             class="ion-modal-dete">
             <ion-toolbar style="text-align: center;">
-              วันที่เดินทาง
+              {{ (flight.languageCode === 'th' ? 'วันที่ไป' : 'Date') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">ปิด</ion-button>
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
             <div class="block">
               <ion-content class="content">
                 <ion-row>
                   <ion-col>
-                    <ion-datetime presentation="date" :value="dateFormatValue(flight.departDate)"
-                      @click="AddDete($event, 'departDate')">
+                    <ion-datetime presentation="date" :locale="flight.languageCode === 'th' ? 'th-Th' : 'en-US'"
+                      :value="dateFormatValue(flight.departDate)" @click="AddDete($event, 'departDate')"
+                      :min="datetimeFormatLimit(DateNow)">
                       <ion-buttons slot="buttons">
-                        <ion-button color="primary" @click="AddData('depart')">ยืนยัน</ion-button>
+                        <ion-button color="primary" @click="AddData('depart')">{{ flight.languageCode === 'th' ? 'ยืนยัน'
+                          : 'Confirm' }}</ion-button>
                       </ion-buttons>
                     </ion-datetime>
                   </ion-col>
@@ -163,9 +181,10 @@
           <ion-modal trigger="returnDate" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]"
             class="ion-modal-dete">
             <ion-toolbar style="text-align: center;">
-              วันที่เดินทาง
+              {{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">ปิด</ion-button>
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
             <div class="block">
@@ -173,9 +192,11 @@
                 <ion-row>
                   <ion-col>
                     <ion-datetime presentation="date" :highlighted-dates="highlightedDates"
-                      @click="AddDete($event, 'returnDate')">
+                      :locale="flight.languageCode === 'th' ? 'th-Th' : 'en-US'" @click="AddDete($event, 'returnDate')"
+                      :min="datetimeFormatLimit(DateNow)">
                       <ion-buttons slot="buttons">
-                        <ion-button color="primary" @click="AddData('return')">ยืนยัน</ion-button>
+                        <ion-button color="primary" @click="AddData('return')">{{ flight.languageCode === 'th' ? 'ยืนยัน'
+                          : 'Confirm' }}</ion-button>
                       </ion-buttons>
                     </ion-datetime>
                   </ion-col>
@@ -187,9 +208,10 @@
           <!-- Modal PassenGer  -->
           <ion-modal trigger="passenger" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]" class="ion-modal-dete">
             <ion-toolbar style="text-align: center;">
-              เลือกผู้โดยสาร
+              {{ (flight.languageCode === 'th' ? 'เลือกผู้โดยสาร' : 'Pick a Passenger') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">ปิด</ion-button>
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
             <div class="block-class">
@@ -198,8 +220,8 @@
                   <ion-col style="color: black;">
                     <ion-item>
                       <ion-label>
-                        <h3>ผู้ใหญ่</h3>
-                        <p>อายุ 12 ปีขึ้นไป</p>
+                        <h3>{{ (flight.languageCode === 'th' ? 'ผู้ใหญ่' : 'Adult') }}</h3>
+                        <p>{{ flight.languageCode === 'th' ? 'อายุ 12 ปีขึ้นไป' : '12 Years Old or Older' }}</p>
                       </ion-label>
                       <ion-button fill="outline" @click="flight.adult--"
                         :disabled="flight.adult === 0 ? true : false">-</ion-button>
@@ -208,8 +230,8 @@
                     </ion-item>
                     <ion-item>
                       <ion-label>
-                        <h3>เด็ก</h3>
-                        <p>อายุ 2-11</p>
+                        <h3>{{ (flight.languageCode === 'th' ? 'เด็ก' : 'Child') }}</h3>
+                        <p>{{ flight.languageCode === 'th' ? 'อายุ 2-11' : 'Age 2-11' }}</p>
                       </ion-label>
                       <ion-button fill="outline" @click="flight.child--"
                         :disabled="flight.child === 0 ? true : false">-</ion-button>
@@ -218,15 +240,16 @@
                     </ion-item>
                     <ion-item>
                       <ion-label>
-                        <h3>ทารก</h3>
-                        <p>ต่ำกว่า 2 ปี</p>
+                        <h3>{{ (flight.languageCode === 'th' ? 'ทารก' : 'Infant') }}</h3>
+                        <p>{{ flight.languageCode === 'th' ? 'ต่ำกว่า 2 ปี' : 'Under 2 Years' }}</p>
                       </ion-label>
                       <ion-button fill="outline" @click="flight.infant--"
                         :disabled="flight.infant === 0 ? true : false">-</ion-button>
                       <p style="margin: 5%;">{{ flight.infant }}</p>
                       <ion-button fill="outline" @click="flight.infant++">+</ion-button>
                     </ion-item>
-                    <ion-button style="width: 99%;" @click="AddPassebGer()">ยืนยัน</ion-button>
+                    <ion-button style="width: 99%;" @click="AddPassebGer()">{{ flight.languageCode === 'th' ? 'ยืนยัน' :
+                      'Confirm' }}</ion-button>
                   </ion-col>
                 </ion-row>
               </ion-content>
@@ -246,8 +269,8 @@ import {
   IonInput, IonSearchbar, loadingController, IonSelect, IonSelectOption, IonModal, IonButtons, modalController, IonDatetime, IonIcon
 } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
-import { dayjs, toThaiDateString, dateFormatValue } from '@/services/fun';
-import { flash, man } from "ionicons/icons";
+import { dayjs, toThaiDateString, dateFormatValue, toEnDateString, datetimeFormatLimit } from '@/services/fun';
+import { man } from "ionicons/icons";
 
 export default defineComponent({
   name: 'HomePage',
@@ -280,7 +303,7 @@ export default defineComponent({
     const country = [] as any;
     const searchedCityOrigin = ref(city);
     const searchedCityDestination = ref(city);
-    const searchedItem = ref(country)
+    const searchedItem = ref(country) as any;
     const userservice = new UserService(null);
     const datetime = ref();
     const reset = () => datetime.value.$el.reset();
@@ -298,7 +321,9 @@ export default defineComponent({
       city,
       reset,
       dateFormatValue,
-      man
+      man,
+      toEnDateString,
+      datetimeFormatLimit
     };
   },
   data() {
@@ -318,12 +343,16 @@ export default defineComponent({
         infant: 0,
         languageCode: 'th',
       },
+      CodeCountry: '',
       CheckInput: '',
       selectedCountry: '',
-      dete1: '' as any,
+      selectedOrigin: '',
+      selectedDestination: '',
+      dete1: new Date() as any,
       dete2: '' as any,
       checkformdate: '',
       passenger: '',
+      DateNow: new Date as any,
       highlightedDates: [
         {
           date: '',
@@ -347,22 +376,41 @@ export default defineComponent({
         modalController.dismiss();
       }
       if (Check === 'return') {
-        const d = new Date(dateFormatValue(this.dete2));
-        this.flight.returnDate = toThaiDateString(d)
+        const d = new Date(dateFormatValue(this.dete2))
+        if (this.flight.languageCode === 'th') {
+          this.flight.returnDate = toThaiDateString(d)
+        }
+        if (this.flight.languageCode === 'en') {
+          this.flight.returnDate = toEnDateString(d)
+        }
         this.highlightedDates[1].date = dateFormatValue(this.flight.returnDate) as any
         modalController.dismiss();
       }
     },
     AddPassebGer() {
       if (this.flight.adult > 0 && this.flight.child > 0 && this.flight.infant > 0) {
-        this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน ,เด็ก ${this.flight.child} คน ,ทารก ${this.flight.infant} คน`
-        console.log(this.passenger)
+        if (this.flight.languageCode === 'th') {
+          this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน ,เด็ก ${this.flight.child} คน ,ทารก ${this.flight.infant} คน`
+        }
+        else if (this.flight.languageCode === 'en') {
+          this.passenger = `Adult ${this.flight.adult} Person ,Child ${this.flight.child} Person ,Infant ${this.flight.infant} Person`
+        }
       } else
         if (this.flight.adult > 0 && this.flight.child > 0) {
-          this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน ,เด็ก ${this.flight.child} คน`
+          if (this.flight.languageCode === 'th') {
+            this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน ,เด็ก ${this.flight.child} คน`
+          }
+          else if (this.flight.languageCode === 'en') {
+            this.passenger = `Adult ${this.flight.adult} Person ,Child ${this.flight.child} Person`
+          }
         } else
           if (this.flight.adult > 0) {
-            this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน`
+            if (this.flight.languageCode === 'th') {
+              this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน`
+            }
+            else if (this.flight.languageCode === 'en') {
+              this.passenger = `Adult ${this.flight.adult} Person`
+            }
           }
       modalController.dismiss();
     },
@@ -385,9 +433,16 @@ export default defineComponent({
     },
     CheckLanguage(Check: string) {
       this.flight.languageCode = Check
+      const date = new Date(dateFormatValue(this.dete2));
+      if (this.flight.languageCode === 'th' && this.flight.returnDate != '') {
+        this.flight.returnDate = toThaiDateString(date)
+      }
+      if (this.flight.languageCode === 'en' && this.flight.returnDate != '') {
+        this.flight.returnDate = toEnDateString(date)
+      }
       this.loading = true;
       loadingController.create({
-        message: 'กำลังโหลดข้อมูล....'
+        message: this.flight.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
       }).then(a => {
         a.present().then(() => {
           this.highlightedDates[0].date = dateFormatValue(this.flight.departDate) as any
@@ -396,9 +451,36 @@ export default defineComponent({
             if (result.message === 'successful') {
               this.loading = false;
               this.country = result.data;
+              this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.CheckInput.toLowerCase()) > -1)
+              if (this.selectedCountry) {
+                this.selectedCountry = result.data.filter((el: any) => el.Code === this.CodeCountry)[0].Name;
+                this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
+                this.userservice.GetCountryCode(this.CodeCountry, this.flight.languageCode).then((result: any) => {
+                  console.log(result);
+                  if (result.message === 'successful') {
+                    this.loading = false;
+                    this.city = result.data;
+                    if (this.selectedOrigin) {
+                      this.selectedOrigin = result.data.filter((el: any) => el.Code === this.flight.originCode)[0].Name;
+                      this.searchedCityOrigin = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedOrigin.toLowerCase()) > -1)
+                    }
+                    if (this.selectedDestination) {
+                      this.selectedDestination = result.data.filter((el: any) => el.Code === this.flight.destinationCode)[0].Name;
+                      this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedDestination.toLowerCase()) > -1)
+                    }
+                  }
+                })
+              }
+              this.passenger = this.flight.languageCode === 'th' ? `ผู้ใหญ่ ${this.flight.adult} คน` : `Adult ${this.flight.adult} Person`
             }
             if (!this.loading) {
               a.dismiss().then(() => console.log());
+            }
+          })
+          this.userservice.GetCountryCode(this.CodeCountry, this.flight.languageCode).then((result: any) => {
+            console.log(result);
+            if (result.message === 'successful') {
+              this.loading = false;
             }
           })
         });
@@ -408,9 +490,8 @@ export default defineComponent({
       this.flight.tripType = Check;
     },
     handleInput(event: any) {
-      const query = event.target.value;
-      this.CheckInput = query;
-      this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(query.toLowerCase()) > -1)
+      this.CheckInput = event.target.value;
+      this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.CheckInput.toLowerCase()) > -1)
     },
     handleInputOrigin(event: any) {
       const query = event.target.value;
@@ -426,22 +507,38 @@ export default defineComponent({
       modalController.dismiss();
     },
     async InputCountry(Code: string, Name: string) {
-      this.selectedCountry = Name
+      this.selectedCountry = Name;
+      this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(Name.toLowerCase()) > -1);
+      this.CodeCountry = Code;
+      this.flight.originCode = '';
+      this.searchedCityOrigin = '';
+      this.selectedOrigin = '';
+      this.flight.destinationCode = '';
+      this.searchedCityDestination = '';
+      this.selectedDestination = '';
       modalController.dismiss();
-      this.userservice.GetCountryCode(Code, this.flight.languageCode).then((result: any) => {
+      this.userservice.GetCountryCode(this.CodeCountry, this.flight.languageCode).then((result: any) => {
         console.log(result);
         if (result.message === 'successful') {
           this.loading = false;
           this.city = result.data;
+          this.searchedCityOrigin = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(''.toLowerCase()) > -1)
         }
       })
     },
     async InputOrigin(Code: string, Name: string) {
+      this.selectedOrigin = Name
+      this.searchedCityOrigin = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(Name.toLowerCase()) > -1)
       this.flight.originCode = Code
+      this.flight.destinationCode = '';
+      this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(''.toLowerCase()) > -1)
+      this.selectedDestination = '';
       modalController.dismiss();
     },
     async InputDestination(Code: string, Name: string) {
+      this.selectedDestination = Name;
       this.flight.destinationCode = Code
+      this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(Name.toLowerCase()) > -1)
       modalController.dismiss();
     },
     getData() {
@@ -460,7 +557,7 @@ export default defineComponent({
       }
       this.loading = true;
       loadingController.create({
-        message: 'กำลังโหลดข้อมูล....'
+        message: this.flight.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
       }).then(a => {
         a.present().then(() => {
           this.userservice.PostAocFlight(data).then((result: any) => {
@@ -504,6 +601,7 @@ export default defineComponent({
           if (result.message === 'successful') {
             this.loading = false;
             this.country = result.data;
+            this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.CheckInput.toLowerCase()) > -1)
             this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน`
           }
           if (!this.loading) {

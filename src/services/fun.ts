@@ -11,6 +11,10 @@ function datetimeFormat(date: string) {
   return dayjs(date).format("DD/MM/YYYY เวลา HH:mm:ss");
 }
 
+function datetimeFormatLimit(date: string) {
+  return dayjs(date).format("YYYY-MM-DDT00:00:00");
+}
+
 function dateFormat(date: string) {
   return dayjs(date).format("DD/MM/YYYY");
 }
@@ -26,7 +30,7 @@ function toThaiDateString(date: any) {
   let monthNames = [
     "ม.ค.", "ก.พ.", "	มี.ค.", "เม.ย.",
     "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.",
-    "ก.ย.", "ต.ค", "พ.ย.", "ธ.ค."
+    "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
   ];
   let day = ["อา.","จ.","อ.","พ.","พฤ.","ศ.","ส."]
 
@@ -39,4 +43,21 @@ function toThaiDateString(date: any) {
   return `${days} ${numOfDay} ${month} ${year}`;
 }
 
-export { dateFormat, datetimeFormat, dayjs, getImage, numberFormat, toThaiDateString, dateFormatValue };
+function toEnDateString(date: any) {
+  let monthNames = [
+    "Jan", "Feb", "	Mar", "Apr",
+    "May", "Jun", "Jul", "Aug",
+    "Sep", "Oct", "Nov", "Dec"
+  ];
+  let day = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+
+  let days = day[date.getDay()];
+  let year = date.getFullYear() + 543;
+  let month = monthNames[date.getMonth()];
+  let numOfDay = date.getDate();
+
+
+  return `${days} ${numOfDay} ${month} ${year}`;
+}
+
+export { dateFormat, datetimeFormat, dayjs, getImage, numberFormat, toThaiDateString, dateFormatValue, toEnDateString, datetimeFormatLimit };
