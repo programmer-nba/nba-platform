@@ -57,7 +57,7 @@
               <div slot="end" id="departDate">{{ flight.languageCode === 'th' ? toThaiDateString(flight.departDate) :
                 toEnDateString(flight.departDate) }}</div>
             </ion-item>
-            <ion-item :button="true" :detail="false" id="returnDate" v-if="flight.tripType === 'R'">
+            <ion-item id="returnDate" :button="true" :detail="false" v-if="flight.tripType === 'R'">
               <p>{{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}</p>
               <div slot="end" id="returnDate" v-if="!flight.returnDate">-</div>
               <div slot="end" id="returnDate" v-if="flight.returnDate">{{ flight.languageCode === 'th' ?
@@ -95,7 +95,7 @@
           }}</ion-button>
 
           <!-- Modal Country  -->
-          <ion-modal trigger="select-fruits" ref="modal">
+          <ion-modal trigger="select-fruits" ref="modal" class="modalserch">
             <ion-toolbar style="text-align: center;">
               {{ (flight.languageCode === 'th' ? 'ประเทศ' : 'Country') }}
               <ion-buttons slot="end">
@@ -112,12 +112,15 @@
                   @click="InputCountry(result.Code, result.Name)">
                   <p>{{ result.Name }}</p>
                 </ion-item>
+                <div style="color: black; text-align: center;" v-if="searchedItem.length === 0">
+                  <p >{{ flight.languageCode === 'th' ? '---ไม่พบประเทศ---' : '---Country not found---' }}</p>
+                </div>
               </ion-list>
             </ion-content>
           </ion-modal>
 
           <!-- Modal Origin  -->
-          <ion-modal trigger="selected-Origin" ref="modal">
+          <ion-modal trigger="selected-Origin" ref="modal" class="modalserch">
             <ion-toolbar style="text-align: center;">
               {{ (flight.languageCode === 'th' ? 'ต้นทาง' : 'Origin') }}
               <ion-buttons slot="end">
@@ -134,13 +137,16 @@
                   @click="InputOrigin(result.Code, result.Name)">
                   <p>{{ result.Name }}</p>
                 </ion-item>
+                <div style="color: black; text-align: center;">
+                  <p>{{ flight.languageCode === 'th' ? '---ไม่พบจังหวัด/เมือง---' : '---Province/city not found---' }}</p>
+              </div>
               </ion-list>
             </ion-content>
           </ion-modal>
 
 
           <!-- Modal Destination  -->
-          <ion-modal trigger="selected-Destination" ref="modal">
+          <ion-modal trigger="selected-Destination" ref="modal" class="modalserch"> 
             <ion-toolbar style="text-align: center;">
               {{ (flight.languageCode === 'th' ? 'ปลายทาง' : 'Destination') }}
               <ion-buttons slot="end">
@@ -157,6 +163,9 @@
                   @click="InputDestination(result.Code, result.Name)">
                   <p>{{ result.Name }}</p>
                 </ion-item>
+                <div style="color: black; text-align: center;">
+                  <p>{{ flight.languageCode === 'th' ? '---ไม่พบจังหวัด/เมือง---' : '---Country not found---' }}</p>
+                </div>
               </ion-list>
             </ion-content>
           </ion-modal>
@@ -189,13 +198,13 @@
             </div>
           </ion-modal>
 
-          <!-- Modal departDate  -->
-          <ion-modal trigger="returnDate" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]"
-            class="ion-modal-dete">
+          <!-- Modal returnDate  -->
+          <ion-modal trigger="returnDate" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]" class="ion-modal-dete" v-if="flight.tripType === 'R'">
             <ion-toolbar style="text-align: center;">
               {{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}
               <ion-buttons slot="end">
-                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' : 'Close'
+                <ion-button color="tertiary" @click="close()">{{ flight.languageCode === 'th' ? 'ปิด' :
+                  'Close'
                 }}</ion-button>
               </ion-buttons>
             </ion-toolbar>
@@ -348,7 +357,7 @@ export default defineComponent({
       getImage,
       alertButtons,
       OpenAlert,
-      isOpen
+      isOpen,
     };
   },
   async created() {
@@ -505,14 +514,14 @@ export default defineComponent({
       this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(query.toLowerCase()) > -1)
     },
     close() {
-      modalController.dismiss();
-      this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
-      if (this.selectedOrigin != '') {
-        this.searchedCityOrigin = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.originCode.toLowerCase()) > -1)
-      }
-      if (this.searchedCityDestination != '') {
-        this.searchedCityDestination = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.destinationCode.toLowerCase()) > -1)
-      }
+        modalController.dismiss();
+        this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
+        if (this.selectedOrigin != '') {
+          this.searchedCityOrigin = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.originCode.toLowerCase()) > -1)
+        }
+        if (this.searchedCityDestination != '') {
+          this.searchedCityDestination = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.destinationCode.toLowerCase()) > -1)
+        }
     },
     async InputCountry(Code: string, Name: string) {
       this.selectedCountry = Name;
@@ -568,11 +577,11 @@ export default defineComponent({
         this.isOpen = true;
         this.sentmessage = 'กรอกข้อมูลไม่ครบ';
         this.error_message = 'กรุณากรอก';
-      } else  {
+      } else {
         this.store.set('DataSearched', data)
-      this.$router.push({
-        path: `/test2`,
-      });
+        this.$router.push({
+          path: `/test2`,
+        });
       }
     }
   },
@@ -635,7 +644,10 @@ ion-datetime {
   align-items: center;
   justify-content: center;
 }
-
+.modalserch {
+  --height: 100%;
+  --width: 100%;
+}
 .ion-modal-dete {
   --height: auto;
 }
