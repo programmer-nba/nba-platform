@@ -273,7 +273,6 @@ export default defineComponent({
       datetimeFormat
     }
   },
-
   async created() {
     await this.store.create();
   },
@@ -284,6 +283,7 @@ export default defineComponent({
       loading: false,
       progress: 0,
       isOpenDelete: false,
+      test2: '',
       isOpen_2: false,
       isOpen: false,
       notify: [] as any[],

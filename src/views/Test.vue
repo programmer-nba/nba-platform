@@ -1,5 +1,10 @@
 <template>
   <ion-page>
+    <!-- Aler data -->
+    <ion-alert :is-open="isOpen" :header="flight.languageCode === 'th' ? 'แจ้งเตือน !' : 'Warn !'"
+      :sub-header="sentmessage" :message="error_message" :buttons="alertButtons"
+      @didDismiss="OpenAlert(false)"></ion-alert>
+
     <ion-header>
       <ion-toolbar>
         <ion-title>Test</ion-title>
@@ -55,7 +60,8 @@
             <ion-item :button="true" :detail="false" id="returnDate" v-if="flight.tripType === 'R'">
               <p>{{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}</p>
               <div slot="end" id="returnDate" v-if="!flight.returnDate">-</div>
-              <div slot="end" id="returnDate" v-if="flight.returnDate">{{ flight.languageCode === 'th' ? toThaiDateString(flight.returnDate) :
+              <div slot="end" id="returnDate" v-if="flight.returnDate">{{ flight.languageCode === 'th' ?
+                toThaiDateString(flight.returnDate) :
                 toEnDateString(flight.returnDate) }}</div>
             </ion-item>
           </ion-list>
@@ -64,10 +70,15 @@
               <ion-select :label="(flight.languageCode === 'th' ? 'ชั้นโดยสาร' : 'Class')" v-model="flight.svcClass"
                 :placeholder="flight.languageCode === 'th' ? 'ยังไม่ได้เลือก' : 'Not Yet Selected'" ok-text="ยืนยัน"
                 cancel-text="ยกเลิก">
-                <ion-select-option :value="'Y'">{{ flight.languageCode === 'th' ? 'ชั้นประหยัด' : 'Economy Class' }} </ion-select-option>
-                <ion-select-option :value="'P'">{{ flight.languageCode === 'th' ? 'ชั้นประหยัดพรีเมียม' : 'Premium Economy Class' }} </ion-select-option>
-                <ion-select-option :value="'C'">{{ flight.languageCode === 'th' ? 'ชั้นธุรกิจ' : 'Business Class' }} </ion-select-option>
-                <ion-select-option :value="'F'">{{ flight.languageCode === 'th' ? 'ชั้นหนึ่ง' : 'First Class' }} </ion-select-option>
+                <ion-select-option :value="'Y'">{{ flight.languageCode === 'th' ? 'ชั้นประหยัด' : 'Economy Class' }}
+                </ion-select-option>
+                <ion-select-option :value="'P'">{{ flight.languageCode === 'th' ? 'ชั้นประหยัดพรีเมียม' :
+                  'PremiumEconomyClass' }}
+                </ion-select-option>
+                <ion-select-option :value="'C'">{{ flight.languageCode === 'th' ? 'ชั้นธุรกิจ' : 'Business Class' }}
+                </ion-select-option>
+                <ion-select-option :value="'F'">{{ flight.languageCode === 'th' ? 'ชั้นหนึ่ง' : 'First Class' }}
+                </ion-select-option>
               </ion-select>
             </ion-item>
           </ion-list>
@@ -118,7 +129,7 @@
               <ion-searchbar :value="selectedOrigin"
                 :placeholder="flight.languageCode === 'th' ? 'ค้นหาจังหวัด/เมือง' : 'Search Province/City'"
                 @ionInput="handleInputOrigin($event)"></ion-searchbar>
-              <ion-list v-if="CheckInput != ''">
+              <ion-list>
                 <ion-item v-for="result in searchedCityOrigin" button :key="result._id"
                   @click="InputOrigin(result.Code, result.Name)">
                   <p>{{ result.Name }}</p>
@@ -141,7 +152,7 @@
               <ion-searchbar :value="selectedDestination"
                 :placeholder="flight.languageCode === 'th' ? 'ค้นหาจังหวัด/เมือง' : 'Search Province/City'"
                 @ionInput="handleInputDestination($event)"></ion-searchbar>
-              <ion-list v-if="CheckInput != ''">
+              <ion-list>
                 <ion-item v-for="result in searchedCityDestination" button :key="result._id"
                   @click="InputDestination(result.Code, result.Name)">
                   <p>{{ result.Name }}</p>
@@ -267,10 +278,11 @@
 import { UserService } from "@/services/user";
 import {
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonLabel, IonListHeader, IonCheckbox, IonItem, alertController, IonRow, IonCol,
-  IonInput, IonSearchbar, loadingController, IonSelect, IonSelectOption, IonModal, IonButtons, modalController, IonDatetime, IonIcon
+  IonInput, IonSearchbar, loadingController, IonSelect, IonSelectOption, IonModal, IonButtons, modalController, IonDatetime, IonIcon, IonAlert
 } from '@ionic/vue';
+import { Storage } from '@ionic/storage';
 import { defineComponent, ref } from 'vue';
-import { dayjs, toThaiDateString, dateFormatValue, toEnDateString, datetimeFormatLimit } from '@/services/fun';
+import { dayjs, toThaiDateString, dateFormatValue, toEnDateString, datetimeFormatLimit, getImage } from '@/services/fun';
 import { man } from "ionicons/icons";
 
 export default defineComponent({
@@ -296,10 +308,12 @@ export default defineComponent({
     IonModal,
     IonButtons,
     IonDatetime,
-    IonIcon
+    IonIcon,
+    IonAlert
   },
 
   setup() {
+    const store = new Storage();
     const city = [] as any;
     const country = [] as any;
     const searchedCityOrigin = ref(city);
@@ -307,6 +321,11 @@ export default defineComponent({
     const searchedItem = ref(country) as any;
     const userservice = new UserService(null);
     const datetime = ref();
+    const isOpen = ref(false);
+    const alertButtons = [{ text: 'OK', role: 'confirm', handler: () => { }, },];
+    const OpenAlert = (state: boolean) => {
+      isOpen.value = state;
+    };
     const reset = () => datetime.value.$el.reset();
     return {
       alertController,
@@ -324,8 +343,16 @@ export default defineComponent({
       dateFormatValue,
       man,
       toEnDateString,
-      datetimeFormatLimit
+      datetimeFormatLimit,
+      store,
+      getImage,
+      alertButtons,
+      OpenAlert,
+      isOpen
     };
+  },
+  async created() {
+    await this.store.create();
   },
   data() {
     return {
@@ -365,7 +392,10 @@ export default defineComponent({
           textColor: 'rgb(68, 10, 184)',
           backgroundColor: 'rgb(211, 200, 229)',
         },
-      ]
+      ],
+      test: [] as any,
+      error_message: '',
+      sentmessage: '',
     }
   },
   methods: {
@@ -373,7 +403,7 @@ export default defineComponent({
       if (Check === 'depart') {
         const d = new Date(dateFormatValue(this.dete1));
         this.flight.departDate = d
-        this.flight.returnDate= ''
+        this.flight.returnDate = ''
         this.highlightedDates[1].date = ''
         this.highlightedDates[0].date = dateFormatValue(this.flight.departDate) as any
         modalController.dismiss();
@@ -386,30 +416,10 @@ export default defineComponent({
       }
     },
     AddPassebGer() {
-      if (this.flight.adult > 0 && this.flight.child > 0 && this.flight.infant > 0) {
-        if (this.flight.languageCode === 'th') {
-          this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน ,เด็ก ${this.flight.child} คน ,ทารก ${this.flight.infant} คน`
-        }
-        else if (this.flight.languageCode === 'en') {
-          this.passenger = `Adult ${this.flight.adult} Person ,Child ${this.flight.child} Person ,Infant ${this.flight.infant} Person`
-        }
-      } else
-        if (this.flight.adult > 0 && this.flight.child > 0) {
-          if (this.flight.languageCode === 'th') {
-            this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน ,เด็ก ${this.flight.child} คน`
-          }
-          else if (this.flight.languageCode === 'en') {
-            this.passenger = `Adult ${this.flight.adult} Person ,Child ${this.flight.child} Person`
-          }
-        } else
-          if (this.flight.adult > 0) {
-            if (this.flight.languageCode === 'th') {
-              this.passenger = `ผู้ใหญ่ ${this.flight.adult} คน`
-            }
-            else if (this.flight.languageCode === 'en') {
-              this.passenger = `Adult ${this.flight.adult} Person`
-            }
-          }
+      const adult = this.flight.adult > 0 ? this.flight.languageCode === 'th' ? `ผู้ใหญ่ ${this.flight.adult} คน` : `Adult ${this.flight.adult} ` : '';
+      const child = this.flight.child > 0 ? this.flight.languageCode === 'th' ? `,เด็ก ${this.flight.child} คน` : `,Child ${this.flight.child} ` : '';
+      const infant = this.flight.infant > 0 ? this.flight.languageCode === 'th' ? `,ทารก ${this.flight.infant} คน` : `,Infant ${this.flight.infant} ` : '';
+      this.passenger = `${adult} ${child} ${infant}`
       modalController.dismiss();
     },
     AddDete(v: any, Check: string) {
@@ -436,9 +446,9 @@ export default defineComponent({
       loadingController.create({
         message: this.flight.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
       }).then(a => {
-        a.present().then(() => {
+        a.present().then(async () => {
           this.highlightedDates[0].date = dateFormatValue(this.flight.departDate) as any
-          this.userservice.GetCountry(this.flight.languageCode).then((result: any) => {
+          await this.userservice.GetCountry(this.flight.languageCode).then(async (result: any) => {
             console.log(result);
             if (result.message === 'successful') {
               this.loading = false;
@@ -447,7 +457,7 @@ export default defineComponent({
               if (this.selectedCountry) {
                 this.selectedCountry = result.data.filter((el: any) => el.Code === this.CodeCountry)[0].Name;
                 this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
-                this.userservice.GetCountryCode(this.CodeCountry, this.flight.languageCode).then((result: any) => {
+                await this.userservice.GetCountryCode(this.CodeCountry, this.flight.languageCode).then((result: any) => {
                   console.log(result);
                   if (result.message === 'successful') {
                     this.loading = false;
@@ -463,16 +473,13 @@ export default defineComponent({
                   }
                 })
               }
-              this.passenger = this.flight.languageCode === 'th' ? `ผู้ใหญ่ ${this.flight.adult} คน` : `Adult ${this.flight.adult} Person`
+              const adult = this.flight.adult > 0 ? this.flight.languageCode === 'th' ? `ผู้ใหญ่ ${this.flight.adult} คน` : `Adult ${this.flight.adult} ` : '';
+              const child = this.flight.child > 0 ? this.flight.languageCode === 'th' ? `,เด็ก ${this.flight.child} คน` : `,Child ${this.flight.child} ` : '';
+              const infant = this.flight.infant > 0 ? this.flight.languageCode === 'th' ? `,ทารก ${this.flight.infant} คน` : `,Infant ${this.flight.infant} ` : '';
+              this.passenger = `${adult} ${child} ${infant}`;
             }
             if (!this.loading) {
               a.dismiss().then(() => console.log());
-            }
-          })
-          this.userservice.GetCountryCode(this.CodeCountry, this.flight.languageCode).then((result: any) => {
-            console.log(result);
-            if (result.message === 'successful') {
-              this.loading = false;
             }
           })
         });
@@ -480,10 +487,12 @@ export default defineComponent({
     },
     Check(Check: string) {
       this.flight.tripType = Check;
+      this.selectedDestination = '';
     },
     handleInput(event: any) {
       this.CheckInput = event.target.value;
       this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.CheckInput.toLowerCase()) > -1)
+      console.log(this.selectedCountry)
     },
     handleInputOrigin(event: any) {
       const query = event.target.value;
@@ -497,6 +506,13 @@ export default defineComponent({
     },
     close() {
       modalController.dismiss();
+      this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
+      if (this.selectedOrigin != '') {
+        this.searchedCityOrigin = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.originCode.toLowerCase()) > -1)
+      }
+      if (this.searchedCityDestination != '') {
+        this.searchedCityDestination = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.destinationCode.toLowerCase()) > -1)
+      }
     },
     async InputCountry(Code: string, Name: string) {
       this.selectedCountry = Name;
@@ -521,6 +537,7 @@ export default defineComponent({
     async InputOrigin(Code: string, Name: string) {
       this.selectedOrigin = Name
       this.searchedCityOrigin = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(Name.toLowerCase()) > -1)
+      console.log(this.searchedCityOrigin)
       this.flight.originCode = Code
       this.flight.destinationCode = '';
       this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(''.toLowerCase()) > -1)
@@ -533,7 +550,7 @@ export default defineComponent({
       this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(Name.toLowerCase()) > -1)
       modalController.dismiss();
     },
-    getData() {
+    async getData() {
       const data = {
         tripType: this.flight.tripType,
         originCode: this.flight.originCode,
@@ -547,38 +564,16 @@ export default defineComponent({
         infant: this.flight.infant,
         languageCode: this.flight.languageCode,
       }
-      this.loading = true;
-      loadingController.create({
-        message: this.flight.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
-      }).then(a => {
-        a.present().then(() => {
-          this.userservice.PostAocFlight(data).then((result: any) => {
-            console.log(result);
-            if (result.message === 'successful') {
-              this.loading = false;
-              this.$router.push({
-                path: `/test2`,
-                query: {
-                  tripType: this.flight.tripType,
-                  originCode: this.flight.originCode,
-                  destinationCode: this.flight.destinationCode,
-                  svcClass: this.flight.svcClass,
-                  directFlight: this.flight.directFlight as any,
-                  departDate: dateFormatValue(this.flight.departDate),
-                  returnDate: this.flight.returnDate ? (dateFormatValue(this.dete2)) : '',
-                  adult: this.flight.adult,
-                  child: this.flight.child,
-                  infant: this.flight.infant,
-                  languageCode: this.flight.languageCode,
-                }
-              });
-            }
-            if (!this.loading) {
-              a.dismiss().then(() => console.log());
-            }
-          })
-        });
+      if (this.selectedCountry === '' || this.flight.originCode === '' || this.flight.destinationCode === '' || this.flight.returnDate === '') {
+        this.isOpen = true;
+        this.sentmessage = 'กรอกข้อมูลไม่ครบ';
+        this.error_message = 'กรุณากรอก';
+      } else  {
+        this.store.set('DataSearched', data)
+      this.$router.push({
+        path: `/test2`,
       });
+      }
     }
   },
   async mounted() {
@@ -586,9 +581,9 @@ export default defineComponent({
     loadingController.create({
       message: 'กำลังโหลดข้อมูล....'
     }).then(a => {
-      a.present().then(() => {
+      a.present().then(async () => {
         this.highlightedDates[0].date = dateFormatValue(this.flight.departDate) as any
-        this.userservice.GetCountry(this.flight.languageCode).then((result: any) => {
+        await this.userservice.GetCountry(this.flight.languageCode).then((result: any) => {
           console.log(result);
           if (result.message === 'successful') {
             this.loading = false;

@@ -22,9 +22,18 @@ function dateFormatValue(date: any) {
   return dayjs(date).format("YYYY-MM-DD");
 }
 
+function dateFormatDefaultToTh(date: any) {
+  const deta = new Date(date)
+  return toThaiDateString(deta);
+}
+function dateFormatDefaultToEn(date: any) {
+  const deta = new Date(date)
+  return toEnDateString(deta);
+}
 function getImage(item: string) {
   return "https://drive.google.com/uc?export=view&id=" + item;
 }
+
 
 function toThaiDateString(date: any) {
   let monthNames = [
@@ -60,4 +69,5 @@ function toEnDateString(date: any) {
   return `${days} ${numOfDay} ${month} ${year}`;
 }
 
-export { dateFormat, datetimeFormat, dayjs, getImage, numberFormat, toThaiDateString, dateFormatValue, toEnDateString, datetimeFormatLimit };
+export { dateFormat, dateFormatDefaultToEn, dateFormatDefaultToTh, dateFormatValue, datetimeFormat, datetimeFormatLimit, dayjs, getImage, numberFormat, toEnDateString, toThaiDateString };
+

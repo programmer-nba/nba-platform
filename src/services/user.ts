@@ -1082,6 +1082,27 @@ export class UserService {
 
         return data;
     };
+    // Get CountryCode
+    public async GetAirline() {
+
+        let data = null;
+
+        const request = {
+            method: 'get',
+            url: `https://api.nbadigital.tech/v1/nba-hotel/aocflight/airlinecode`,
+            headers: {
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX2lkIjoiNjQ3ODViY2FjYzVhNDU3NzA1MzFlNzFlIiwiY29tcGFueSI6Ik5CQSBEaWdpdGFsIDkxMTEiLCJzaWduYXR1cmUiOiIzMDQwMDIxZTFhNTFmMDMzZTA4ZTU4ZWEwYjEzNDU1MDI4YjQ4OWI5Y2FhY2MzODEyZGViODJlNGM4MWFjZDc5YzQ3MjAyMWUxNjQ5NTc3YjhlYTcyMDllZjU1Y2I5YjljNTJjM2UwYjdkMzUyMmU1MGE4M2ZlOGVmZTEzZDM5Yjk3NzgiLCJyb2xlIjoiQVBJUEFSVE5FUiIsImlhdCI6MTY4NTYwOTQxOH0.ZULfQIAp8oXtMXscNog_ZNMNtXhFBQDD7FxRbzevYCo'
+            }
+        }
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+            })
+
+        return data;
+    };
 
     // Post AocFlight
     public async PostAocFlight(Data: any) {
@@ -1092,6 +1113,31 @@ export class UserService {
             method: 'post',
             data: Data,
             url: `https://api.nbadigital.tech/v1/nba-hotel/aocflight/search`,
+            headers: {
+                token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX2lkIjoiNjQ3ODViY2FjYzVhNDU3NzA1MzFlNzFlIiwiY29tcGFueSI6Ik5CQSBEaWdpdGFsIDkxMTEiLCJzaWduYXR1cmUiOiIzMDQwMDIxZTFhNTFmMDMzZTA4ZTU4ZWEwYjEzNDU1MDI4YjQ4OWI5Y2FhY2MzODEyZGViODJlNGM4MWFjZDc5YzQ3MjAyMWUxNjQ5NTc3YjhlYTcyMDllZjU1Y2I5YjljNTJjM2UwYjdkMzUyMmU1MGE4M2ZlOGVmZTEzZDM5Yjk3NzgiLCJyb2xlIjoiQVBJUEFSVE5FUiIsImlhdCI6MTY4NTYwOTQxOH0.ZULfQIAp8oXtMXscNog_ZNMNtXhFBQDD7FxRbzevYCo'
+            }
+        }
+
+        await axios(request).then(response => {
+            data = { message: 'successful', data: response.data }
+        })
+            .catch(error => {
+                data = { message: 'failed', error: error.message, test: error.response.data }
+                console.log(error)
+            })
+
+        return data;
+    }
+
+      // Post Booking
+      public async PostBooking(Data: any) {
+
+        let data = null;
+
+        const request = {
+            method: 'post',
+            data: Data,
+            url: `https://api.nbadigital.tech/v1/nba-hotel/aocflight/pricing`,
             headers: {
                 token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyX2lkIjoiNjQ3ODViY2FjYzVhNDU3NzA1MzFlNzFlIiwiY29tcGFueSI6Ik5CQSBEaWdpdGFsIDkxMTEiLCJzaWduYXR1cmUiOiIzMDQwMDIxZTFhNTFmMDMzZTA4ZTU4ZWEwYjEzNDU1MDI4YjQ4OWI5Y2FhY2MzODEyZGViODJlNGM4MWFjZDc5YzQ3MjAyMWUxNjQ5NTc3YjhlYTcyMDllZjU1Y2I5YjljNTJjM2UwYjdkMzUyMmU1MGE4M2ZlOGVmZTEzZDM5Yjk3NzgiLCJyb2xlIjoiQVBJUEFSVE5FUiIsImlhdCI6MTY4NTYwOTQxOH0.ZULfQIAp8oXtMXscNog_ZNMNtXhFBQDD7FxRbzevYCo'
             }

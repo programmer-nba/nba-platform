@@ -98,6 +98,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Test2.vue')
       },
       {
+        path: '/test3',
+        name: 'Test3',
+        component: () => import('@/views/Test3.vue')
+      },
+      {
         path: 'cardtopup',
         name: 'Cardtopup',
         component: () => import('@/views/CardTopupPage.vue'),

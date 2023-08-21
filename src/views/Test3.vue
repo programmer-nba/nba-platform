@@ -1,12 +1,9 @@
 <template>
   <ion-page>
-    <!-- Aler data -->
-    <ion-alert :is-open="isOpen" :header="DataSearched.languageCode === 'th' ? 'แจ้งเตือน !' : 'Warn !'" :sub-header="sentmessage" :message="error_message"
-      :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
-
+    <ion-toast :isOpen="Toast" message="Successful!" :duration="3000" position="bottom" class="custom-toast"></ion-toast>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Test 2</ion-title>
+        <ion-title>Test 3</ion-title>
         <IonButtons slot="start">
           <ion-button @click="$router.go(-1)">{{ DataSearched.languageCode === 'th' ? 'กลับ' : 'Back' }}</ion-button>
         </IonButtons>
@@ -18,10 +15,10 @@
         <ion-col>
           <ion-item lines="none">
             <ion-label>
-              <h2>{{ DataSearched.languageCode === 'th' ? 'เที่ยวบินขาออก' : 'Departure Flight' }} {{
-                DataSearched.originCode }}</h2>
-              <p>{{ DataSearched.languageCode === 'th' ? dateFormatDefaultToTh(DataSearched.departDate) :
-                dateFormatDefaultToEn(DataSearched.departDate) }}
+              <h2>{{ DataSearched.languageCode === 'th' ? 'เที่ยวบินขากลับ' : 'Return Flight' }} {{
+                DataSearched.destinationCode }}</h2>
+              <p>{{ DataSearched.languageCode === 'th' ? dateFormatDefaultToTh(DataSearched.returnDate) :
+                dateFormatDefaultToEn(DataSearched.returnDate) }}
                 {{ DataSearched.languageCode === 'th' ? `| ผู้โดยสาร ${(DataSearched.adult + DataSearched.child +
                   DataSearched.infant)} คน` : `| ${(DataSearched.adult + DataSearched.child + DataSearched.infant)}
                 Passenger`}} </p>
@@ -33,7 +30,7 @@
             <ion-card-header>
               <ion-card-title>{{ item.mainAirline.name }}</ion-card-title>
               <ion-item lines="none">
-                <ion-card-subtitle>{{ item.mainAirline.code }}</ion-card-subtitle>
+                <ion-card-subtitle style="padding-right: 5%;">{{ item.mainAirline.code }}</ion-card-subtitle>
                 <img alt="Silhouette of mountains" style="width: 20%; height: auto;" :src="getImage(img.imageUrl)" />
               </ion-item>
             </ion-card-header>
@@ -58,7 +55,7 @@
                   <ion-card-header>
                     <ion-card-title>{{ item.mainAirline.name }}</ion-card-title>
                     <ion-item lines="none">
-                      <ion-card-subtitle>{{ item.mainAirline.code }}</ion-card-subtitle>
+                      <ion-card-subtitle style="padding-right: 5%;">{{ item.mainAirline.code }}</ion-card-subtitle>
                       <img alt="Silhouette of mountains" style="width: 20%; height: auto;"
                         :src="getImage(img.imageUrl)" />
                     </ion-item>
@@ -85,8 +82,8 @@
                         <ion-text>{{ detail.arrcityname }}</ion-text>
                       </ion-col>
                       <ion-col size="12">
-                        <ion-button style="width: 100%;" @click="depCity(detail.bookingCode)">{{ DataSearched.languageCode
-                          === 'th' ? 'เลือก' : 'Choose'
+                        <ion-button style="width: 100%;"  id="open-toast" @click="sendData(detail.bookingCode)">{{
+                          DataSearched.languageCode === 'th' ? 'เลือก' : 'Choose'
                         }}</ion-button>
                       </ion-col>
                     </ion-row>
@@ -107,10 +104,10 @@ import { UserService } from "@/services/user";
 import {
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonLabel, IonListHeader, IonCheckbox, IonItem, alertController, IonRow, IonCol,
   IonInput, IonSearchbar, loadingController, IonSelect, IonSelectOption, IonModal, IonButtons, modalController, IonDatetime, IonIcon, IonCard, IonCardHeader, IonCardTitle,
-  IonCardSubtitle, IonCardContent, IonChip, IonText, IonThumbnail, IonRange, IonAlert
+  IonCardSubtitle, IonCardContent, IonChip, IonText, IonThumbnail, IonRange, IonToast, toastController 
 } from '@ionic/vue';
 import { Storage } from '@ionic/storage';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { dayjs, toThaiDateString, dateFormatValue, dateFormatDefaultToTh, dateFormatDefaultToEn, getImage } from '@/services/fun';
 import { airplane, chevronDownOutline, chevronUpOutline, man } from "ionicons/icons";
 
@@ -120,16 +117,11 @@ export default defineComponent({
     IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonListHeader, IonCheckbox,
     IonLabel, IonItem, IonRow, IonCol, IonInput, IonSearchbar, IonSelect, IonSelectOption, IonModal, IonButtons,
     IonDatetime, IonIcon, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent, IonChip, IonText,
-    IonThumbnail, IonRange, IonAlert
+    IonThumbnail, IonRange, IonToast
   },
 
   setup() {
     const store = new Storage();
-    const isOpen = ref(false);
-    const alertButtons = [{ text: 'OK', role: 'confirm', handler: () => { }, },];
-    const OpenAlert = (state: boolean) => {
-      isOpen.value = state;
-    };
     store.create();
     const userservice = new UserService(null);
     return {
@@ -147,9 +139,7 @@ export default defineComponent({
       dateFormatDefaultToTh,
       dateFormatDefaultToEn,
       getImage,
-      alertButtons,
-      OpenAlert,
-      isOpen
+      toastController
     };
   },
   data() {
@@ -162,9 +152,10 @@ export default defineComponent({
       departFligts: [] as any,
       returnFligts: [] as any,
       CheckData: [] as any,
+      BokingCode: [] as any,
+      ID: '' as any,
       Img: [] as any,
-      error_message: '',
-      sentmessage: '',
+      Toast: false,
     }
   },
   methods: {
@@ -175,15 +166,43 @@ export default defineComponent({
         this.Check = !Id;
       }
     },
-    depCity(BookingCode: any) {
-      this.store.set('BookingCodeDep', BookingCode)
-      this.$router.push({
-        path: `/test3`,
+    sendData(Booking: any) {
+      const data = {
+        pgSearchOID: this.ID,
+        tripType: this.DataSearched.tripType, //R=Round trip / O = One way
+        origin: this.DataSearched.originCode, //The IATA city code or airport code
+        destination: this.DataSearched.destinationCode, //the IATA city code or airport code
+        adult: this.DataSearched.adult, //Age > 12
+        child: this.DataSearched.destinationCode, //Age 2-12
+        infant: this.DataSearched.destinationCode, //Age <2
+        svcClass: this.DataSearched.svcClass, //Y=Economy P = Premium Economy C = Business F = First
+        S1: this.BokingCode,
+        S2: Booking,
+        bMultiTicket_Fare: true,
+        languageCode: this.DataSearched.languageCode
+      }
+      this.loading = true;
+      loadingController.create({
+        message: this.DataSearched.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
+      }).then(a => {
+        a.present().then(async () => {
+          this.userservice.PostBooking(data).then(async(result: any) => {
+            console.log(result);
+            if (result.message === 'successful') {
+              this.loading = false;
+              this.Toast = true;
+            }
+            if (!this.loading) {
+              a.dismiss().then(() => console.log());
+            }
+          })
+        });
       });
     }
   },
   async mounted() {
     this.DataSearched = await this.store.get('DataSearched')
+    this.BokingCode = await this.store.get('BookingCodeDep')
     this.loading = true;
     loadingController.create({
       message: this.DataSearched.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
@@ -193,21 +212,8 @@ export default defineComponent({
           console.log(result);
           if (result.message === 'successful') {
             this.loading = false;
-            this.flights = result.data.data.filter((el: any) => el.depCity === this.DataSearched.originCode);
-          } else if (result.message === 'failed') {
-            this.loading = false;
-            this.isOpen = true;
-            this.error_message = this.DataSearched.languageCode === 'th' ? 'ขออภัยในความไม่สะดวก' : 'Sorry for the inconvenience';
-            this.sentmessage = this.DataSearched.languageCode === 'th' ?  'ค้นหาเที่ยวบินไม่เจอ' : 'Can not find a flight';
-            this.alertButtons = [
-              {
-                text: 'ตกลง',
-                role: 'confirm',
-                handler: () => {
-                  window.location.href = '/test'
-                },
-              }
-            ]
+            this.flights = result.data.data.filter((el: any) => el.depCity === this.DataSearched.destinationCode);
+            this.ID = result.data.pgSearchOID;
           }
           if (!this.loading) {
             a.dismiss().then(() => console.log());
@@ -223,8 +229,8 @@ export default defineComponent({
             a.dismiss().then(() => console.log());
           }
         })
-      });
-    });
+      })
+    })
   }
 });
 </script>
@@ -238,9 +244,19 @@ export default defineComponent({
 ion-range {
   pointer-events: none;
 }
+ion-toast.custom-toast {
+    --background: #35a701;
+    --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+    --color: #ffffff;
+  }
 
-img {
-  width: 15%;
-  margin: 5%;
-}
+  ion-toast.custom-toast::part(message) {
+    font-style: italic;
+  }
+
+  ion-toast.custom-toast::part(button) {
+    border-left: 1px solid #d2d2d2;
+    color: #030207;
+    font-size: 15px;
+  }
 </style>
