@@ -169,7 +169,6 @@
                 @click="$router.push('/tabs/topups')" />
             </ion-col>
           </ion-row>
-
           <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/transfer.png"
@@ -184,7 +183,6 @@
                 @click="$router.push('/tabs/wallet')" />
             </ion-col>
           </ion-row>
-
           <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/mobilebill.png"
@@ -237,7 +235,7 @@
 import { alertCircleOutline, notifications, trash, checkmarkCircle, ellipse } from 'ionicons/icons';
 import { Storage } from '@ionic/storage';
 import { UserService } from "@/services/user";
-import CounterServicePage from "@/views/CounterServicePage.vue";
+// import CounterServicePage from "@/views/CounterServicePage.vue";
 import { datetimeFormat } from '@/services/fun';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
@@ -279,7 +277,7 @@ export default defineComponent({
   data() {
     return {
       user: null as any,
-      servicePage: CounterServicePage,
+      // servicePage: CounterServicePage,
       loading: false,
       progress: 0,
       isOpenDelete: false,
