@@ -126,24 +126,7 @@
           </div>
         </ion-grid>
       </div>
-      <div class="uservice">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-img class="service" alt="shoping" src="/images/shopping.083f7b88.png" />
-            </ion-col>
-            <ion-col>
-              <ion-img class="service" alt="shoping" src="/images/hotel.022dc7d3.png" />
-            </ion-col>
-            <ion-col>
-              <ion-img class="service" alt="shoping" src="/images/hair_cut.5d4c5a7a.png" />
-            </ion-col>
-            <ion-col>
-              <ion-img class="service" alt="shoping" src="/images/massage.ba614d5c.png" />
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </div>
+
       <div class="favarite px-1">
         <ion-grid>
           <ion-row>
@@ -155,76 +138,117 @@
               </div>
             </ion-col>
           </ion-row>
+
           <ion-row>
             <ion-col>
               <ion-img class="service" alt="artwork" src="/images/icon_menu/artwork.png"
-                @click="$router.push('/tabs/artwork')" />
+                @click="$router.push('/tabs/artwork')"></ion-img>
             </ion-col>
             <ion-col>
               <ion-img class="service" alt="services" src="/images/icon_menu/counter.png"
-                @click="$router.push('/tabs/services')" />
+                @click="$router.push('/tabs/services')"></ion-img>
             </ion-col>
             <ion-col>
               <ion-img class="service" alt="topup" src="/images/icon_menu/mobile_topup.png"
-                @click="$router.push('/tabs/topups')" />
+                @click="$router.push('/tabs/topups')"></ion-img>
             </ion-col>
           </ion-row>
+
           <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/transfer.png"
-                @click="$router.push('/tabs/nbaservices')" />
+                @click="$router.push('/tabs/nbaservices')"></ion-img>
             </ion-col>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/cardtopup.png"
-                @click="$router.push('/tabs/cardtopup')" />
+                @click="$router.push('/tabs/cardtopup')"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/proserm.png"
+                @click="$router.push('/tabs/proserm')"></ion-img>
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/keyservice.png"
+                @click="$router.push('/tabs/keyservice')"></ion-img>
             </ion-col>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/wallet.png"
-                @click="$router.push('/tabs/wallet')" />
+                @click="$router.push('/tabs/wallet')"></ion-img>
             </ion-col>
-          </ion-row>
-          <ion-row>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/mobilebill.png"
-                @click="$router.push('/tabs/mobliebill')" />
-            </ion-col>
-            <ion-col>
-              <ion-button @click="$router.push('/test')">test</ion-button>
-              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/accountingservice.png"
-                @click="$router.push('/tabs/accountservice')" /> -->
-            </ion-col>
-            <ion-col>
-              <!-- <ion-img class="service" alt="transfer" src="/images/icon_menu/facebookservice.png"
-                @click="$router.push('/tabs/facebookservice')" /> -->
+                @click="$router.push('/tabs/mobliebill')"></ion-img>
             </ion-col>
           </ion-row>
 
-          <!-- <ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/cash.png"
+                @click="$router.push('/tabs/cash')"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/accountingservice.png"
+                @click="$router.push('/tabs/accountservice')"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/marketingservices.png"></ion-img>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/Insurancetaxact.png"
+                @click="$router.push('/tabs/insurancetaxact')"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/planeticket.png"></ion-img>
+            </ion-col>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/website.png"
-                @click="$router.push('/tabs/websiteservice')" />
+                @click="$router.push('/tabs/websiteservice')"></ion-img>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/facebookservice.png"
+                @click="$router.push('/tabs/facebookservice')"></ion-img>
             </ion-col>
             <ion-col>
-              <ion-button @click="$router.push('/test')">test</ion-button>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/itsupport.png"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/pos.png"></ion-img>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/express.png"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/merit.png"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/sermons.png"></ion-img>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/photoservice.png"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/retouch.png"></ion-img>
             </ion-col>
             <ion-col>
 
             </ion-col>
-          </ion-row> -->
-
-          <!-- <ion-row>
-            <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/planeticket.png"
-                @click="$router.push('/tabs/cash')" />
-            </ion-col>
-            <ion-col>
-              <ion-button @click="$router.push('/barcode')">TEST</ion-button>
-            </ion-col>
-            <ion-col>
-
-            </ion-col>
-
-          </ion-row> -->
+          </ion-row>
         </ion-grid>
       </div>
     </ion-content>

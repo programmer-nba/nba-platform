@@ -8,11 +8,6 @@
           <ion-label>Home</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="services" href="/tabs/services">
-          <ion-icon aria-hidden="true" :icon="bagHandleOutline" />
-          <ion-label>Services</ion-label>
-        </ion-tab-button>
-
         <ion-tab-button tab="history" href="/tabs/history">
           <ion-icon aria-hidden="true" :icon="ribbonOutline" />
           <ion-label>History</ion-label>
