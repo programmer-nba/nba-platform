@@ -220,7 +220,7 @@ export default defineComponent({
       handler: function (newQuery) {
         if (newQuery === 'confirmed') {
           this.confirmcheck = true;
-        } 
+        }
         // else {
         //    location.reload();
         // }
@@ -262,12 +262,12 @@ export default defineComponent({
         this.isOpenImgae = true;
       } else {
         this.$router.push({
-                path: `/pin`,
-                query: {
-                    id: this.$route.params.id,
-                    query: 'confirmnbaservices'
-                }
-            });
+          path: `/pin`,
+          query: {
+            id: this.$route.params.id,
+            query: 'confirmnbaservices'
+          }
+        });
       }
     },
     async ConfirmAgain() {

@@ -113,7 +113,7 @@
                   <p>{{ result.Name }}</p>
                 </ion-item>
                 <div style="color: black; text-align: center;" v-if="searchedItem.length === 0">
-                  <p >{{ flight.languageCode === 'th' ? '---ไม่พบประเทศ---' : '---Country not found---' }}</p>
+                  <p>{{ flight.languageCode === 'th' ? '---ไม่พบประเทศ---' : '---Country not found---' }}</p>
                 </div>
               </ion-list>
             </ion-content>
@@ -139,14 +139,14 @@
                 </ion-item>
                 <div style="color: black; text-align: center;">
                   <p>{{ flight.languageCode === 'th' ? '---ไม่พบจังหวัด/เมือง---' : '---Province/city not found---' }}</p>
-              </div>
+                </div>
               </ion-list>
             </ion-content>
           </ion-modal>
 
 
           <!-- Modal Destination  -->
-          <ion-modal trigger="selected-Destination" ref="modal" class="modalserch"> 
+          <ion-modal trigger="selected-Destination" ref="modal" class="modalserch">
             <ion-toolbar style="text-align: center;">
               {{ (flight.languageCode === 'th' ? 'ปลายทาง' : 'Destination') }}
               <ion-buttons slot="end">
@@ -199,7 +199,8 @@
           </ion-modal>
 
           <!-- Modal returnDate  -->
-          <ion-modal trigger="returnDate" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]" class="ion-modal-dete" v-if="flight.tripType === 'R'">
+          <ion-modal trigger="returnDate" ref="modal" :initial-breakpoint="1" :breakpoints="[0, 1]" class="ion-modal-dete"
+            v-if="flight.tripType === 'R'">
             <ion-toolbar style="text-align: center;">
               {{ (flight.languageCode === 'th' ? 'วันที่กลับ' : 'Return Date') }}
               <ion-buttons slot="end">
@@ -514,14 +515,14 @@ export default defineComponent({
       this.searchedCityDestination = this.city.filter((el: any) => el.Name.toLowerCase().indexOf(query.toLowerCase()) > -1)
     },
     close() {
-        modalController.dismiss();
-        this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
-        if (this.selectedOrigin != '') {
-          this.searchedCityOrigin = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.originCode.toLowerCase()) > -1)
-        }
-        if (this.searchedCityDestination != '') {
-          this.searchedCityDestination = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.destinationCode.toLowerCase()) > -1)
-        }
+      modalController.dismiss();
+      this.searchedItem = this.country.filter((el: any) => el.Name.toLowerCase().indexOf(this.selectedCountry.toLowerCase()) > -1)
+      if (this.selectedOrigin != '') {
+        this.searchedCityOrigin = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.originCode.toLowerCase()) > -1)
+      }
+      if (this.searchedCityDestination != '') {
+        this.searchedCityDestination = this.city.filter((el: any) => el.Code.toLowerCase().indexOf(this.flight.destinationCode.toLowerCase()) > -1)
+      }
     },
     async InputCountry(Code: string, Name: string) {
       this.selectedCountry = Name;
@@ -644,10 +645,12 @@ ion-datetime {
   align-items: center;
   justify-content: center;
 }
+
 .modalserch {
   --height: 100%;
   --width: 100%;
 }
+
 .ion-modal-dete {
   --height: auto;
 }
@@ -659,5 +662,4 @@ ion-datetime {
 .btn-search {
   width: 100%;
   --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
-}
-</style>
+}</style>

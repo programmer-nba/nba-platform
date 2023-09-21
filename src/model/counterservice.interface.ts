@@ -1,5 +1,5 @@
 export interface BarcodeService {
-            productid: string,
-            productname: string,
-            status: string
+    productid: string,
+    productname: string,
+    status: string
 }

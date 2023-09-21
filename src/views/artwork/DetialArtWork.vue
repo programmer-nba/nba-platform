@@ -278,4 +278,5 @@ ion-modal#example-modal ion-textarea {
 
 .padding {
     margin-bottom: 15%;
-}</style>
+}
+</style>

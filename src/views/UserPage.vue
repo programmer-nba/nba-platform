@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header collapse="condense">
       <ion-toolbar>
-          <ion-title>โปรไฟล์ฉัน</ion-title>
+        <ion-title>โปรไฟล์ฉัน</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
@@ -59,7 +59,7 @@
       <ion-col>
         <ion-item>
           <ion-label style="color: rgb(211, 211, 211); font-size: 15px;">
-           <ion-text> ตั้งค่า</ion-text>
+            <ion-text> ตั้งค่า</ion-text>
           </ion-label>
         </ion-item>
         <ion-item button @click="$router.push(`/user/genaral`)">
@@ -118,7 +118,7 @@ import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
   IonCol, IonGrid, IonRow, IonInput, IonAvatar, IonSearchbar,
   IonProgressBar, IonImg, IonNav, IonText, IonIcon, IonButton,
-  IonItem, IonItemGroup, IonLabel, IonNavLink, IonModal, IonButtons, IonCard,loadingController
+  IonItem, IonItemGroup, IonLabel, IonNavLink, IonModal, IonButtons, IonCard, loadingController
 
 } from '@ionic/vue';
 import { defineComponent, ref, } from 'vue';
@@ -169,23 +169,23 @@ export default defineComponent({
     },
   },
   methods: {
-    chenHref(Check : String) {
+    chenHref(Check: String) {
       if (Check === 'password') {
-      this.$router.push({
-        path: '/pin',
-        query: {
-          query: 'password',
-        }
-      });
-    } 
-    if (Check === 'pin') {
-      this.$router.push({
-        path: '/pin',
-        query: {
-          query: 'createpin',
-        }
-      });
-    }
+        this.$router.push({
+          path: '/pin',
+          query: {
+            query: 'password',
+          }
+        });
+      }
+      if (Check === 'pin') {
+        this.$router.push({
+          path: '/pin',
+          query: {
+            query: 'createpin',
+          }
+        });
+      }
     },
     logout() {
       this.isOpen = true
@@ -205,24 +205,24 @@ export default defineComponent({
   },
   async mounted() {
     this.loading = true;
-        loadingController.create({
-            message: 'กำลังโหลดข้อมูล....'
-        }).then(a => {
-            a.present().then(() => {
-    //get me 
-     this.userservice.GetMe().then((result: any | null) => {
-      console.log(result);
-      if (result.status === true) {
-        this.user = result.data;
-        this.loading = false
-        this.allsale = result.data.allsale.toFixed(2);
-        this.walletMonney = result.data.wallet.toFixed(2);
-      }if (!this.loading) {
-                        a.dismiss().then(() => console.log());
-                    }
-    })
-  });
-        });
+    loadingController.create({
+      message: 'กำลังโหลดข้อมูล....'
+    }).then(a => {
+      a.present().then(() => {
+        //get me 
+        this.userservice.GetMe().then((result: any | null) => {
+          console.log(result);
+          if (result.status === true) {
+            this.user = result.data;
+            this.loading = false
+            this.allsale = result.data.allsale.toFixed(2);
+            this.walletMonney = result.data.wallet.toFixed(2);
+          } if (!this.loading) {
+            a.dismiss().then(() => console.log());
+          }
+        })
+      });
+    });
   }
 })
 </script>
@@ -289,6 +289,7 @@ h4 {
   margin-right: 3%;
   --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
 }
+
 ion-item::part(native) {
   background: #00000000;
   color: #fff;

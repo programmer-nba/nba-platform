@@ -7,7 +7,7 @@ export interface Requestservice {
     total: string,
     image: string,
     emp: string,
-    status:string,
+    status: string,
     createdAt: string,
     updatedA: string,
     __v: string,

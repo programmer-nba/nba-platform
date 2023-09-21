@@ -83,7 +83,7 @@ export default defineComponent({
             {
                 text: 'OK',
                 role: 'confirm',
-                handler: () => {},
+                handler: () => { },
             }
         ];
         const OpenAlert = (state: boolean) => {
@@ -113,7 +113,7 @@ export default defineComponent({
             handler: function (newQuery) {
                 if (newQuery === 'confirmed') {
                     this.isOpen = true;
-                } 
+                }
                 // else {
                 //     location.reload();
                 // }

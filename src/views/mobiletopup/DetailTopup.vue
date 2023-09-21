@@ -1,8 +1,8 @@
 <template>
     <ion-page>
         <!-- Aler data -->
-        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" :message="error"
-            :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
+        <ion-alert :is-open="isOpen" header="แจ้งเตือน !" :sub-header="sentmessage" :message="error" :buttons="alertButtons"
+            @didDismiss="OpenAlert(false)"></ion-alert>
         <!-- Aler Wallet -->
         <ion-alert :is-open="isOpenWallet" header="แจ้งเตือน !" :sub-header="!message ? error : message"
             :message="!message ? error_message : 'กรุณาตรวจสอบเงินในกระเป๋า'" :buttons="alertButtons"
@@ -132,7 +132,7 @@ export default defineComponent({
             {
                 text: 'OK',
                 role: 'confirm',
-                handler: () => {},
+                handler: () => { },
             },
         ];
         const isOpenConfrim = ref(false);
@@ -272,19 +272,19 @@ export default defineComponent({
                         } else if (result.message === 'failed') {
                             console.log('result', result.data);
                             this.sentmessage = 'ระบบขัดข้องจากผู้ให้บริการ'
-                    this.error = 'ขออภัยในความไม่สะดวก'
-                    this.alertButtons = [
-                        {
-                            text: 'OK',
-                            role: 'confirm',
-                            handler: () => {
-                                this.$router.push({
-                                    path: `/tabs/topups`,
-                                });
-                            },
-                        }
-                    ]
-                    this.isOpen = true;
+                            this.error = 'ขออภัยในความไม่สะดวก'
+                            this.alertButtons = [
+                                {
+                                    text: 'OK',
+                                    role: 'confirm',
+                                    handler: () => {
+                                        this.$router.push({
+                                            path: `/tabs/topups`,
+                                        });
+                                    },
+                                }
+                            ]
+                            this.isOpen = true;
                         }
                         if (!this.loading) {
                             a.dismiss().then(() => console.log('abort presenting'));

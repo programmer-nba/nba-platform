@@ -17,7 +17,7 @@
             <div class="wrapper">
                 <ion-toolbar class="toolbar">
                     <h4>รายละเอียด</h4>
-                    <ion-button slot="end" fill="clear"  @click="dismiss()">
+                    <ion-button slot="end" fill="clear" @click="dismiss()">
                         <ion-icon :icon="close"></ion-icon>
                     </ion-button>
                 </ion-toolbar>
@@ -133,7 +133,7 @@ export default defineComponent({
                 this.history_byid.type = result.data.type;
             })
         },
-        dismiss () {
+        dismiss() {
             this.OpenModal = false;
         }
     },

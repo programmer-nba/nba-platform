@@ -19,15 +19,18 @@
                                 </ion-card-header>
                                 <ion-row>
                                     <ion-col size="6">
-                                        <p style="padding-left: 5%; color: #ffc409;" >ดูเพิ่มเติม</p>
+                                        <p style="padding-left: 5%; color: #ffc409;">ดูเพิ่มเติม</p>
                                     </ion-col>
                                     <ion-col size="6" style="text-align: end;">
-                                        <ion-button fill="clear" color="warning" @click="CheckMore(index, show === index ? 'Close': 'Open')">
-                                            <ion-icon slot="icon-only" :icon="show === index ? chevronUpOutline : chevronDownOutline" style="font-size: 18px;" color="warning"></ion-icon>
+                                        <ion-button fill="clear" color="warning"
+                                            @click="CheckMore(index, show === index ? 'Close' : 'Open')">
+                                            <ion-icon slot="icon-only"
+                                                :icon="show === index ? chevronUpOutline : chevronDownOutline"
+                                                style="font-size: 18px;" color="warning"></ion-icon>
                                         </ion-button>
                                     </ion-col>
                                 </ion-row>
-                                <div  v-for="detail in item.detail.split('\r\n')"  v-if="show === index">
+                                <div v-for="detail in item.detail.split('\r\n')" v-if="show === index">
                                     <p style="padding-left: 5%;">
                                         {{ detail }}
                                     </p>
@@ -240,9 +243,9 @@ export default defineComponent({
         Success() {
             window.location.reload();
         },
-        CheckMore(Id: any, Check: string) { 
+        CheckMore(Id: any, Check: string) {
             if (Check === 'Open') {
-            this.show = Id;
+                this.show = Id;
             } else if (Check === 'Close') {
                 this.show = !Id;
             }
@@ -300,7 +303,8 @@ ion-modal#example-modal ion-icon {
     font-size: 25px;
     color: white;
 }
-.btn-more{
-  width: 100%;
+
+.btn-more {
+    width: 100%;
 }
 </style>

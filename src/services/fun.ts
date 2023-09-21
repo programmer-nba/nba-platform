@@ -41,7 +41,7 @@ function toThaiDateString(date: any) {
     "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.",
     "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
   ];
-  let day = ["อา.","จ.","อ.","พ.","พฤ.","ศ.","ส."]
+  let day = ["อา.", "จ.", "อ.", "พ.", "พฤ.", "ศ.", "ส."]
 
   let days = day[date.getDay()];
   let year = date.getFullYear() + 543;
@@ -58,7 +58,7 @@ function toEnDateString(date: any) {
     "May", "Jun", "Jul", "Aug",
     "Sep", "Oct", "Nov", "Dec"
   ];
-  let day = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+  let day = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
   let days = day[date.getDay()];
   let year = date.getFullYear() + 543;

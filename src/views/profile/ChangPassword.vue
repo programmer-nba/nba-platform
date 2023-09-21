@@ -1,9 +1,8 @@
 <template>
     <ion-page>
         <!-- Toast Success -->
-        <ion-toast :is-open="isOpenToast" :message="messagetoast" :duration="5000" class="custom-toast" :icon="checkmarkCircle"
-
-            @didDismiss="setOpen(false)"></ion-toast>
+        <ion-toast :is-open="isOpenToast" :message="messagetoast" :duration="5000" class="custom-toast"
+            :icon="checkmarkCircle" @didDismiss="setOpen(false)"></ion-toast>
         <!-- Aler data -->
         <ion-alert :is-open="isOpenAlert" header="แจ้งเตือน !" :sub-header="sentmessage" :message="message"
             :buttons="alertButtons" @didDismiss="setOpen(false)"></ion-alert>
@@ -15,7 +14,7 @@
                     กลับ
                 </ion-button>
             </ion-buttons>
-                    <ion-title>เปลี่ยนรหัสผ่าน</ion-title>
+            <ion-title>เปลี่ยนรหัสผ่าน</ion-title>
         </ion-toolbar>
         <ion-content padding>
             <ion-row>
@@ -205,19 +204,20 @@ ion-modal#example-modal ion-icon {
 
     color: rgb(247, 218, 126);
 }
+
 ion-toast.custom-toast {
     --background: #25b800;
     --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
-        color: white;
-  }
+    color: white;
+}
 
-  ion-toast.custom-toast::part(message) {
+ion-toast.custom-toast::part(message) {
     font-style: italic;
-  }
+}
 
-  ion-toast.custom-toast::part(button) {
+ion-toast.custom-toast::part(button) {
     border-left: 1px solid #d2d2d2;
     color: #030207;
     font-size: 15px;
-  }
+}
 </style>

@@ -228,11 +228,11 @@ export default defineComponent({
         this.error = 'กรุณากรอกข้อมูลให้ครบถ้วน';
       } else {
         this.$router.push({
-                path: `/pin`,
-                query: {
-                    query: 'confirmtopupwallet'
-                }
-            });
+          path: `/pin`,
+          query: {
+            query: 'confirmtopupwallet'
+          }
+        });
       }
     },
     async Close(isOpenAlert: boolean) {

@@ -17,8 +17,9 @@
                             <img class="img" alt="Silhouette of mountains" :src="getImage(item.picture)" />
                             <ion-card-header>
                                 <h6>{{ item.name }}</h6>
-                                <ion-card-subtitle v-for="detail in item.detail.split('\r\n' || '\r\n\r\n\t\t' || '\r\'')">{{ detail
-                                }}</ion-card-subtitle>
+                                <ion-card-subtitle
+                                    v-for="detail in item.detail.split('\r\n' || '\r\n\r\n\t\t' || '\r\'')">{{ detail
+                                    }}</ion-card-subtitle>
                             </ion-card-header>
                             <ion-row>
                                 <ion-col size="6">
@@ -26,7 +27,8 @@
                                     }}</ion-chip>
                                 </ion-col>
                                 <ion-col size="6">
-                                    <ion-button class="btn-price" v-if="item.status === 'เปิดให้บริการ'">{{ item.price }} บาท</ion-button>
+                                    <ion-button class="btn-price" v-if="item.status === 'เปิดให้บริการ'">{{ item.price }}
+                                        บาท</ion-button>
                                 </ion-col>
                             </ion-row>
                         </ion-card>
@@ -91,11 +93,13 @@ ion-toolbar {
     --color: white;
     --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
 }
-.btn-price{
+
+.btn-price {
     width: 100%;
     --color: white;
     --background: linear-gradient(85deg, #600f6f 0%, #cb1c8d 100%) !important;
 }
+
 .img {
     height: auto;
     width: auto;

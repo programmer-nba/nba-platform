@@ -4,7 +4,7 @@
     </ion-item>
 
     <ion-list v-if="date_item.length !== 0">
-        <ion-item  v-for="item in date_item">
+        <ion-item v-for="item in date_item">
             <ion-label>
                 <h3>{{ item.name }}</h3>
                 <p>{{ datetimeFormat(item.timestamp) }}</p>

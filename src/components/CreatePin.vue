@@ -5,7 +5,7 @@
       <ion-toast :is-open="isOpenToast" :message="messagetoast" :duration="5000" class="custom-toast"
         :icon="checkmarkCircle" @didDismiss="setOpen(false)"></ion-toast>
 
-        <!-- Aler data -->
+      <!-- Aler data -->
       <ion-alert :is-open="isOpen" :header="message_1" :sub-header="message_2" :buttons="alertButtons"
         @didDismiss="setOpen(false)"></ion-alert>
 
@@ -278,11 +278,13 @@ ion-button {
   --border-radius: 50%;
   color: white;
 }
+
 ion-toast.custom-toast {
-    --background: #25b800;
-    --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
-        color: white;
-  }
+  --background: #25b800;
+  --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
 ion-col {
   margin-bottom: 10%;
 }

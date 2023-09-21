@@ -5,8 +5,8 @@
 </template>
 
 <script lang="ts">
-import { IonApp,  IonRouterOutlet, useBackButton, useIonRouter } from '@ionic/vue';
-import { defineComponent,  } from 'vue';
+import { IonApp, IonRouterOutlet, useBackButton, useIonRouter } from '@ionic/vue';
+import { defineComponent, } from 'vue';
 
 export default defineComponent({
   setup() {

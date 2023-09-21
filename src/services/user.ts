@@ -1060,9 +1060,9 @@ export class UserService {
         return data;
     };
 
-    
+
     // Get CountryCode
-    public async GetCountryCode(Code: string,language: string) {
+    public async GetCountryCode(Code: string, language: string) {
 
         let data = null;
 
@@ -1129,8 +1129,8 @@ export class UserService {
         return data;
     }
 
-      // Post Booking
-      public async PostBooking(Data: any) {
+    // Post Booking
+    public async PostBooking(Data: any) {
 
         let data = null;
 

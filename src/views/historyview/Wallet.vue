@@ -179,5 +179,6 @@ ion-segment-button.md::part(indicator-background) {
 
 .segment-button-checked.ios::part(native) {
   color: rgba(117, 9, 121, 1);
-}</style>
+}
+</style>
   

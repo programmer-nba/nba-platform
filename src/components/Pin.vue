@@ -145,105 +145,105 @@ export default defineComponent({
             this.loading = false
             console.log('result', result.data);
             this.pin = '';
-          if (this.$route.query.query === 'password') {
-            this.$router.push({
-              path: '/user/changpassword',
-              name: 'ChangPassword',
-            })
-          } else if (this.$route.query.query === 'user') {
-            this.$router.push({
-              path: 'user',
-              name: 'User',
-            })
-          } else if (this.$route.query.query === 'confirmtopup') {
-            this.$router.push({
-              path: `/detailtopup/${this.$route.query.id}`,
-              query: {
-                id: this.$route.query.id,
-                mobile: this.$route.query.mobile,
-                price: this.$route.query.price,
-                data: 'confirmed'
-              }
-            });
-          } else if (this.$route.query.query === 'confirmcardtopup') {
-            this.$router.push({
-              path: `/detailcardtopup/${this.$route.query.id}`,
-              query: {
-                id: this.$route.query.id,
-                mobile: this.$route.query.mobile,
-                price: this.$route.query.price,
-                data: 'confirmed'
-              }
-            });
-          } else if (this.$route.query.query === 'checkwallet') {
-            this.$router.push({
-              path: `/detailwallet/${this.$route.query.id}`,
-              query: {
-                id: this.$route.query.id,
-                mobile: this.$route.query.mobile,
-                price: this.$route.query.price,
-                data: 'confirmed'
-              }
-            });
-          } else if (this.$route.query.query === 'createpin') {
-            this.$router.push({
-              path: `/createpin`,
-              name: 'CreatePin',
-              query: {
-                data: 'confirmed'
-              }
-            });
-          } else if (this.$route.query.query === 'confirmQRCode') {
-            this.$router.push({
-              path: `/detailservices/${this.$route.query.id}`,
-              query: {
-                barcode: this.$route.query.barcode,
-                mobile: this.$route.query.mobile,
-                data: 'confirmed'
-              }
-            });
-          } else if (this.$route.query.query === 'confirmmobilebill') {
-            this.$router.push({
-              path: `/detailmobliebill/${this.$route.query.id}`,
-              query: {
-                data: 'confirmed'
-              }
-            });
-          } else if (this.$route.query.query === 'confirmnbaservices') {
-            this.$router.push({
-              path: `/nbaservices/${this.$route.query.id}`,
-              query: {
-                data: 'confirmed'
-              }
-            });
-          }  else if (this.$route.query.query === 'confirmtopupwallet') {
-            this.$router.push({
-              path: `/wallet/topupwallet`,
-              query: {
-                data: 'confirmed'
-              }
-            });
-          }  else if (this.$route.query.query === 'confirmncommisionwallet') {
-            this.$router.push({
-              path: `/withdrawcommission`,
-              query: {
-                data: 'confirmed'
-              }
-            });
-          }
-          else if (this.$route.query.query === 'confirmfacebook') {
-            this.$router.push({
-              path: `/tabs/facebookservice`,
-              query: {
-                data: 'confirmed'
-              }
-            });
-          }
-          this.pin.length == 0;
-          console.log(this.$route.query.query)
-          this.loading = true;
-          this.message = 'รหัสถูกต้อง'
-          return
+            if (this.$route.query.query === 'password') {
+              this.$router.push({
+                path: '/user/changpassword',
+                name: 'ChangPassword',
+              })
+            } else if (this.$route.query.query === 'user') {
+              this.$router.push({
+                path: 'user',
+                name: 'User',
+              })
+            } else if (this.$route.query.query === 'confirmtopup') {
+              this.$router.push({
+                path: `/detailtopup/${this.$route.query.id}`,
+                query: {
+                  id: this.$route.query.id,
+                  mobile: this.$route.query.mobile,
+                  price: this.$route.query.price,
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'confirmcardtopup') {
+              this.$router.push({
+                path: `/detailcardtopup/${this.$route.query.id}`,
+                query: {
+                  id: this.$route.query.id,
+                  mobile: this.$route.query.mobile,
+                  price: this.$route.query.price,
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'checkwallet') {
+              this.$router.push({
+                path: `/detailwallet/${this.$route.query.id}`,
+                query: {
+                  id: this.$route.query.id,
+                  mobile: this.$route.query.mobile,
+                  price: this.$route.query.price,
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'createpin') {
+              this.$router.push({
+                path: `/createpin`,
+                name: 'CreatePin',
+                query: {
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'confirmQRCode') {
+              this.$router.push({
+                path: `/detailservices/${this.$route.query.id}`,
+                query: {
+                  barcode: this.$route.query.barcode,
+                  mobile: this.$route.query.mobile,
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'confirmmobilebill') {
+              this.$router.push({
+                path: `/detailmobliebill/${this.$route.query.id}`,
+                query: {
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'confirmnbaservices') {
+              this.$router.push({
+                path: `/nbaservices/${this.$route.query.id}`,
+                query: {
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'confirmtopupwallet') {
+              this.$router.push({
+                path: `/wallet/topupwallet`,
+                query: {
+                  data: 'confirmed'
+                }
+              });
+            } else if (this.$route.query.query === 'confirmncommisionwallet') {
+              this.$router.push({
+                path: `/withdrawcommission`,
+                query: {
+                  data: 'confirmed'
+                }
+              });
+            }
+            else if (this.$route.query.query === 'confirmfacebook') {
+              this.$router.push({
+                path: `/tabs/facebookservice`,
+                query: {
+                  data: 'confirmed'
+                }
+              });
+            }
+            this.pin.length == 0;
+            console.log(this.$route.query.query)
+            this.loading = true;
+            this.message = 'รหัสถูกต้อง'
+            return
           } else if (result.message === 'failed') {
             this.message = 'รหัสผ่านไม่ถูกต้อง'
             console.log('result', result.data);

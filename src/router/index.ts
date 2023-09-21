@@ -307,9 +307,16 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/WithdrawCommission.vue')
       },
       {
-        path: '/insurancetaxact',
-        name:'Insurancetaxact',
-        component: () => import('@/views/insurancetaxact.vue')
+        path: 'insurancetaxact',
+        name: 'Insurancetaxact',
+        component: () => import('@/views/InsurancetaxactPage.vue'),
+        children: [
+          {
+            path: '',
+            name: 'HomeInsurancetaxact',
+            component: () => import('@/views/insurancetaxact/HomeInsurancetaxact.vue'),
+          },
+        ]
       },
     ]
   },

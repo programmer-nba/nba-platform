@@ -82,7 +82,7 @@
                         <ion-text>{{ detail.arrcityname }}</ion-text>
                       </ion-col>
                       <ion-col size="12">
-                        <ion-button style="width: 100%;"  id="open-toast" @click="sendData(detail.bookingCode)">{{
+                        <ion-button style="width: 100%;" id="open-toast" @click="sendData(detail.bookingCode)">{{
                           DataSearched.languageCode === 'th' ? 'เลือก' : 'Choose'
                         }}</ion-button>
                       </ion-col>
@@ -104,7 +104,7 @@ import { UserService } from "@/services/user";
 import {
   IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonList, IonLabel, IonListHeader, IonCheckbox, IonItem, alertController, IonRow, IonCol,
   IonInput, IonSearchbar, loadingController, IonSelect, IonSelectOption, IonModal, IonButtons, modalController, IonDatetime, IonIcon, IonCard, IonCardHeader, IonCardTitle,
-  IonCardSubtitle, IonCardContent, IonChip, IonText, IonThumbnail, IonRange, IonToast, toastController 
+  IonCardSubtitle, IonCardContent, IonChip, IonText, IonThumbnail, IonRange, IonToast, toastController
 } from '@ionic/vue';
 import { Storage } from '@ionic/storage';
 import { defineComponent } from 'vue';
@@ -186,7 +186,7 @@ export default defineComponent({
         message: this.DataSearched.languageCode === 'th' ? 'กำลังโหลดข้อมูล....' : 'Loading data....',
       }).then(a => {
         a.present().then(async () => {
-          this.userservice.PostBooking(data).then(async(result: any) => {
+          this.userservice.PostBooking(data).then(async (result: any) => {
             console.log(result);
             if (result.message === 'successful') {
               this.loading = false;
@@ -244,19 +244,20 @@ export default defineComponent({
 ion-range {
   pointer-events: none;
 }
+
 ion-toast.custom-toast {
-    --background: #35a701;
-    --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
-    --color: #ffffff;
-  }
+  --background: #35a701;
+  --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+  --color: #ffffff;
+}
 
-  ion-toast.custom-toast::part(message) {
-    font-style: italic;
-  }
+ion-toast.custom-toast::part(message) {
+  font-style: italic;
+}
 
-  ion-toast.custom-toast::part(button) {
-    border-left: 1px solid #d2d2d2;
-    color: #030207;
-    font-size: 15px;
-  }
+ion-toast.custom-toast::part(button) {
+  border-left: 1px solid #d2d2d2;
+  color: #030207;
+  font-size: 15px;
+}
 </style>

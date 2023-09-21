@@ -1,8 +1,9 @@
 <template>
   <ion-page>
     <!-- Aler data -->
-    <ion-alert :is-open="isOpen" :header="DataSearched.languageCode === 'th' ? 'แจ้งเตือน !' : 'Warn !'" :sub-header="sentmessage" :message="error_message"
-      :buttons="alertButtons" @didDismiss="OpenAlert(false)"></ion-alert>
+    <ion-alert :is-open="isOpen" :header="DataSearched.languageCode === 'th' ? 'แจ้งเตือน !' : 'Warn !'"
+      :sub-header="sentmessage" :message="error_message" :buttons="alertButtons"
+      @didDismiss="OpenAlert(false)"></ion-alert>
 
     <ion-header>
       <ion-toolbar>
@@ -198,7 +199,7 @@ export default defineComponent({
             this.loading = false;
             this.isOpen = true;
             this.error_message = this.DataSearched.languageCode === 'th' ? 'ขออภัยในความไม่สะดวก' : 'Sorry for the inconvenience';
-            this.sentmessage = this.DataSearched.languageCode === 'th' ?  'ค้นหาเที่ยวบินไม่เจอ' : 'Can not find a flight';
+            this.sentmessage = this.DataSearched.languageCode === 'th' ? 'ค้นหาเที่ยวบินไม่เจอ' : 'Can not find a flight';
             this.alertButtons = [
               {
                 text: 'ตกลง',

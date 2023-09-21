@@ -125,7 +125,7 @@ export default defineComponent({
             {
                 text: 'OK',
                 role: 'confirm',
-                handler: () => {},
+                handler: () => { },
             },
         ];
         const isOpenConfrim = ref(false);
