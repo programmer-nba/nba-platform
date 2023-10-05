@@ -123,7 +123,7 @@ export class CounterService {
             headers: {
                 'auth-token': this.token_test
             },
-            url: `${this.shop_url}/api/cs/key-in-service`
+            url: `${this.shop_url}/counter_service/service/keyin`
         }
         await axios(request).then(response => {
             data = response.data;
@@ -143,7 +143,7 @@ export class CounterService {
             headers: {
                 'auth-token': this.token_test
             },
-            url: `${this.shop_url}/api/cs/wallet`
+            url: `${this.shop_url}/counter_service/service/wallet`
         }
         await axios(request).then(response => {
             data = response.data;
@@ -164,7 +164,7 @@ export class CounterService {
             headers: {
                 'auth-token': this.token_test
             },
-            url: `${this.shop_url}/api/cs/cash-in`
+            url: `${this.shop_url}/counter_service/service/cashin`
         }
         await axios(request).then(response => {
             data = response.data;

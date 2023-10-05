@@ -53,7 +53,7 @@ export default defineComponent({
   methods: {
     chenHref() {
       this.$router.push({
-        path: '/pin',
+        path: 'user',
         query: {
           query: 'user'
         }

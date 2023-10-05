@@ -25,7 +25,8 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-    IonImg
+    IonImg,
+    loadingController
 } from '@ionic/vue';
 import { CounterService } from "../../services/counterservices";
 import { CashService } from "../../model/cash.interface";
@@ -45,10 +46,22 @@ export default defineComponent({
         }
     },
     async mounted() {
-        await this.counterService.getCashServices().then((result: any) => {
-            console.log(result);
-            this.services = result.data;
-        })
+        this.loading = true;
+        loadingController.create({ message: 'กำลังโหลดข้อมูล....' }).then(a => {
+            a.present().then(() => {
+                this.counterService.getCashServices().then((result: any) => {
+                    console.log(result);
+                    if (result.status === true) {
+                        this.loading = false;
+                        this.services = result.data;
+                    }
+                    if (!this.loading) {
+                        a.dismiss().then(() => console.log);
+                    }
+                })
+            });
+
+        });
     }
 })
 </script>
