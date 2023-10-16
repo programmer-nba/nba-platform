@@ -222,28 +222,28 @@
               <ion-img class="service" alt="transfer" src="/images/icon_menu/itsupport.png"></ion-img>
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/pos.png"></ion-img>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/express.png"></ion-img>
             </ion-col>
           </ion-row>
 
           <ion-row>
-            <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/express.png"></ion-img>
-            </ion-col>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/merit.png"></ion-img>
             </ion-col>
             <ion-col>
               <ion-img class="service" alt="transfer" src="/images/icon_menu/sermons.png"></ion-img>
             </ion-col>
+            <ion-col>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/photoservice.png"></ion-img>
+            </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/photoservice.png"></ion-img>
+              <ion-img class="service" alt="transfer" src="/images/icon_menu/retouch.png"></ion-img>
             </ion-col>
             <ion-col>
-              <ion-img class="service" alt="transfer" src="/images/icon_menu/retouch.png"></ion-img>
+             
             </ion-col>
             <ion-col>
 

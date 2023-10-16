@@ -25,6 +25,7 @@
     "@ionic/vue-router": "^7.0.0",
     "axios": "^1.4.0",
     "ionicons": "^7.0.0",
+    "react-native": "^0.72.6",
     "terser": "^5.19.2",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"

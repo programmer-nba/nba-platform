@@ -196,7 +196,8 @@ export default defineComponent({
         if (result.message === 'Logout successful') {
           this.isOpen = false
           console.log('result', result.data);
-          window.location.href = this.baseUrl;
+          // window.location.href = this.baseUrl + '/login';
+          this.$router.push({ path: '/login' });
         } else if (result.message === 'Logout failed') {
           console.log('result', result.data);
         }
