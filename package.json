@@ -22,7 +22,7 @@
     "@capacitor/status-bar": "5.0.4",
     "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^7.0.0",
-    "@ionic/vue-router": "^7.0.0",
+    "@ionic/vue-router": "^7.2.0",
     "axios": "^1.4.0",
     "ionicons": "^7.0.0",
     "react-native": "^0.72.6",
