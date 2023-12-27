@@ -23,7 +23,7 @@
     "@ionic/storage": "^4.0.0",
     "@ionic/vue": "^7.0.0",
     "@ionic/vue-router": "^7.0.0",
-    "axios": "^1.4.0",
+    "axios": "^1.6.3",
     "ionicons": "^7.0.0",
     "react-native": "^0.72.6",
     "terser": "^5.19.2",
